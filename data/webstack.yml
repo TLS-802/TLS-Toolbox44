@@ -211,6 +211,10 @@
           logo: images/Video editing tools/jimeng.png
           url: https://jimeng.jianying.com/
           description: 一站式AI视频创作平台
+        - title: 易剪媒
+          logo: images/Video editing tools/yijianji.icns
+          url: https://www.xinmei7.com/
+          description: AI视频剪辑与二创处理工具
         - title: Vidu
           logo: images/Video editing tools/vidu.jpeg
           url: https://www.vidu.cn/create
@@ -267,6 +271,7 @@
           logo: images/Video editing tools/taobao.png
           url: https://chuangyi.taobao.com/external/meditorMix?from=maijia123.com/ai
           description: 淘宝短视频混剪工具
+          
 
 
 - taxonomy: 电商入驻
