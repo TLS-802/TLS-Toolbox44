@@ -95,6 +95,7 @@
 /* 标签内容区域样式 */
 .tab-container {
   margin-bottom: 40px;
+  margin-top: 20px; /* 添加顶部间距，使快捷导航与标签菜单有更多间距 */
   position: relative;
   padding: 0 10px;
 }
