@@ -1112,8 +1112,8 @@
           description: 箱包批发货源平台
         - title: 包牛牛
           logo: images/E-commerce supply/baoniuniu.png
-          url: https://www.linkedin.com/company/%E6%9D%AD%E5%B7%9E%E7%89%9B%E7%89%9B%E6%B1%BD%E8%BD%A6%E7%94%A8%E5%93%81%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8?from=dy.199908.top
-          description: 箱包批发货源平台
+          url: http://www.bao66.cn/web/?from=dy.199908.top
+          description: 白沟箱包批发货源平台
         - title: 制造网
           logo: images/E-commerce supply/zhizaowang.png
           url: https://cn.made-in-china.com?from=dy.199908.top
@@ -1146,6 +1146,70 @@
           logo: images/E-commerce supply/xinkaoxie.png
           url: https://it.shoe-machine-supplier.com?from=dy.199908.top
           description: 鞋类制造设备供应平台
+        - title: 17货源网
+          logo: images/E-commerce supply/17huoyuan.png
+          url: https://17zwd.com?from=dy.199908.top
+          description: 广州服装批发一手货源平台
+        - title: 聚衣网
+          logo: images/E-commerce supply/juyiwang.png
+          url: https://willshop.cn?from=dy.199908.top
+          description: 立足健康产业的全民创业电商平台
+        - title: 开山网
+          logo: images/E-commerce supply/kaishanwang.png
+          url: https://www.ksyun.com?from=dy.199908.top
+          description: 金山云全球高品质云服务平台
+        - title: 中国鞋网
+          logo: images/E-commerce supply/zhongguoxiewang.png
+          url: https://www.ouou.cn?from=dy.199908.top
+          description: 足球鞋足球装备门户网站
+        - title: 个秀名妆
+          logo: images/E-commerce supply/gexiumingzhuang.png
+          url: https://www.maogepingbeauty.com?from=dy.199908.top
+          description: 毛戈平MGP官方彩妆护肤平台
+        - title: 花西子
+          logo: images/E-commerce supply/huaxizi.png
+          url: https://www.huaxizi.cn?from=dy.199908.top
+          description: 东方彩妆品牌，以花养妆
+        - title: 戴春林
+          logo: images/E-commerce supply/daichunlin.png
+          url: https://www.daichunlin.com.hk?from=dy.199908.top
+          description: 源自1628年的中华古典御妆
+        - title: O.TWO.O
+          logo: images/E-commerce supply/otwoo.png
+          url: https://otwoomakeup.com?from=dy.199908.top
+          description: 专业彩妆品牌
+        - title: MakeupGU
+          logo: images/E-commerce supply/makeupgu.png
+          url: https://www.makeupgu.com?from=dy.199908.top
+          description: 专业化妆造型团队
+        - title: 建发轻工
+          logo: images/E-commerce supply/jianfaqinggong.png
+          url: https://cndchain.com?from=dy.199908.top
+          description: 国际领先的消费品供应链运营商
+        - title: 淘货源
+          logo: images/E-commerce supply/taohuoyuan.png
+          url: https://tao.1688.com?from=dy.199908.top
+          description: 自由、赚钱的在线生意平台
+        - title: Taocarts
+          logo: images/E-commerce supply/taocarts.png
+          url: https://taocarts.com?from=dy.199908.top
+          description: 淘宝代购系统跨境电商平台
+        - title: 找家纺
+          logo: images/E-commerce supply/zhaojiafang.png
+          url: https://www.zhaojiafang.com?from=dy.199908.top
+          description: 家纺批发货源平台
+        - title: 军埔批发网
+          logo: images/E-commerce supply/junpu.png
+          url: https://pc.jp0663.com?from=dy.199908.top
+          description: 军埔货源平台
+        - title: 中国鞋库网
+          logo: images/E-commerce supply/zhongguoxieku.png
+          url: http://cnxieku.com?from=dy.199908.top
+          description: 中国鞋库网
+        - title: 华强电子
+          logo: images/E-commerce supply/huaqiang.png
+          url: https://www.ickey.cn?from=dy.199908.top
+          description: 华强电子
 
 - taxonomy: 直播辅助
   icon: fa-video
