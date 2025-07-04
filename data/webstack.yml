@@ -95,7 +95,11 @@
           description: 淘宝短视频混剪工具
     - name: 抖店
       links:
-        - title: 抖店
+        - title: 抖音小店
+          logo: images/Store settled in/douyin.jpg
+          url: https://fxg.jinritemai.com/?source=ddgwdlymzxjsjrz
+          description: 抖音小店入驻
+        - title: 抖店工作台
           logo: images/Merchant background/doudian1.png
           url: https://im.jinritemai.com?from=dy.199908.top
           description: 抖音商家工具
