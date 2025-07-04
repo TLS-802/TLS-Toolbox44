@@ -92,11 +92,11 @@
 <div class="sites-list" style="margin-bottom: 8.5rem;">
 {{ range .Site.Data.webstack }}
     <!-- {{ .taxonomy }} -->
-    <h4 class="text-gray" style="display: inline-block;"><i class="fa {{ .icon }}" style="margin-right: 27px;" id="{{ md5 .taxonomy }}"></i>{{ .taxonomy }}</h4>
+    <h4 class="text-gray" style="display: inline-block; margin-bottom: 20px;"><i class="fa {{ .icon }}" style="margin-right: 27px;" id="{{ md5 .taxonomy }}"></i>{{ .taxonomy }}</h4>
     
     {{ if .tabs }}
     <!-- 有标签式二级菜单的分类 -->
-    <div class="tab-container">
+    <div class="tab-container nav-tab-spacing">
         <!-- 标签菜单 -->
         <div class="tab-menu">
             {{ range $index, $tab := .tabs }}
