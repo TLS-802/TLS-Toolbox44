@@ -808,10 +808,6 @@
           logo: images/Store settled in/newegg.png
           url: https://www.newegg.com?from=dy.199908.top
           description: 一家总部位于美国的电子商务公司，专注于电子产品和电脑硬件的销售。
-        - title: 义乌购
-          logo: images/E-commerce supply/yiwugou.png
-          url: https://www.yiwugo.com?from=dy.199908.top
-          description: 义乌购货源平台
         - title: SHEIN商家平台
           logo: images/Store settled in/shein.png
           url: https://www.sheincorp.cn?from=dy.199908.top
@@ -1108,15 +1104,15 @@
           description: 中国制造网-工厂货源平台
         - title: 新款鞋
           logo: images/E-commerce supply/xinkaoxie.png
-          url: https://www.yougou.com?from=dy.199908.top
+          url: https://www.chinashoefactory.com?from=dy.199908.top
           description: 时尚鞋类货源平台
         - title: 箱包网
           logo: images/E-commerce supply/xiangbaowang.png
-          url: https://9352.amanbo.com?from=dy.199908.top
+          url: https://yuqiaoleather.com?from=dy.199908.top
           description: 箱包批发货源平台
         - title: 包牛牛
           logo: images/E-commerce supply/baoniuniu.png
-          url: https://www.sinoken.com?from=dy.199908.top
+          url: https://www.linkedin.com/company/%E6%9D%AD%E5%B7%9E%E7%89%9B%E7%89%9B%E6%B1%BD%E8%BD%A6%E7%94%A8%E5%93%81%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8?from=dy.199908.top
           description: 箱包批发货源平台
         - title: 制造网
           logo: images/E-commerce supply/zhizaowang.png
@@ -1124,11 +1120,11 @@
           description: 中国制造网-内贸站
         - title: 汽配人
           logo: images/E-commerce supply/qipeiren.png
-          url: https://www.qipeiren.com?from=dy.199908.top
+          url: https://qpmall.com?from=dy.199908.top
           description: 汽车配件货源平台
         - title: 一呼百应
           logo: images/E-commerce supply/yihubaiyng.png
-          url: https://www.yihubaiyng.com?from=dy.199908.top
+          url: https://www.hifactory.com?from=dy.199908.top
           description: 批发货源对接平台
         - title: 猎芯网
           logo: images/E-commerce supply/liexin.png
@@ -1138,6 +1134,18 @@
           logo: images/E-commerce supply/dangkouwang.png
           url: https://www.dangkouwang.com?from=dy.199908.top
           description: 实体档口货源对接平台
+        - title: 找厂网
+          logo: images/E-commerce supply/zhaogongchang.png
+          url: https://www.entfind.com?from=dy.199908.top
+          description: 工厂直供货源对接平台
+        - title: 汽配中国
+          logo: images/E-commerce supply/qipeiren.png
+          url: https://carpartschina1.store.bossgoo.com?from=dy.199908.top
+          description: 汽车配件货源批发平台
+        - title: 鞋机网
+          logo: images/E-commerce supply/xinkaoxie.png
+          url: https://it.shoe-machine-supplier.com?from=dy.199908.top
+          description: 鞋类制造设备供应平台
 
 - taxonomy: 直播辅助
   icon: fa-video
