@@ -422,6 +422,46 @@
           logo: images/Store settled in/kuaishou.jpg
           url: https://www.kwaixiaodian.com?from=dy.199908.top
           description: 快手小店入驻
+        - title: 快手创作者服务中心
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://creator.kuaishou.com?from=dy.199908.top
+          description: 快手创作者服务平台
+        - title: 快手联盟
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://u.kuaishou.com?from=dy.199908.top
+          description: 快手联盟推广平台
+        - title: 分销达人
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://cps.kwaixiaodian.com/pc/promoter/selection-center/home?from=dy.199908.top
+          description: 快手分销达人
+        - title: 快手云剪
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: http://onvideo.kuaishou.com/v2/profile?from=dy.199908.top
+          description: 快手云剪辑
+        - title: 快手电商大学
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://edu.kwaixiaodian.com?from=dy.199908.top
+          description: 快手电商学习平台
+        - title: 快手魔力推
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://molitui.kuaishou.com?from=dy.199908.top
+          description: 快手营销推广工具
+        - title: 快手开放平台
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://open.kuaishou.com?from=dy.199908.top
+          description: 快手开发者服务平台
+        - title: 快手金牌推广
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://jinpai.kuaishou.com?from=dy.199908.top
+          description: 快手金牌推广服务
+        - title: 快手魔筷
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://mokua.kuaishou.com?from=dy.199908.top
+          description: 快手电商数据分析工具
+        - title: 快影
+          logo: images/E-commerce plug-in/kwaiying.png
+          url: https://h5.kwaiying.com?from=dy.199908.top
+          description: 快手官方视频剪辑工具
         - title: 快手知识产权保护
           logo: images/E-commerce plug-in/kuaishou.jpg
           url: https://ipp.kuaishou.com?from=dy.199908.top
@@ -438,6 +478,22 @@
           logo: images/Advertising/cilizhitou.png
           url: https://ad.e.kuaishou.com?from=dy.199908.top
           description: 快手广告投放平台
+        - title: 磁力方舟
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://fangzhou.e.kuaishou.com/?from=dy.199908.top
+          description: 快手磁力方舟
+        - title: 磁力金牛
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://niu.e.kuaishou.com/welcome?from=dy.199908.top
+          description: 快手磁力金牛
+        - title: 磁力星图
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://xingtu.e.kuaishou.com/?from=dy.199908.top
+          description: 快手磁力星图
+        - title: 磁力万象
+          logo: images/E-commerce plug-in/kuaishou.jpg
+          url: https://wanxiang.e.kuaishou.com/?from=dy.199908.top
+          description: 快手磁力万象
         - title: 灰豚数据-快手
           logo: images/Data analysis/huitun.jpg
           url: https://ks.huitun.com?from=dy.199908.top
