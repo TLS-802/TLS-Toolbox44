@@ -556,6 +556,10 @@
 - taxonomy: 电商入驻
   icon: fa-store
   links:
+        - title: 抖音小店
+          logo: images/Store settled in/douyin.jpg
+          url: https://fxg.jinritemai.com/?source=ddgwdlymzxjsjrz
+          description: 抖音小店入驻
         - title: 视频号小店
           logo: images/Store settled in/shipinhao.jpg
           url: https://channels.weixin.qq.com/shop?from=dy.199908.top
