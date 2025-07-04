@@ -210,18 +210,18 @@
           description: 淘宝工厂直供平台
         - title: 达摩盘
           logo: images/E-commerce plug-in/damopan.png
-          url: https://damopan.taobao.com?from=dy.199908.top
+          url: https://damopan.alibaba.com?from=dy.199908.top
           description: 淘宝商家数据分析工具
         - title: 阿里商标
-          logo: images/E-commerce plug-in/alitm.png
+          logo: images/E-commerce plug-in/alishangbiao.png
           url: https://tm.alibaba.com?from=dy.199908.top
           description: 阿里巴巴商标服务平台
         - title: 热浪引擎
           logo: images/E-commerce plug-in/taobao.png
-          url: https://rule.taobao.com/hot?from=dy.199908.top
+          url: https://market.m.taobao.com/app/tb-source-app/shop-auction/pages/auction?from=dy.199908.top
           description: 淘宝热门商品推荐引擎
         - title: 什么值得买
-          logo: images/E-commerce plug-in/smzdm.png
+          logo: images/E-commerce plug-in/smzdm.jpg
           url: https://www.smzdm.com?from=dy.199908.top
           description: 购物分享平台
     - name: 抖音
@@ -584,6 +584,50 @@
           logo: images/E-commerce supply/1688.png
           url: https://1688.com?from=dy.199908.top
           description: 1688货源平台
+        - title: 1688商家工作台
+          logo: images/E-commerce supply/1688.png
+          url: https://work.1688.com?from=dy.199908.top
+          description: 1688商家后台管理系统
+        - title: 1688学习中心
+          logo: images/E-commerce supply/1688.png
+          url: https://peixun.1688.com?from=dy.199908.top
+          description: 1688学习中心
+        - title: 1688实力商家认证
+          logo: images/E-commerce supply/1688.png
+          url: https://isupplier.1688.com?from=dy.199908.top
+          description: 1688商家实力认证平台
+        - title: 1688诚信通
+          logo: images/E-commerce supply/1688.png
+          url: https://cxt.1688.com?from=dy.199908.top
+          description: 阿里巴巴诚信通会员服务
+        - title: 1688供应商管理
+          logo: images/E-commerce supply/1688.png
+          url: https://gys.1688.com?from=dy.199908.top
+          description: 1688供应商管理平台
+        - title: 1688商人社区
+          logo: images/E-commerce supply/1688.png
+          url: https://club.1688.com?from=dy.199908.top
+          description: 1688商家交流社区
+        - title: 1688批发市场
+          logo: images/E-commerce supply/1688.png
+          url: https://pifa.1688.com?from=dy.199908.top
+          description: 1688线上批发市场
+        - title: 1688商机助理
+          logo: images/E-commerce supply/1688.png
+          url: https://fuwu.1688.com/promotion/shangjizhuli/2017/index.html?from=dy.199908.top
+          description: 1688商机助理
+        - title: 1688低价货源
+          logo: images/E-commerce supply/1688.png
+          url: https://air.1688.com/app/channel-fe/search/index.html?from=dy.199908.top
+          description: 1688低价货源
+        - title: 1688生意参谋
+          logo: images/E-commerce supply/1688.png
+          url: https://sycm.1688.com?from=dy.199908.top
+          description: 1688生意参谋
+        - title: 1688服务市场
+          logo: images/E-commerce supply/1688.png
+          url: https://app.1688.com?from=dy.199908.top
+          description: 1688服务市场
     - name: 其他平台
       links:
         - title: Amazon
