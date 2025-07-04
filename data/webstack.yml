@@ -570,18 +570,82 @@
           description: 灰豚数据小红书版
     - name: 视频号
       links:
-        - title: 视频号
+        - title: 视频号后台
           logo: images/Merchant background/shipinhao.jpg
           url: https://store.weixin.qq.com?from=dy.199908.top
-          description: 视频号商家工具
-        - title: 视频号小店
+          description: 视频号商家后台
+        - title: 视频号入驻
           logo: images/Store settled in/shipinhao.jpg
           url: https://channels.weixin.qq.com/shop?from=dy.199908.top
-          description: 腾讯视频号小店入驻
+          description: 视频号小店入驻
+        - title: 视频号助手
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com?from=dy.199908.top
+          description: 视频号PC端后台管理工具
+        - title: 视频号直播助手
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/platform/live?from=dy.199908.top
+          description: 视频号直播管理工具
+        - title: 视频号营销中心
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/platform/marketing?from=dy.199908.top
+          description: 视频号营销推广平台
+        - title: 视频号学习中心
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/shop/learning-center?from=dy.199908.top
+          description: 视频号学习中心
+        - title: 视频号橱窗
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/platform/shop?from=dy.199908.top
+          description: 视频号商品橱窗管理
+        - title: 视频号创作者服务中心
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/platform/creator?from=dy.199908.top
+          description: 视频号创作者服务平台
+        - title: 视频号优选联盟
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/platform/union?from=dy.199908.top
+          description: 视频号商家与达人撮合平台
+        - title: 视频号电商罗盘
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/compass/home?from=dy.199908.top
+          description: 视频号电商罗盘
+        - title: 视频号加热平台
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://channels.weixin.qq.com/promote?from=dy.199908.top
+          description: 视频号加热平台
+        - title: 视频号公众平台
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://mp.weixin.qq.com?from=dy.199908.top
+          description: 视频号公众平台
+        - title: 腾讯adq广告
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://e.qq.com/ads?from=dy.199908.top
+          description: 腾讯adq广告投放平台
+        - title: 腾讯广告
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://ad.qq.com/worktable?from=dy.199908.top
+          description: 腾讯广告工作台
+        - title: 腾讯广告互选平台
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://huxuan.qq.com/trade/free/index?from=dy.199908.top
+          description: 腾讯广告互选平台
         - title: 诸葛智投
           logo: images/Advertising/zhugezhitou.png
           url: https://zgzt.v-ma.com?from=dy.199908.top
           description: 视频号投放管理工具
+        - title: 微商相册
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://www.szwego.com?from=dy.199908.top
+          description: 微商相册
+        - title: 微信支付
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://pay.weixin.qq.com?from=dy.199908.top
+          description: 微信支付
+        - title: 腾讯内容开发平台
+          logo: images/E-commerce plug-in/shipinhao.jpg
+          url: https://om.qq.com/userAuth/index?from=dy.199908.top
+          description: 腾讯内容开发平台
     - name: 拼多多
       links:
         - title: 拼多多后台
