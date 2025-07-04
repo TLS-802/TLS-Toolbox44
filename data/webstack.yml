@@ -332,6 +332,58 @@
           logo: images/Store settled in/jingdong.png
           url: https://zhaoshang.jd.com/index/home?from=dy.199908.top
           description: 京东入驻
+        - title: 京东直播
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jdlive.jd.com?from=dy.199908.top
+          description: 京东直播平台
+        - title: 京东物流
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://logistics.jd.com?from=dy.199908.top
+          description: 京东物流服务平台
+        - title: 京东金融
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jr.jd.com?from=dy.199908.top
+          description: 京东金融服务平台
+        - title: 京东联盟
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://union.jd.com?from=dy.199908.top
+          description: 京东联盟推广平台
+        - title: 京东秒杀
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://miaosha.jd.com?from=dy.199908.top
+          description: 京东秒杀活动平台
+        - title: 京东到家
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://daojia.jd.com?from=dy.199908.top
+          description: 京东到家服务平台
+        - title: 京东智联云
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://www.jdcloud.com?from=dy.199908.top
+          description: 京东智联云服务平台
+        - title: 京东商城
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://www.jd.com?from=dy.199908.top
+          description: 京东商城主站
+        - title: 京东品牌
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://brand.jd.com?from=dy.199908.top
+          description: 京东品牌服务平台
+        - title: 京东商智
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://sz.jd.com?from=dy.199908.top
+          description: 京东商业智能分析平台
+        - title: 京准通
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jzt.jd.com?from=dy.199908.top
+          description: 京东营销推广平台
+        - title: 京东国际
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://www.jd.hk?from=dy.199908.top
+          description: 京东国际跨境电商平台
+        - title: 京东企业购
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://b.jd.com?from=dy.199908.top
+          description: 京东企业采购平台
     - name: 快手
       links:
         - title: 快手
