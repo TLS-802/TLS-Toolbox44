@@ -1,10 +1,68 @@
 ---
 
+- taxonomy: 电商平台
+  icon: fa-shopping-cart
+  tabs:
+    - name: 淘宝
+      links:
+        - title: 千牛
+          logo: images/Merchant background/qianniu.jpg
+          url: https://loginmyseller.taobao.com/
+          description: 淘宝天猫商家工具
+        - title: 阿里妈妈创意中心
+          logo: images/E-commerce plug-in/taobaogongju.png
+          url: https://chuangyi.taobao.com?from=dy.199908.top
+          description: 阿里妈妈创意资源中心
+        - title: 淘宝知识产权保护
+          logo: images/E-commerce plug-in/taobao.png
+          url: https://yc.alibaba.com?from=dy.199908.top
+          description: 阿里巴巴原创保护平台
+    - name: 抖音
+      links:
+        - title: 抖店
+          logo: images/Merchant background/doudian1.png
+          url: https://im.jinritemai.com?from=dy.199908.top
+          description: 抖音商家工具
+        - title: 抖音企业号
+          logo: images/Merchant background/douyinqiyehao.png
+          url: https://e.douyin.com?from=dy.199908.top
+          description: 抖音企业号数据管理
+        - title: 抖音知识产权保护
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://ippro.bytedance.com?from=dy.199908.top
+          description: 抖音电商原创保护平台
+    - name: 京东
+      links:
+        - title: 京麦
+          logo: images/Merchant background/jingmai.jpg
+          url: https://passport.shop.jd.com/login/index.action/jdm
+          description: 京东商家工具
+        - title: 京东知识产权保护
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jdgroupip.com?from=dy.199908.top
+          description: 京东知识产权保护平台
+    - name: 其他平台
+      links:
+        - title: 快手
+          logo: images/Merchant background/kuiayu.jpg
+          url: https://login.kwaixiaodian.com?from=dy.199908.top
+          description: 快手商家工具
+        - title: 视频号
+          logo: images/Merchant background/shipinhao.jpg
+          url: https://store.weixin.qq.com?from=dy.199908.top
+          description: 视频号商家工具
+        - title: 拼多多
+          logo: images/Merchant background/pinduoduo.jpg
+          url: https://mms.pinduoduo.com/other/downloadapp?from=dy.199908.top
+          description: 拼多多商家工具
+        - title: 千帆
+          logo: images/Merchant background/xhs sahngjia.jpg
+          url: https://customer.xiaohongshu.com/login?service=https://ark.xiaohongshu.com/app-system/home?from=dy.199908.top
+          description: 小红书商家工具
+
 - taxonomy: 常用工具
   icon: fa-tools
-  list:
-    - term: 电商工具
-      links: 
+  links: 
         - title: 驼铃电商知识库
           logo: images/tlslogo1.jpg
           url: https://fbjvryq00y.feishu.cn/docx/doxcnoAkUCQ27nY31F2PU9bTNPW?from=dy.199908.top
@@ -17,8 +75,6 @@
           logo: images/tlslogo1.jpg
           url: https://tb.88daifa.com?from=dy.199908.top
           description: 优质礼品资源，满足需求
-    - term: 计算工具
-      links:
         - title: 驼铃补单计算器
           logo: images/tlslogo1.jpg
           url: pages/budan.html?from=dy.199908.top
@@ -27,8 +83,6 @@
           logo: images/tlslogo1.jpg
           url: pages/roi.html?from=dy.199908.top
           description: 计算出价，提升投放效果
-    - term: 直播工具
-      links:
         - title: 驼铃直播中控工具
           logo: images/tlslogo1.jpg
           url: https://fbjvryq00y.feishu.cn/drive/folder/K7zIfP4IOlI5PxdberKcNgqOnCc?from=dy.199908.top
@@ -46,66 +100,10 @@
           url: https://tv1.199908.top/
           description: 免费影视资源，无需注册
 
-
-- taxonomy: 商家软件
-  icon: fa-desktop
-  links:
-        - title: 抖店
-          logo: images/Merchant background/doudian1.png
-          url: https://im.jinritemai.com?from=dy.199908.top
-          description: 抖音商家工具
-        - title: 千牛
-          logo: images/Merchant background/qianniu.jpg
-          url: https://loginmyseller.taobao.com/
-          description: 淘宝天猫商家工具
-        - title: 快手
-          logo: images/Merchant background/kuiayu.jpg
-          url: https://login.kwaixiaodian.com?from=dy.199908.top
-          description: 快手商家工具
-        - title: 京麦
-          logo: images/Merchant background/jingmai.jpg
-          url: https://passport.shop.jd.com/login/index.action/jdm
-          description: 京东商家工具
-        - title: 视频号
-          logo: images/Merchant background/shipinhao.jpg
-          url: https://store.weixin.qq.com?from=dy.199908.top
-          description: 视频号商家工具
-        - title: 拼多多
-          logo: images/Merchant background/pinduoduo.jpg
-          url: https://mms.pinduoduo.com/other/downloadapp?from=dy.199908.top
-          description: 拼多多商家工具
-        - title: 千帆
-          logo: images/Merchant background/xhs sahngjia.jpg
-          url: https://customer.xiaohongshu.com/login?service=https://ark.xiaohongshu.com/app-system/home?from=dy.199908.top
-          description: 小红书商家工具
-        - title: 抖音企业号
-          logo: images/Merchant background/douyinqiyehao.png
-          url: https://e.douyin.com?from=dy.199908.top
-          description: 抖音企业号数据管理
-
-
 - taxonomy: 跨境电商
   icon: fa-globe
-  list:
-    - term: 跨境平台
-      links:
-        - title: TikTok电商
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller.tiktokglobalshop.com?from=dy.199908.top
-          description: TikTok店铺入驻
-        - title: TikTok全托管
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://www.tiktokshopglobalselling.com/zh-cn?from=dy.199908.top
-          description: TikTok全托管方案
-        - title: Amazon
-          logo: images/Store settled in/amazon.png
-          url: https://www.amzon.com?from=dy.199908.top
-          description: 全球电商巨头
-        - title: Shopify
-          logo: images/Store settled in/shopify.png
-          url: https://www.shopify.com?from=dy.199908.top
-          description: 最大的独立站建站平台
-    - term: 区域市场
+  tabs:
+    - name: 东南亚
       links:
         - title: TikTok马来本土后台
           logo: images/E-commerce plug-in/douyin.jpg
@@ -123,7 +121,42 @@
           logo: images/E-commerce plug-in/douyin.jpg
           url: https://seller-vn.tiktok.com?from=dy.199908.top
           description: TikTok越南本土后台
-
+    - name: 欧美
+      links:
+        - title: TikTok美国本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-us-accounts.tiktok.com?from=dy.199908.top
+          description: TikTok美国本土后台
+        - title: TikTok英国本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-uk.tiktok.com?from=dy.199908.top
+          description: TikTok英国本土后台
+        - title: TikTok德国本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-de.tiktok.com?from=dy.199908.top
+          description: TikTok德国本土后台
+        - title: TikTok法国本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-fr.tiktok.com?from=dy.199908.top
+          description: TikTok法国本土后台
+    - name: 全球平台
+      links:
+        - title: TikTok电商
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller.tiktokglobalshop.com?from=dy.199908.top
+          description: TikTok店铺入驻
+        - title: TikTok全托管
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://www.tiktokshopglobalselling.com/zh-cn?from=dy.199908.top
+          description: TikTok全托管方案
+        - title: Amazon
+          logo: images/Store settled in/amazon.png
+          url: https://www.amzon.com?from=dy.199908.top
+          description: 全球电商巨头
+        - title: Shopify
+          logo: images/Store settled in/shopify.png
+          url: https://www.shopify.com?from=dy.199908.top
+          description: 最大的独立站建站平台
 
 - taxonomy: 电商辅助
   icon: fa-cogs
@@ -132,18 +165,6 @@
           logo: images/E-commerce plug-in/juliangchuangyi.png
           url: https://cc.oceanengine.com?from=dy.199908.top
           description: 激发创意灵感
-        - title: 阿里妈妈创意中心
-          logo: images/E-commerce plug-in/taobaogongju.png
-          url: https://chuangyi.taobao.com?from=dy.199908.top
-          description: 阿里妈妈创意资源中心
-        - title: 淘宝知识产权保护
-          logo: images/E-commerce plug-in/taobao.png
-          url: https://yc.alibaba.com?from=dy.199908.top
-          description: 阿里巴巴原创保护平台
-        - title: 抖音知识产权保护
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://ippro.bytedance.com?from=dy.199908.top
-          description: 抖音电商原创保护平台
         - title: 拼多多知识产权保护
           logo: images/E-commerce plug-in/pinduoduo.jpg
           url: https://ipp.pinduoduo.com?from=dy.199908.top
@@ -156,10 +177,6 @@
           logo: images/E-commerce plug-in/kuaishou.jpg
           url: https://ipp.kuaishou.com?from=dy.199908.top
           description: 快手电商原创保护平台
-        - title: 京东知识产权保护
-          logo: images/E-commerce plug-in/jingdong.png
-          url: https://jdgroupip.com?from=dy.199908.top
-          description: 京东知识产权保护平台
         - title: 指纹浏览器
           logo: images/E-commerce plug-in/zhiwenliulanqi.png
           url: https://virtualbrowser.cc?from=dy.199908.top
@@ -213,14 +230,9 @@
           url: https://limob.cn?from=dy.199908.top
           description: 抖音微信达人邀约软件
 
-
 - taxonomy: 直播辅助
   icon: fa-video
   links:
-        - title: 驼铃直播中控工具
-          logo: images/tlslogo1.jpg
-          url: https://fbjvryq00y.feishu.cn/drive/folder/K7zIfP4IOlI5PxdberKcNgqOnCc?from=dy.199908.top
-          description: 自动弹窗、自动发言等
         - title: 抖音直播伴侣
           logo: images/Live broadcast software/douyinzhibobanlv.jpg
           url: https://streamingtool.douyin.com?from=dy.199908.top
@@ -241,7 +253,6 @@
           logo: images/Live broadcast software/StreamCap.jpg
           url: https://fbjvryq00y.feishu.cn/drive/folder/Y0BTfqMWoleXphdT1cNci3fDnUg?from=dy.199908.top
           description: 多平台直播录屏软件
-
 
 - taxonomy: 视频编辑
   icon: fa-video
@@ -316,14 +327,9 @@
           description: 淘宝短视频混剪工具
           
 
-
 - taxonomy: 电商入驻
   icon: fa-store
   links:
-        - title: 抖音小店
-          logo: images/Store settled in/doudian1.png
-          url: https://fxg.jinritemai.com?from=dy.199908.top
-          description: 抖音小店申请入驻
         - title: 视频号小店
           logo: images/Store settled in/shipinhao.jpg
           url: https://channels.weixin.qq.com/shop?from=dy.199908.top
@@ -461,7 +467,6 @@
           url: https://www.newegg.com?from=dy.199908.top
           description: 一家总部位于美国的电子商务公司，专注于电子产品和电脑硬件的销售。
 
-
 - taxonomy: 电商货源
   icon: fa-shopping-cart
   links:
@@ -473,7 +478,6 @@
           logo: images/E-commerce supply/yiwugou.png
           url: https://www.yiwugo.com?from=dy.199908.top
           description: 义乌购货源平台
-
 
 - taxonomy: 广告投放
   icon: fa-bullhorn
@@ -539,7 +543,6 @@
           url: http://www.xiaohuolong.com?from=dy.199908.top
           description: 抖音随心推投放工具
 
-
 - taxonomy: 数据分析
   icon: fa-chart-line
   links:
@@ -600,7 +603,6 @@
           url: https://zs.doulaoban.com/login?from=dy.199908.top
           description: 多平台数据管理
 
-
 - taxonomy: 设计软件
   icon: fa-palette
   links:
@@ -632,7 +634,6 @@
           url: https://www.blender.org?from=dy.199908.top
           logo: images/design software/blender.png
           description: Blender is the free and open source 3D creation suite
-
 
 - taxonomy: 图文设计
   icon: fa-palette
@@ -738,7 +739,6 @@
           logo: images/graphic design/500d.png
           description: 中国领先的PPT模板共享平台
 
-
 - taxonomy: 图标字体
   icon: fa-font
   links:
@@ -830,7 +830,6 @@
           url: https://www.dafont.com?from=dy.199908.top
           logo: images/icon font/dafont.png
           description: Archive of freely downloadable fonts
-
 
 - taxonomy: 联系我们
   icon: fa-photo-video
