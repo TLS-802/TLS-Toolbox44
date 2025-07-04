@@ -59,7 +59,7 @@
           description: 阿里巴巴原创保护平台
         - title: 淘宝入驻
           logo: images/Store settled in/taobao.png
-          url: https://ishop.taobao.com/openshop/tb_open_shop_landing.htm#?from=dy.199908.top
+          url: https://ishop.taobao.com/openshop/tb_open_shop_landing.htm?from=dy.199908.top
           description: 淘宝店铺入驻
         - title: 直通车
           logo: images/Advertising/taobaoggongju.png
@@ -429,7 +429,7 @@
           description: 支持淘宝、1688、速卖通、拼多多等购物平台以图搜货和历史价格追踪的卖家助手
         - title: 山海云端短视频解析
           logo: images/E-commerce plug-in/shanhai.png
-          url: https://api.yyy001.com/tools/demo-videoparse.html#?from=dy.199908.top
+          url: https://api.yyy001.com/tools/demo-videoparse.html?from=dy.199908.top
           description: 多平台视频解析下载
         - title: Best视频下载器
           logo: images/E-commerce plug-in/shanhai.png
@@ -582,7 +582,7 @@
           description: 拼多多入驻
         - title: 淘宝入驻
           logo: images/Store settled in/taobao.png
-          url: https://ishop.taobao.com/openshop/tb_open_shop_landing.htm#?from=dy.199908.top
+          url: https://ishop.taobao.com/openshop/tb_open_shop_landing.htm?from=dy.199908.top
           description: 淘宝店铺入驻
         - title: TikTok
           logo: images/E-commerce plug-in/douyin.jpg
@@ -762,7 +762,7 @@
           description: 小红书广告投放平台
         - title: 诸葛智投
           logo: images/Advertising/zhugezhitou.png
-          url: https://zgzt.v-ma.com/#?from=dy.199908.top
+          url: https://zgzt.v-ma.com?from=dy.199908.top
           description: 视频号投放管理工具
         - title: 小火龙
           logo: images/Advertising/xiaohuolong.png
@@ -833,7 +833,7 @@
   icon: fa-palette
   links:
         - title: photoshop
-          url: https://www.adobe.com/cn/products/photoshop.html
+          url: https://www.adobe.com/cn/products/photoshop.html?from=dy.199908.top
           logo: images/design software/photoshop.png
           description: Photoshop不需要解释
         - title: Affinity Designer
