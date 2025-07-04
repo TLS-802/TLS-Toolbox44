@@ -700,8 +700,150 @@
           logo: images/E-commerce plug-in/pinduoduo.jpg
           url: https://seller.kuajingmaihuo.com?from=dy.199908.top
           description: TEMU跨境电商
-    - name: Tiktok
+    - name: 1688
       links:
+        - title: 1688
+          logo: images/E-commerce supply/1688.png
+          url: https://1688.com?from=dy.199908.top
+          description: 1688货源平台
+        - title: 1688商家工作台
+          logo: images/E-commerce supply/1688.png
+          url: https://work.1688.com?from=dy.199908.top
+          description: 1688商家后台管理系统
+        - title: 1688学习中心
+          logo: images/E-commerce supply/1688.png
+          url: https://peixun.1688.com?from=dy.199908.top
+          description: 1688学习中心
+        - title: 1688实力商家认证
+          logo: images/E-commerce supply/1688.png
+          url: https://isupplier.1688.com?from=dy.199908.top
+          description: 1688商家实力认证平台
+        - title: 1688诚信通
+          logo: images/E-commerce supply/1688.png
+          url: https://cxt.1688.com?from=dy.199908.top
+          description: 阿里巴巴诚信通会员服务
+        - title: 1688供应商管理
+          logo: images/E-commerce supply/1688.png
+          url: https://gys.1688.com?from=dy.199908.top
+          description: 1688供应商管理平台
+        - title: 1688商人社区
+          logo: images/E-commerce supply/1688.png
+          url: https://club.1688.com?from=dy.199908.top
+          description: 1688商家交流社区
+        - title: 1688批发市场
+          logo: images/E-commerce supply/1688.png
+          url: https://pifa.1688.com?from=dy.199908.top
+          description: 1688线上批发市场
+        - title: 1688商机助理
+          logo: images/E-commerce supply/1688.png
+          url: https://fuwu.1688.com/promotion/shangjizhuli/2017/index.html?from=dy.199908.top
+          description: 1688商机助理
+        - title: 1688低价货源
+          logo: images/E-commerce supply/1688.png
+          url: https://air.1688.com/app/channel-fe/search/index.html?from=dy.199908.top
+          description: 1688低价货源
+        - title: 1688生意参谋
+          logo: images/E-commerce supply/1688.png
+          url: https://sycm.1688.com?from=dy.199908.top
+          description: 1688生意参谋
+        - title: 1688服务市场
+          logo: images/E-commerce supply/1688.png
+          url: https://app.1688.com?from=dy.199908.top
+          description: 1688服务市场
+    - name: 跨境电商
+      links:
+        - title: 亚马逊Amazon
+          logo: images/Store settled in/amazon.png
+          url: https://www.amazon.com?from=dy.199908.top
+          description: 全球最大的电商平台之一，属于亚马逊公司旗下的跨境电商平台。
+        - title: 阿里国际站
+          logo: images/Store settled in/alibaba.png
+          url: https://www.alibaba.com?from=dy.199908.top
+          description: 阿里巴巴旗下的跨境电商平台，属于阿里巴巴集团旗下的跨境电商平台。
+        - title: 阿里国际站卖家后台
+          logo: images/Store settled in/alibaba.png
+          url: https://supplier.alibaba.com?from=dy.199908.top
+          description: 阿里巴巴旗下的跨境电商平台卖家后台
+        - title: Temu拼多多跨境
+          logo: images/Store settled in/teme.png
+          url: https://seller.kuajingmaihuo.com?from=dy.199908.top
+          description: 拼多多旗下的跨境电商平台，属于拼多多集团旗下的跨境电商平台。
+        - title: 虾皮商家后台
+          logo: images/Store settled in/shopee.png
+          url: https://seller.shopee.cn?from=dy.199908.top
+          description: 虾皮商家后台
+        - title: 虾皮卖家中心
+          logo: images/Store settled in/shopee.png
+          url: https://seller.shopee.com?from=dy.199908.top
+          description: 虾皮卖家中心
+        - title: Shopify
+          logo: images/Store settled in/shopify.png
+          url: https://www.shopify.com?from=dy.199908.top
+          description: 最大的独立站建站平台
+        - title: 速卖通AliExpress
+          logo: images/Store settled in/aliexpress.png
+          url: https://www.aliexpress.com?from=dy.199908.top
+          description: 阿里巴巴旗下的跨境电商平台
+        - title: Shopee
+          logo: images/Store settled in/Shopee.png
+          url: https://shopee.com?from=dy.199908.top
+          description: 东南亚和台湾地区的领先电子商务在线购物平台
+        - title: Etsy
+          logo: images/Store settled in/etsy.png
+          url: https://www.etsy.com?from=dy.199908.top
+          description: 一个专注于手工艺品、艺术品和独立设计师商品的在线市场，允许卖家和买家进行全球范围的交易。
+        - title: eBay
+          logo: images/Store settled in/ebay.png
+          url: https://www.ebay.com?from=dy.199908.top
+          description: 全球最大的在线拍卖和购物网站之一，用户可以在eBay上购买和出售各种商品，包括电子产品、服装、收藏品、家居用品等。
+        - title: Wish
+          logo: images/Store settled in/wish.png
+          url: https://www.wish.com?from=dy.199908.top
+          description: 一家全球性的电子商务平台，允许商家在其平台上销售商品。
+        - title: Daraz
+          logo: images/Store settled in/daraz.ico
+          url: https://www.daraz.pk?from=dy.199908.top
+          description: 巴基斯坦最大的电商平台之一，属于Alibaba集团旗下的跨境电商平台。
+        - title: Newegg
+          logo: images/Store settled in/newegg.png
+          url: https://www.newegg.com?from=dy.199908.top
+          description: 一家总部位于美国的电子商务公司，专注于电子产品和电脑硬件的销售。
+        - title: 义乌购
+          logo: images/E-commerce supply/yiwugou.png
+          url: https://www.yiwugo.com?from=dy.199908.top
+          description: 义乌购货源平台
+        - title: SHEIN商家平台
+          logo: images/Store settled in/shein.png
+          url: https://www.sheincorp.cn?from=dy.199908.top
+          description: 希音全球跨境电商平台商家入驻
+        - title: OZON卖家中心
+          logo: images/Store settled in/ozon.png
+          url: https://seller.ozon.ru?from=dy.199908.top
+          description: 俄罗斯最大的电子商务平台之一
+        - title: 沃尔玛
+          logo: images/Store settled in/walmart.png
+          url: https://www.walmart.com?from=dy.199908.top
+          description: 沃尔玛全球电商平台
+        - title: 沃尔玛跨境
+          logo: images/Store settled in/walmart.png
+          url: https://seller.walmart.com?from=dy.199908.top
+          description: 沃尔玛全球电商平台商家入驻
+        - title: 韩国Coupang
+          logo: images/Store settled in/coupang.png
+          url: https://globalsellers.coupang.com?from=dy.199908.top
+          description: 韩国最大的电商平台之一
+        - title: Tokopedia
+          logo: images/Store settled in/tokopedia.png
+          url: https://seller.tokopedia.com?from=dy.199908.top
+          description: 印尼最大的电商平台之一
+        - title: Lazada卖家中心
+          logo: images/Store settled in/lazada.png
+          url: https://seller.lazada.com?from=dy.199908.top
+          description: 来赞达商家平台
+        - title: 韩国购物平台
+          logo: images/Store settled in/korea.png
+          url: https://www.gmarket.co.kr?from=dy.199908.top
+          description: 韩国知名电商平台
         - title: TikTok电商
           logo: images/E-commerce plug-in/douyin.jpg
           url: https://seller.tiktokglobalshop.com?from=dy.199908.top
@@ -778,102 +920,28 @@
           logo: images/E-commerce plug-in/dalian.png
           url: https://tool.kollink.net?from=dy.199908.top
           description: TikTok达人邀约插件
-    - name: 1688
-      links:
-        - title: 1688
-          logo: images/E-commerce supply/1688.png
-          url: https://1688.com?from=dy.199908.top
-          description: 1688货源平台
-        - title: 1688商家工作台
-          logo: images/E-commerce supply/1688.png
-          url: https://work.1688.com?from=dy.199908.top
-          description: 1688商家后台管理系统
-        - title: 1688学习中心
-          logo: images/E-commerce supply/1688.png
-          url: https://peixun.1688.com?from=dy.199908.top
-          description: 1688学习中心
-        - title: 1688实力商家认证
-          logo: images/E-commerce supply/1688.png
-          url: https://isupplier.1688.com?from=dy.199908.top
-          description: 1688商家实力认证平台
-        - title: 1688诚信通
-          logo: images/E-commerce supply/1688.png
-          url: https://cxt.1688.com?from=dy.199908.top
-          description: 阿里巴巴诚信通会员服务
-        - title: 1688供应商管理
-          logo: images/E-commerce supply/1688.png
-          url: https://gys.1688.com?from=dy.199908.top
-          description: 1688供应商管理平台
-        - title: 1688商人社区
-          logo: images/E-commerce supply/1688.png
-          url: https://club.1688.com?from=dy.199908.top
-          description: 1688商家交流社区
-        - title: 1688批发市场
-          logo: images/E-commerce supply/1688.png
-          url: https://pifa.1688.com?from=dy.199908.top
-          description: 1688线上批发市场
-        - title: 1688商机助理
-          logo: images/E-commerce supply/1688.png
-          url: https://fuwu.1688.com/promotion/shangjizhuli/2017/index.html?from=dy.199908.top
-          description: 1688商机助理
-        - title: 1688低价货源
-          logo: images/E-commerce supply/1688.png
-          url: https://air.1688.com/app/channel-fe/search/index.html?from=dy.199908.top
-          description: 1688低价货源
-        - title: 1688生意参谋
-          logo: images/E-commerce supply/1688.png
-          url: https://sycm.1688.com?from=dy.199908.top
-          description: 1688生意参谋
-        - title: 1688服务市场
-          logo: images/E-commerce supply/1688.png
-          url: https://app.1688.com?from=dy.199908.top
-          description: 1688服务市场
     - name: 其他平台
       links:
-        - title: Amazon
-          logo: images/Store settled in/amazon.png
-          url: https://www.amzon.com?from=dy.199908.top
-          description: 全球电商巨头
-        - title: Shopify
-          logo: images/Store settled in/shopify.png
-          url: https://www.shopify.com?from=dy.199908.top
-          description: 最大的独立站建站平台
-        - title: 速卖通AliExpress
-          logo: images/Store settled in/aliexpress.png
-          url: https://www.aliexpress.com?from=dy.199908.top
-          description: 阿里巴巴旗下的跨境电商平台
-        - title: Shopee
-          logo: images/Store settled in/Shopee.png
-          url: https://shopee.com?from=dy.199908.top
-          description: 东南亚和台湾地区的领先电子商务在线购物平台
-        - title: Lazada
-          logo: images/Store settled in/lazada.png
-          url: https://www.lazada.com?from=dy.199908.top
-          description: 东南亚地区最大的电商平台之一
-        - title: Etsy
-          logo: images/Store settled in/etsy.png
-          url: https://www.etsy.com?from=dy.199908.top
-          description: 一个专注于手工艺品、艺术品和独立设计师商品的在线市场，允许卖家和买家进行全球范围的交易。
-        - title: eBay
-          logo: images/Store settled in/ebay.png
-          url: https://www.ebay.com?from=dy.199908.top
-          description: 全球最大的在线拍卖和购物网站之一，用户可以在eBay上购买和出售各种商品，包括电子产品、服装、收藏品、家居用品等。
-        - title: Wish
-          logo: images/Store settled in/wish.png
-          url: https://www.wish.com?from=dy.199908.top
-          description: 一家全球性的电子商务平台，允许商家在其平台上销售商品。
-        - title: Daraz
-          logo: images/Store settled in/daraz.ico
-          url: https://www.daraz.pk?from=dy.199908.top
-          description: 巴基斯坦最大的电商平台之一，属于Alibaba集团旗下的跨境电商平台。
-        - title: Newegg
-          logo: images/Store settled in/newegg.png
-          url: https://www.newegg.com?from=dy.199908.top
-          description: 一家总部位于美国的电子商务公司，专注于电子产品和电脑硬件的销售。
-        - title: 义乌购
-          logo: images/E-commerce supply/yiwugou.png
-          url: https://www.yiwugo.com?from=dy.199908.top
-          description: 义乌购货源平台
+        - title: 唯品会
+          logo: images/popular-sites/vip.jpg
+          url: https://www.vip.com?from=dy.199908.top
+          description: 中国特卖电商平台，成立于2008年，提供品牌折扣商品，在纽交所和港交所上市
+        - title: 哔哩哔哩
+          logo: images/popular-sites/bilibili.jpg
+          url: https://www.bilibili.com?from=dy.199908.top
+          description: 中国领先的视频弹幕网站，俗称"B站"，成立于2009年，主要面向年轻用户群体，提供视频、直播、游戏等内容
+        - title: 得物
+          logo: images/popular-sites/dewu.jpg
+          url: https://www.dewu.com?from=dy.199908.top
+          description: 前身为"毒"(Poizon)，是中国领先的潮流电商平台，主打鉴定服务，特别受Z世代欢迎，主要销售球鞋、潮牌服饰等
+        - title: 支付宝
+          logo: images/popular-sites/alipay.jpg
+          url: https://www.alipay.com?from=dy.199908.top
+          description: 蚂蚁集团旗下支付和金融服务平台，提供支付、转账、理财等服务
+        - title: 今日头条
+          logo: images/popular-sites/toutiao.jpg
+          url: https://www.toutiao.com?from=dy.199908.top
+          description: 字节跳动旗下基于算法推荐的新闻资讯平台，通过AI技术为用户个性化推送内容
 
 - taxonomy: 电商辅助
   icon: fa-cogs
@@ -946,6 +1014,70 @@
           logo: images/E-commerce plug-in/Lingyao AI.jpg
           url: https://limob.cn?from=dy.199908.top
           description: 抖音微信达人邀约软件
+
+- taxonomy: 电商货源
+  icon: fa-shopping-cart
+  links:
+        - title: 1688
+          logo: images/E-commerce supply/1688.png
+          url: https://1688.com?from=dy.199908.top
+          description: 1688货源平台
+        - title: 义乌购
+          logo: images/E-commerce supply/yiwugou.png
+          url: https://www.yiwugo.com?from=dy.199908.top
+          description: 义乌购货源平台
+        - title: 搜款网
+          logo: images/E-commerce supply/soukuan.png
+          url: https://www.go2.cn?from=dy.199908.top
+          description: 女鞋批发市场货源平台
+        - title: 91家纺
+          logo: images/E-commerce supply/91jiafang.png
+          url: https://www.newfine.com.cn?from=dy.199908.top
+          description: 家纺产品批发货源平台
+        - title: 找工厂
+          logo: images/E-commerce supply/zhaogongchang.png
+          url: https://www.zhaozhichang.com?from=dy.199908.top
+          description: 工厂直供货源对接平台
+        - title: 找源头
+          logo: images/E-commerce supply/zhaoyuantou.png
+          url: https://www.zhaozhichang.com?from=dy.199908.top
+          description: 工厂源头货源对接平台
+        - title: 世界工厂
+          logo: images/E-commerce supply/made-in-china.png
+          url: https://www.made-in-china.com?from=dy.199908.top
+          description: 中国制造网-工厂货源平台
+        - title: 新款鞋
+          logo: images/E-commerce supply/xinkaoxie.png
+          url: https://www.yougou.com?from=dy.199908.top
+          description: 时尚鞋类货源平台
+        - title: 箱包网
+          logo: images/E-commerce supply/xiangbaowang.png
+          url: https://9352.amanbo.com?from=dy.199908.top
+          description: 箱包批发货源平台
+        - title: 包牛牛
+          logo: images/E-commerce supply/baoniuniu.png
+          url: https://www.sinoken.com?from=dy.199908.top
+          description: 箱包批发货源平台
+        - title: 制造网
+          logo: images/E-commerce supply/zhizaowang.png
+          url: https://cn.made-in-china.com?from=dy.199908.top
+          description: 中国制造网-内贸站
+        - title: 汽配人
+          logo: images/E-commerce supply/qipeiren.png
+          url: https://www.qipeiren.com?from=dy.199908.top
+          description: 汽车配件货源平台
+        - title: 一呼百应
+          logo: images/E-commerce supply/yihubaiyng.png
+          url: https://www.yihubaiyng.com?from=dy.199908.top
+          description: 批发货源对接平台
+        - title: 猎芯网
+          logo: images/E-commerce supply/liexin.png
+          url: https://www.liexin.com?from=dy.199908.top
+          description: 电子元器件货源平台
+        - title: 档口网
+          logo: images/E-commerce supply/dangkouwang.png
+          url: https://www.dangkouwang.com?from=dy.199908.top
+          description: 实体档口货源对接平台
 
 - taxonomy: 直播辅助
   icon: fa-video
@@ -1042,162 +1174,6 @@
           logo: images/Video editing tools/taobao.png
           url: https://chuangyi.taobao.com/external/meditorMix?from=dy.199908.top
           description: 淘宝短视频混剪工具
-          
-
-  icon: fa-store
-  links:
-        - title: 抖音小店
-          logo: images/Store settled in/douyin.jpg
-          url: https://fxg.jinritemai.com/?source=ddgwdlymzxjsjrz
-          description: 抖音小店入驻
-        - title: 视频号小店
-          logo: images/Store settled in/shipinhao.jpg
-          url: https://channels.weixin.qq.com/shop?from=dy.199908.top
-          description: 腾讯视频号小店入驻
-        - title: 快手小店
-          logo: images/Store settled in/kuaishou.jpg
-          url: https://www.kwaixiaodian.com?from=dy.199908.top
-          description: 快手小店入驻
-        - title: 小红书店铺
-          logo: images/Store settled in/xiaohongshu.jpg
-          url: https://ark.xiaohongshu.com/merchant/login?from=dy.199908.top
-          description: 小红书商家入驻
-        - title: 天猫入驻
-          logo: images/Store settled in/tianmao.jpg
-          url: https://zhaoshang.tmall.com?from=dy.199908.top
-          description: 天猫入驻
-        - title: 京东入驻
-          logo: images/Store settled in/jingdong.png
-          url: https://zhaoshang.jd.com/index/home?from=dy.199908.top
-          description: 京东入驻
-        - title: 拼多多入驻
-          logo: images/Store settled in/pinduoduo.jpg
-          url: https://ims.pinduoduo.com?from=dy.199908.top
-          description: 拼多多入驻
-        - title: 淘宝入驻
-          logo: images/Store settled in/taobao.png
-          url: https://ishop.taobao.com/openshop/tb_open_shop_landing.htm?from=dy.199908.top
-          description: 淘宝店铺入驻
-        - title: TikTok
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller.tiktokglobalshop.com?from=dy.199908.top
-          description: TikTok店铺入驻
-        - title: TikTok全托管
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://www.tiktokshopglobalselling.com/zh-cn?from=dy.199908.top
-          description: TikTok全托管
-        - title: TikTok马来本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-my.tiktok.com?from=dy.199908.top
-          description: TikTok全托管
-        - title: TikTok菲律宾本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-ph.tiktok.com?from=dy.199908.top
-          description: TikTok菲律宾本土后台
-        - title: TikTok泰国本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-th.tiktok.com?from=dy.199908.top
-          description: TikTok泰国本土后台
-        - title: TikTok越南本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-vn.tiktok.com?from=dy.199908.top
-          description: TikTok越南本土后台
-        - title: TikTok印尼本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-id.tiktok.com?from=dy.199908.top
-          description: TikTok印尼本土后台
-        - title: TikTok菲律宾本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-ph.tiktok.com?from=dy.199908.top
-          description: TikTok菲律宾本土后台
-        - title: TikTok新加坡本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-sg.tiktok.com?from=dy.199908.top
-          description: TikTok新加坡本土后台
-        - title: TikTok美国本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-us-accounts.tiktok.com?from=dy.199908.top
-          description: TikTok美国本土后台
-        - title: TikTok英国本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-uk.tiktok.com?from=dy.199908.top
-          description: TikTok英国本土后台
-        - title: TikTok德国本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-de.tiktok.com?from=dy.199908.top
-          description: TikTok德国本土后台
-        - title: TikTok法国本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-fr.tiktok.com?from=dy.199908.top
-          description: TikTok法国本土后台
-        - title: TikTok意大利本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-it.tiktok.com?from=dy.199908.top
-          description: TikTok意大利本土后台
-        - title: TikTok西班牙本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-es.tiktok.com?from=dy.199908.top
-          description: TikTok西班牙本土后台
-        - title: TikTok巴西本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-br.tiktok.com?from=dy.199908.top
-          description: TikTok巴西本土后台
-        - title: TikTok墨西哥本土后台
-          logo: images/E-commerce plug-in/douyin.jpg
-          url: https://seller-mx.tiktok.com?from=dy.199908.top
-          description: TikTok墨西哥本土后台
-        - title: Amazon
-          logo: images/Store settled in/amazon.png
-          url: https://www.amzon.com?from=dy.199908.top
-          description: 全球电商巨头
-        - title: Shopify
-          logo: images/Store settled in/shopify.png
-          url: https://www.shopify.com?from=dy.199908.top
-          description: 最大的独立站建站平台
-        - title: 速卖通AliExpress
-          logo: images/Store settled in/aliexpress.png
-          url: https://www.aliexpress.com?from=dy.199908.top
-          description: 阿里巴巴旗下的跨境电商平台
-        - title: Shopee
-          logo: images/Store settled in/Shopee.png
-          url: https://shopee.com?from=dy.199908.top
-          description: 东南亚和台湾地区的领先电子商务在线购物平台
-        - title: Lazada
-          logo: images/Store settled in/lazada.png
-          url: https://www.lazada.com?from=dy.199908.top
-          description: 东南亚地区最大的电商平台之一
-        - title: Etsy
-          logo: images/Store settled in/etsy.png
-          url: https://www.etsy.com?from=dy.199908.top
-          description: 一个专注于手工艺品、艺术品和独立设计师商品的在线市场，允许卖家和买家进行全球范围的交易。
-        - title: eBay
-          logo: images/Store settled in/ebay.png
-          url: https://www.ebay.com?from=dy.199908.top
-          description: 全球最大的在线拍卖和购物网站之一，用户可以在eBay上购买和出售各种商品，包括电子产品、服装、收藏品、家居用品等。
-        - title: Wish
-          logo: images/Store settled in/wish.png
-          url: https://www.wish.com?from=dy.199908.top
-          description: 一家全球性的电子商务平台，允许商家在其平台上销售商品。
-        - title: Daraz
-          logo: images/Store settled in/daraz.ico
-          url: https://www.daraz.pk?from=dy.199908.top
-          description: 巴基斯坦最大的电商平台之一，属于Alibaba集团旗下的跨境电商平台。
-        - title: Newegg
-          logo: images/Store settled in/newegg.png
-          url: https://www.newegg.com?from=dy.199908.top
-          description: 一家总部位于美国的电子商务公司，专注于电子产品和电脑硬件的销售。
-
-- taxonomy: 电商货源
-  icon: fa-shopping-cart
-  links:
-        - title: 1688
-          logo: images/E-commerce supply/1688.png
-          url: https://1688.com?from=dy.199908.top
-          description: 1688货源平台
-        - title: 义乌购
-          logo: images/E-commerce supply/yiwugou.png
-          url: https://www.yiwugo.com?from=dy.199908.top
-          description: 义乌购货源平台
 
 - taxonomy: 广告投放
   icon: fa-bullhorn
