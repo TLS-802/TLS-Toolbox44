@@ -320,25 +320,25 @@
           description: 抖音随心推投放工具
     - name: 京东
       links:
-        - title: 京麦
+        - title: 京麦工作台
           logo: images/Merchant background/jingmai.jpg
           url: https://passport.shop.jd.com/login/index.action/jdm
           description: 京东商家工具
-        - title: 京东知识产权保护
-          logo: images/E-commerce plug-in/jingdong.png
-          url: https://jdgroupip.com?from=dy.199908.top
-          description: 京东知识产权保护平台
         - title: 京东入驻
           logo: images/Store settled in/jingdong.png
           url: https://zhaoshang.jd.com/index/home?from=dy.199908.top
           description: 京东入驻
+        - title: 京东知识产权保护
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jdgroupip.com?from=dy.199908.top
+          description: 京东知识产权保护平台
         - title: 京东直播
           logo: images/E-commerce plug-in/jingdong.png
           url: https://jdlive.jd.com?from=dy.199908.top
           description: 京东直播平台
         - title: 京东物流
           logo: images/E-commerce plug-in/jingdong.png
-          url: https://logistics.jd.com?from=dy.199908.top
+          url: https://wl.jdl.com?from=dy.199908.top
           description: 京东物流服务平台
         - title: 京东金融
           logo: images/E-commerce plug-in/jingdong.png
@@ -368,14 +368,6 @@
           logo: images/E-commerce plug-in/jingdong.png
           url: https://brand.jd.com?from=dy.199908.top
           description: 京东品牌服务平台
-        - title: 京东商智
-          logo: images/E-commerce plug-in/jingdong.png
-          url: https://sz.jd.com?from=dy.199908.top
-          description: 京东商业智能分析平台
-        - title: 京准通
-          logo: images/E-commerce plug-in/jingdong.png
-          url: https://jzt.jd.com?from=dy.199908.top
-          description: 京东营销推广平台
         - title: 京东国际
           logo: images/E-commerce plug-in/jingdong.png
           url: https://www.jd.hk?from=dy.199908.top
@@ -384,9 +376,45 @@
           logo: images/E-commerce plug-in/jingdong.png
           url: https://b.jd.com?from=dy.199908.top
           description: 京东企业采购平台
+        - title: 京东商智
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://sz.jd.com?from=dy.199908.top
+          description: 京东商业智能分析平台
+        - title: 京准通
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jzt.jd.com?from=dy.199908.top
+          description: 京东营销推广平台
+        - title: 京准通站外广告
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jzt.jd.com/gw/jdzt?from=dy.199908.top
+          description: 京准通站外广告平台
+        - title: 京挑客
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://jzt.jd.com/gw/jtkhome?from=dy.199908.top
+          description: 京东挑客推广平台
+        - title: 京东商智
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://ppzh.jd.com?from=dy.199908.top
+          description: 京东商智
+        - title: 京代理
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://agency.jd.com/gw/index?from=dy.199908.top
+          description: 京东代理平台
+        - title: 羚珑作图
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://ling.jd.com?from=dy.199908.top
+          description: 玲珑作图
+        - title: 京东商家学习中心
+          logo: images/E-commerce plug-in/jingdong.png
+          url: https://xue.jd.com?from=dy.199908.top
+          description: 京东商家学习中心
+        - title: 京品库
+          logo: images/E-commerce plug-in/jingdong.png
+          url: http://www.jingpinku.com?from=dy.199908.top
+          description: 京品库
     - name: 快手
       links:
-        - title: 快手
+        - title: 快手商家工作台
           logo: images/Merchant background/kuiayu.jpg
           url: https://login.kwaixiaodian.com?from=dy.199908.top
           description: 快手商家工具
