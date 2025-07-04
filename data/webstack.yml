@@ -926,6 +926,22 @@
           logo: images/popular-sites/vip.jpg
           url: https://www.vip.com?from=dy.199908.top
           description: 中国特卖电商平台，成立于2008年，提供品牌折扣商品，在纽交所和港交所上市
+        - title: 闲鱼
+          logo: images/popular-sites/xianyu.jpg
+          url: https://www.xianyu.com?from=dy.199908.top
+          description: 二手交易平台，成立于2014年，主要面向年轻人群体，提供二手商品交易服务
+        - title: 美团
+          logo: images/popular-sites/meituan.jpg
+          url: https://www.meituan.com?from=dy.199908.top
+          description: 美团外卖平台
+        - title: 美团商家版
+          logo: images/popular-sites/meituan.jpg
+          url: https://waimaie.meituan.com/new_fe/login_gw?from=dy.199908.top
+          description: 美团商家后台
+        - title: 美团客服后台
+          logo: images/popular-sites/meituan.jpg
+          url: https://www.meituan.com?from=dy.199908.top
+          description: 美团商家后台
         - title: 哔哩哔哩
           logo: images/popular-sites/bilibili.jpg
           url: https://www.bilibili.com?from=dy.199908.top
@@ -934,6 +950,18 @@
           logo: images/popular-sites/dewu.jpg
           url: https://www.dewu.com?from=dy.199908.top
           description: 前身为"毒"(Poizon)，是中国领先的潮流电商平台，主打鉴定服务，特别受Z世代欢迎，主要销售球鞋、潮牌服饰等
+        - title: 得物后台
+          logo: images/popular-sites/dewu.jpg
+          url: https://stark.dewu.com/main/newOrders?from=dy.199908.top
+          description: 得物商家后台
+        - title: 得物客服后台
+          logo: images/popular-sites/dewu.jpg
+          url: http://msd.dewu.com/admin?from=dy.199908.top
+          description: 得物商家后台
+        - title: 转转
+          logo: images/popular-sites/zhuanzhuan.jpg
+          url: https://www.zhuanzhuan.com?from=dy.199908.top
+          description: 二手交易平台，成立于2015年，主要面向年轻人群体，提供二手商品交易服务
         - title: 支付宝
           logo: images/popular-sites/alipay.jpg
           url: https://www.alipay.com?from=dy.199908.top
@@ -942,6 +970,38 @@
           logo: images/popular-sites/toutiao.jpg
           url: https://www.toutiao.com?from=dy.199908.top
           description: 字节跳动旗下基于算法推荐的新闻资讯平台，通过AI技术为用户个性化推送内容
+        - title: 微博
+          logo: images/popular-sites/weibo.jpg
+          url: https://weibo.com?from=dy.199908.top
+          description: 中国领先的社交媒体平台，用户可以发布、分享和发现内容，实时热点传播速度快
+        - title: 知乎
+          logo: images/popular-sites/zhihu.jpg
+          url: https://www.zhihu.com?from=dy.199908.top
+          description: 中国最大的知识问答社区，聚集各行各业的专业人士，分享和获取知识、经验和见解
+        - title: 百度
+          logo: images/popular-sites/baidu.jpg
+          url: https://www.baidu.com?from=dy.199908.top
+          description: 中国最大的搜索引擎，提供网页、图片、视频等多种搜索服务和信息获取渠道
+        - title: 网易
+          logo: images/popular-sites/netease.jpg
+          url: https://www.163.com?from=dy.199908.top
+          description: 中国领先的互联网技术公司，提供新闻、邮箱、游戏、音乐等多种服务
+        - title: 头条号
+          logo: images/popular-sites/toutiao.jpg
+          url: https://www.toutiao.com?from=dy.199908.top
+          description: 字节跳动旗下的自媒体平台，提供新闻、视频、图片等多种内容创作和发布服务
+        - title: 百家号
+          logo: images/popular-sites/baidu.jpg
+          url: https://www.baidu.com?from=dy.199908.top
+          description: 百度旗下的自媒体平台，提供新闻、视频、图片等多种内容创作和发布服务
+        - title: 什么值得买
+          logo: images/popular-sites/shenmezhidema.jpg
+          url: https://www.smzdm.com?from=dy.199908.top
+          description: 什么值得买，成立于2006年，是中国领先的消费决策平台，提供商品比价、购物指南、用户评价等服务
+        - title: 有赞
+          logo: images/popular-sites/youzan.jpg
+          url: https://www.youzan.com?from=dy.199908.top
+          description: 有赞是一家提供电商解决方案的公司，提供电商网站建设、电商运营、电商营销等服务
 
 - taxonomy: 电商辅助
   icon: fa-cogs
