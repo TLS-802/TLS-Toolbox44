@@ -2,7 +2,9 @@
 
 - taxonomy: 常用工具
   icon: fa-tools
-  links: 
+  list:
+    - term: 电商工具
+      links: 
         - title: 驼铃电商知识库
           logo: images/tlslogo1.jpg
           url: https://fbjvryq00y.feishu.cn/docx/doxcnoAkUCQ27nY31F2PU9bTNPW?from=dy.199908.top
@@ -15,6 +17,8 @@
           logo: images/tlslogo1.jpg
           url: https://tb.88daifa.com?from=dy.199908.top
           description: 优质礼品资源，满足需求
+    - term: 计算工具
+      links:
         - title: 驼铃补单计算器
           logo: images/tlslogo1.jpg
           url: pages/budan.html?from=dy.199908.top
@@ -23,6 +27,8 @@
           logo: images/tlslogo1.jpg
           url: pages/roi.html?from=dy.199908.top
           description: 计算出价，提升投放效果
+    - term: 直播工具
+      links:
         - title: 驼铃直播中控工具
           logo: images/tlslogo1.jpg
           url: https://fbjvryq00y.feishu.cn/drive/folder/K7zIfP4IOlI5PxdberKcNgqOnCc?from=dy.199908.top
@@ -76,6 +82,47 @@
           logo: images/Merchant background/douyinqiyehao.png
           url: https://e.douyin.com?from=dy.199908.top
           description: 抖音企业号数据管理
+
+
+- taxonomy: 跨境电商
+  icon: fa-globe
+  list:
+    - term: 跨境平台
+      links:
+        - title: TikTok电商
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller.tiktokglobalshop.com?from=dy.199908.top
+          description: TikTok店铺入驻
+        - title: TikTok全托管
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://www.tiktokshopglobalselling.com/zh-cn?from=dy.199908.top
+          description: TikTok全托管方案
+        - title: Amazon
+          logo: images/Store settled in/amazon.png
+          url: https://www.amzon.com?from=dy.199908.top
+          description: 全球电商巨头
+        - title: Shopify
+          logo: images/Store settled in/shopify.png
+          url: https://www.shopify.com?from=dy.199908.top
+          description: 最大的独立站建站平台
+    - term: 区域市场
+      links:
+        - title: TikTok马来本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-my.tiktok.com?from=dy.199908.top
+          description: TikTok马来西亚本土后台
+        - title: TikTok菲律宾本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-ph.tiktok.com?from=dy.199908.top
+          description: TikTok菲律宾本土后台
+        - title: TikTok泰国本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-th.tiktok.com?from=dy.199908.top
+          description: TikTok泰国本土后台
+        - title: TikTok越南本土后台
+          logo: images/E-commerce plug-in/douyin.jpg
+          url: https://seller-vn.tiktok.com?from=dy.199908.top
+          description: TikTok越南本土后台
 
 
 - taxonomy: 电商辅助
