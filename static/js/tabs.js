@@ -69,52 +69,16 @@ $(document).ready(function() {
       }, 300);
     });
     
-    // 检查并隐藏空标签页
-    var $tabItems = $(this).find('.tab-menu .tab-item');
-    var $tabContents = $(this).find('.tab-content');
-    var hasVisibleTab = false;
+    // 激活第一个标签
+    $(this).find('.tab-menu .tab-item:first').click();
     
-    $tabContents.each(function(index) {
+    // 添加链接数量徽章
+    $(this).find('.tab-content').each(function(index) {
       var linkCount = $(this).find('.xe-card').length;
-      var $tabItem = $tabItems.eq(index);
-      
-      if (linkCount === 0) {
-        // 如果标签内容为空，添加提示信息
-        $(this).find('.row').html('<div class="empty-tab-message"><i class="fa fa-info-circle"></i> 未找到与"' + $tabItem.text().trim() + '"相关的链接</div>');
-        // 不隐藏标签，而是显示提示信息
-        $tabItem.append('<span class="badge badge-empty">0</span>');
-        hasVisibleTab = true;
-      } else {
-        // 如果有内容，添加链接数量徽章
-        $tabItem.append('<span class="badge">' + linkCount + '</span>');
-        hasVisibleTab = true;
-        
-        // 对链接卡片进行排序
-        var $cards = $(this).find('.xe-card').toArray();
-        $cards.sort(function(a, b) {
-          var titleA = $(a).find('.xe-user-name strong').text().trim().toLowerCase();
-          var titleB = $(b).find('.xe-user-name strong').text().trim().toLowerCase();
-          return titleA.localeCompare(titleB);
-        });
-        
-        var $row = $(this).find('.row');
-        $row.empty();
-        $.each($cards, function(i, card) {
-          $row.append(card);
-        });
+      if (linkCount > 0) {
+        $container.find('.tab-menu .tab-item[data-tab="' + index + '"]').append('<span class="badge">' + linkCount + '</span>');
       }
     });
-    
-    // 如果没有可见的标签，隐藏整个标签容器
-    if (!hasVisibleTab) {
-      $(this).hide();
-    } else {
-      // 激活第一个可见的标签
-      var $firstVisibleTab = $(this).find('.tab-menu .tab-item:visible:first');
-      if ($firstVisibleTab.length) {
-        $firstVisibleTab.click();
-      }
-    }
   });
   
   // 窗口大小改变时重新检查滚动指示器
@@ -170,37 +134,13 @@ $(document).ready(function() {
   
   // 添加标签内容切换动画
   function animateTabTransition($content) {
-    // 增强的动画效果
-    $content.css({
-      'opacity': 0,
-      'transform': 'translateY(20px) scale(0.98)',
-      'transition': 'none'
-    });
-    
+    $content.css('opacity', 0).css('transform', 'translateY(15px)');
     setTimeout(function() {
-      $content.css({
-        'transition': 'opacity 0.4s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1)',
-        'opacity': 1,
-        'transform': 'translateY(0) scale(1)'
-      });
-      
-      // 添加卡片逐个显示的动画效果
-      $content.find('.xe-card').each(function(index) {
-        var $card = $(this);
-        $card.css({
-          'opacity': 0,
-          'transform': 'translateY(15px)',
-          'transition': 'none'
-        });
-        
-        setTimeout(function() {
-          $card.css({
-            'transition': 'opacity 0.3s ease ' + (index * 0.05) + 's, transform 0.3s ease ' + (index * 0.05) + 's',
-            'opacity': 1,
-            'transform': 'translateY(0)'
-          });
-        }, 100);
-      });
+      $content.css('transition', 'opacity 0.5s ease, transform 0.5s ease');
+      $content.css('opacity', 1).css('transform', 'translateY(0)');
+      setTimeout(function() {
+        $content.css('transition', '');
+      }, 500);
     }, 50);
   }
 

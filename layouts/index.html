@@ -108,57 +108,42 @@
         {{ range $index, $tab := .tabs }}
         <div class="tab-content" data-tab="{{ $index }}">
             <div class="row">
-            {{ $tabName := $tab.name }}
-            {{ range $.Site.Data.webstack }}
-                {{ range $taxonomy := . }}
-                    {{ if eq (printf "%T" $taxonomy) "string" }}
-                        <!-- 跳过非列表字段 -->
-                    {{ else if eq (printf "%T" $taxonomy) "[]interface {}" }}
-                        <!-- 处理links列表 -->
-                        {{ range $item := $taxonomy }}
-                            {{ if eq (printf "%T" $item) "map[string]interface {}" }}
-                                {{ if or (eq (index $item "title") $tabName) (in (lower (index $item "title" | default "")) (lower $tabName)) (in (lower (index $item "description" | default "")) (lower $tabName)) }}
-                                    <!-- 找到匹配的链接：标题完全匹配或包含标签名称，或描述中包含标签名称 -->
-                                    {{ if index $item "qrcode" }}
-                                    <!-- 带二维码的网站卡片 -->
-                                    <div class="xe-card col-xs-6 col-sm-4 col-md-3 qrcode geticon">
-                                        <a href="{{ index $item "url" }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<img src='{{ index $item "qrcode" }}' width='128'>">
-                                            <div class="xe-comment-entry">
-                                                <div class="xe-user-img">
-                                                    <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ index $item "logo" }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
-                                                </div>
-                                                <div class="xe-comment">
-                                                    <div class="xe-user-name overflowClip_1">
-                                                        <strong>{{ index $item "title" }}</strong>
-                                                    </div>
-                                                    <p class="overflowClip_2">{{ index $item "description" }}</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    {{ else }}
-                                    <!-- 普通网站卡片 -->
-                                    <div class="xe-card col-xs-6 col-sm-4 col-md-3 geticon">
-                                        <a href="{{ index $item "url" }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" 
-                                        title="{{ index $item "description" }} {{ index $item "url" }}">
-                                            <div class="xe-comment-entry">
-                                                <div class="xe-user-img">
-                                                    <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ index $item "logo" }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
-                                                </div>
-                                                <div class="xe-comment">
-                                                    <div class="xe-user-name overflowClip_1">
-                                                        <strong>{{ index $item "title" }}</strong>
-                                                    </div>
-                                                    <p class="overflowClip_2">{{ index $item "description" }}</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    {{ end }}
-                                {{ end }}
-                            {{ end }}
-                        {{ end }}
-                    {{ end }}
+            {{ range $tab.links }}
+                {{ if .qrcode }}
+                <!-- 带二维码的网站卡片 -->
+                <div class="xe-card col-xs-6 col-sm-4 col-md-3 qrcode geticon">
+                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<img src='{{ .qrcode }}' width='128'>">
+                        <div class="xe-comment-entry">
+                            <div class="xe-user-img">
+                                <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
+                            </div>
+                            <div class="xe-comment">
+                                <div class="xe-user-name overflowClip_1">
+                                    <strong>{{ .title }}</strong>
+                                </div>
+                                <p class="overflowClip_2">{{ .description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {{ else }}
+                <!-- 普通网站卡片 -->
+                <div class="xe-card col-xs-6 col-sm-4 col-md-3 geticon">
+                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" 
+                    title="{{ .description }} {{ .url }}">
+                        <div class="xe-comment-entry">
+                            <div class="xe-user-img">
+                                <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
+                            </div>
+                            <div class="xe-comment">
+                                <div class="xe-user-name overflowClip_1">
+                                    <strong>{{ .title }}</strong>
+                                </div>
+                                <p class="overflowClip_2">{{ .description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
                 {{ end }}
             {{ end }}
             </div>
@@ -166,7 +151,7 @@
         {{ end }}
     </div>
     {{ else }}
-    <!-- 普通分类，直接显示链接 -->
+    <!-- 无标签式二级菜单的普通分类 -->
     <div class="row">
     {{ range .links }}
         {{ if .qrcode }}
@@ -208,6 +193,22 @@
     {{ end }}
     </div>
     {{ end }}
+    
+    <!-- 友情链接 -->
+    {{ if .friend }}
+    <div class="friendlink" style="margin-bottom:-40px">
+        <div class="panel">
+        {{ range .friend }}            
+            <!-- <h4 class="text-gray mb-4"> -->
+            <!-- <i class="fa fa-bookmark" id="friendlink" style="margin-right:10px"></i>友情链接</h4> -->                
+            <a href="{{ .url }}" rel="noopener" title="{{ .description }}" target="_blank">{{ .title }}</a>
+        {{ end }}
+        </div> 
+    </div>
+    {{ end }}
+    <!-- END 友情链接    -->
+    <br />
+    <!--END {{ .taxonomy }} -->
 {{ end }}
 </div>
             <!-- 页脚 -->
