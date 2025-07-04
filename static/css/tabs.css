@@ -95,7 +95,7 @@
 /* 标签内容区域样式 */
 .tab-container {
   margin-bottom: 40px;
-  margin-top: 20px; /* 添加顶部间距，使快捷导航与标签菜单有更多间距 */
+  margin-top: 40px; /* 增加顶部间距，使快捷导航与标签菜单有更多间距 */
   position: relative;
   padding: 0 10px;
 }
@@ -213,6 +213,10 @@
     padding: 10px;
   }
   
+  .tab-container {
+    margin-top: 30px; /* 移动端适当减小间距 */
+  }
+  
   .scroll-indicator {
     width: 35px;
     height: 35px;
@@ -220,6 +224,20 @@
   
   .scroll-indicator i {
     font-size: 16px;
+  }
+}
+
+/* 平板设备 */
+@media (min-width: 768px) and (max-width: 991px) {
+  .tab-container {
+    margin-top: 35px; /* 平板设备的间距 */
+  }
+}
+
+/* 桌面设备 */
+@media (min-width: 992px) {
+  .tab-container {
+    margin-top: 40px; /* 桌面设备保持较大间距 */
   }
 }
 
