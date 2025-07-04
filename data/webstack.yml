@@ -1,5 +1,45 @@
 ---
 
+- taxonomy: 常用工具
+  icon: fa-tools
+  links: 
+        - title: 驼铃电商知识库
+          logo: images/tlslogo1.jpg
+          url: https://fbjvryq00y.feishu.cn/docx/doxcnoAkUCQ27nY31F2PU9bTNPW?from=dy.199908.top
+          description: 电商知识，从新手到高手
+        - title: 驼铃电商黑科技
+          logo: images/tlslogo1.jpg
+          url: sub1?from=dy.199908.top
+          description: 品退、差评方法等等
+        - title: 驼铃社电商礼品网
+          logo: images/tlslogo1.jpg
+          url: https://tb.88daifa.com?from=dy.199908.top
+          description: 优质礼品资源，满足需求
+        - title: 驼铃补单计算器
+          logo: images/tlslogo1.jpg
+          url: pages/budan.html?from=dy.199908.top
+          description: 计算补单数量，提升指标
+        - title: 驼铃千川计算器
+          logo: images/tlslogo1.jpg
+          url: pages/roi.html?from=dy.199908.top
+          description: 计算出价，提升投放效果
+        - title: 驼铃直播中控工具
+          logo: images/tlslogo1.jpg
+          url: https://fbjvryq00y.feishu.cn/drive/folder/K7zIfP4IOlI5PxdberKcNgqOnCc?from=dy.199908.top
+          description: 自动弹窗、自动发言等
+        - title: 直播间录制工具
+          logo: images/tlslogo1.jpg
+          url: https://fbjvryq00y.feishu.cn/drive/folder/Y0BTfqMWoleXphdT1cNci3fDnUg?from=dy.199908.top
+          description: 批量录制、自动转码等
+        - title: AuTox视频搬运
+          logo: images/tlslogo1.jpg
+          url: https://fbjvryq00y.feishu.cn/drive/folder/LeM2f5tuZlbF3GdeKV9cYqGlnke?from=dy.199908.top
+          description: 视频一键搬运发布
+        - title: TuolingTV - 观影
+          logo: images/tlslogo1.jpg
+          url: https://tv1.199908.top/
+          description: 免费影视资源，无需注册
+
 - taxonomy: 电商平台
   icon: fa-shopping-cart
   tabs:
@@ -59,46 +99,6 @@
           logo: images/Merchant background/xhs sahngjia.jpg
           url: https://customer.xiaohongshu.com/login?service=https://ark.xiaohongshu.com/app-system/home?from=dy.199908.top
           description: 小红书商家工具
-
-- taxonomy: 常用工具
-  icon: fa-tools
-  links: 
-        - title: 驼铃电商知识库
-          logo: images/tlslogo1.jpg
-          url: https://fbjvryq00y.feishu.cn/docx/doxcnoAkUCQ27nY31F2PU9bTNPW?from=dy.199908.top
-          description: 电商知识，从新手到高手
-        - title: 驼铃电商黑科技
-          logo: images/tlslogo1.jpg
-          url: sub1?from=dy.199908.top
-          description: 品退、差评方法等等
-        - title: 驼铃社电商礼品网
-          logo: images/tlslogo1.jpg
-          url: https://tb.88daifa.com?from=dy.199908.top
-          description: 优质礼品资源，满足需求
-        - title: 驼铃补单计算器
-          logo: images/tlslogo1.jpg
-          url: pages/budan.html?from=dy.199908.top
-          description: 计算补单数量，提升指标
-        - title: 驼铃千川计算器
-          logo: images/tlslogo1.jpg
-          url: pages/roi.html?from=dy.199908.top
-          description: 计算出价，提升投放效果
-        - title: 驼铃直播中控工具
-          logo: images/tlslogo1.jpg
-          url: https://fbjvryq00y.feishu.cn/drive/folder/K7zIfP4IOlI5PxdberKcNgqOnCc?from=dy.199908.top
-          description: 自动弹窗、自动发言等
-        - title: 直播间录制工具
-          logo: images/tlslogo1.jpg
-          url: https://fbjvryq00y.feishu.cn/drive/folder/Y0BTfqMWoleXphdT1cNci3fDnUg?from=dy.199908.top
-          description: 批量录制、自动转码等
-        - title: AuTox视频搬运
-          logo: images/tlslogo1.jpg
-          url: https://fbjvryq00y.feishu.cn/drive/folder/LeM2f5tuZlbF3GdeKV9cYqGlnke?from=dy.199908.top
-          description: 视频一键搬运发布
-        - title: TuolingTV - 观影
-          logo: images/tlslogo1.jpg
-          url: https://tv1.199908.top/
-          description: 免费影视资源，无需注册
 
 - taxonomy: 跨境电商
   icon: fa-globe
