@@ -511,72 +511,85 @@ function trigger_resizable()
 				$('html, body').animate({
 					scrollTop: $(targetId).offset().top - 80
 				}, 500, function() {
-					// 滚动完成后，查找对应标签页
+					// 滚动完成后，直接尝试匹配标签并激活
 					setTimeout(function() {
-						// 查找目标分类下的标签容器
-						var $tabContainer = $(targetId).closest('h4').next('.tab-container');
+						// 尝试直接匹配标签 - 优先使用数据属性
+						var found = false;
 						
-						// 如果没找到，可能在下一个元素
-						if($tabContainer.length === 0) {
-							$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
-						}
+						// 查找所有标签
+						var $allTabs = $('.tab-menu .tab-item');
 						
-						console.log('找到标签容器:', { found: $tabContainer.length > 0 });
+						// 首先通过数据属性匹配
+						$allTabs.each(function() {
+							var $tab = $(this);
+							// 检查标签是否有对应的数据属性
+							if (($tab.data('taxonomy') === taxonomyName && $tab.data('term') === termName) || 
+								$tab.data('term') === termName) {
+								
+								console.log('通过数据属性找到匹配标签');
+								// 激活标签
+								var $container = $tab.closest('.tab-container');
+								var $tabs = $container.find('.tab-menu .tab-item');
+								$tabs.removeClass('active');
+								$tab.addClass('active');
+								
+								// 激活对应内容
+								var tabIndex = $tab.index();
+								var $contents = $container.find('.tab-content .tab-pane');
+								$contents.removeClass('active');
+								$contents.eq(tabIndex).addClass('active');
+								
+								found = true;
+								return false;
+							}
+						});
 						
-						// 在标签容器中查找与termName匹配的标签
-						if($tabContainer.length > 0) {
-							var $tabs = $tabContainer.find('.tab-menu .tab-item');
-							var found = false;
-							
-							// 首先尝试精确匹配
-							$tabs.each(function() {
+						// 如果没有通过数据属性找到，尝试通过文本内容匹配
+						if (!found) {
+							console.log('尝试通过文本内容匹配标签');
+							$allTabs.each(function() {
 								var $tab = $(this);
 								var tabText = $tab.clone().children().remove().end().text().trim();
 								
-								console.log('比较标签:', tabText, termName);
-								
-								if(tabText === termName) {
-									console.log('找到匹配标签，激活');
+								if(tabText === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+									console.log('通过文本找到匹配标签:', tabText);
+									var $container = $tab.closest('.tab-container');
+									var $tabs = $container.find('.tab-menu .tab-item');
 									$tabs.removeClass('active');
 									$tab.addClass('active');
 									
 									// 激活对应内容
 									var tabIndex = $tab.index();
-									var $contents = $tabContainer.find('.tab-content .tab-pane');
+									var $contents = $container.find('.tab-content .tab-pane');
 									$contents.removeClass('active');
 									$contents.eq(tabIndex).addClass('active');
 									
 									found = true;
-									return false; // 跳出循环
+									return false;
 								}
 							});
+						}
+						
+						if (!found) {
+							console.log('未找到匹配标签，尝试查找与分类关联的标签容器');
 							
-							// 如果没有精确匹配，尝试部分匹配
-							if(!found) {
-								$tabs.each(function() {
-									var $tab = $(this);
-									var tabText = $tab.clone().children().remove().end().text().trim();
-									
-									if(tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-										console.log('找到部分匹配标签，激活');
-										$tabs.removeClass('active');
-										$tab.addClass('active');
-										
-										// 激活对应内容
-										var tabIndex = $tab.index();
-										var $contents = $tabContainer.find('.tab-content .tab-pane');
-										$contents.removeClass('active');
-										$contents.eq(tabIndex).addClass('active');
-										
-										found = true;
-										return false; // 跳出循环
-									}
-								});
-							}
+							// 尝试查找与分类关联的标签容器
+							var $taxonomyElement = $(targetId);
+							var $nearestTabContainer = $taxonomyElement.nextAll('.tab-container').first();
 							
-							if(!found) {
-								console.log('未找到匹配标签');
+							if ($nearestTabContainer.length > 0) {
+								console.log('找到最近的标签容器，激活第一个标签');
+								var $firstTab = $nearestTabContainer.find('.tab-menu .tab-item').first();
+								
+								if ($firstTab.length > 0) {
+									$firstTab.trigger('click');
+									found = true;
+								}
 							}
+						}
+						
+						if (!found) {
+							console.log('所有方法都未找到匹配的标签');
 						}
 					}, 300);
 				});
@@ -588,8 +601,12 @@ function trigger_resizable()
 		// 初始化时展开当前活动的菜单项
 		var $activeMenuItem = $('.main-menu > li.has-sub > ul.sub-menu > li.active');
 		if($activeMenuItem.length > 0) {
-			$activeMenuItem.closest('li.has-sub').addClass('expanded');
-			$activeMenuItem.closest('ul.sub-menu').show();
+			$activeMenuItem.parents('li.has-sub').addClass('expanded');
+			
+			// 触发一次点击事件，确保对应的标签页被激活
+			setTimeout(function() {
+				$activeMenuItem.find('a').trigger('click');
+			}, 500);
 		}
 	});
 })(jQuery, window);
@@ -1079,3 +1096,53 @@ $(document).ready(function() {
         }
     });
 });
+
+// 全局函数：根据taxonomy和term激活对应的菜单项
+window.activateMenuByTaxonomyAndTerm = function(taxonomy, term) {
+	console.log('准备激活菜单:', taxonomy, term);
+	
+	// 查找对应的菜单项
+	var $menuItem = null;
+	
+	$('.main-menu > li.has-sub > a').each(function() {
+		var menuText = $(this).find('.title').text().trim();
+		if (menuText === taxonomy) {
+			$menuItem = $(this);
+			return false; // 跳出循环
+		}
+	});
+	
+	if ($menuItem) {
+		var $li = $menuItem.parent();
+		
+		// 展开菜单
+		$li.addClass('expanded');
+		
+		// 查找并激活子菜单项
+		var $submenuItem = null;
+		$li.find('ul.sub-menu > li > a').each(function() {
+			var subText = $(this).text().trim();
+			if (subText === term) {
+				$submenuItem = $(this);
+				return false; // 跳出循环
+			}
+		});
+		
+		if ($submenuItem) {
+			// 移除其他激活状态
+			$('.main-menu > li.has-sub > ul.sub-menu > li').removeClass('active');
+			
+			// 激活当前子菜单项
+			$submenuItem.parent('li').addClass('active');
+			
+			// 触发点击事件
+			setTimeout(function() {
+				$submenuItem.trigger('click');
+			}, 200);
+			
+			return true;
+		}
+	}
+	
+	return false;
+};
