@@ -105,170 +105,136 @@ function trigger_resizable()
 	"use strict";
 	$(document).ready(function()
 	{
-		// 初始化带有list属性的菜单项
-		$('.main-menu > li > a[data-list]').each(function() {
+		// 初始化侧边栏菜单，为带有list属性的项设置下拉菜单
+		$('.main-menu > li > a').each(function() {
 			var $menuItem = $(this);
 			var $li = $menuItem.parent();
 			
-			// 添加has-sub类
-			$li.addClass('has-sub');
-			
-			// 如果没有子菜单，创建一个
-			if($li.find('ul.sub-menu').length === 0) {
-				var $subMenu = $('<ul class="sub-menu"></ul>').appendTo($li);
+			// 如果有list属性（处理二级菜单）
+			if ($menuItem.data('list') && $menuItem.data('list').length > 0) {
+				// 添加has-sub类
+				$li.addClass('has-sub');
 				
-				// 从data-list属性获取子菜单项数据并添加到子菜单中
-				var listData = $menuItem.data('list');
-				if(listData && Array.isArray(listData)) {
-					$.each(listData, function(index, item) {
+				// 如果没有子菜单，创建一个
+				if($li.find('ul.sub-menu').length === 0) {
+					var $subMenu = $('<ul class="sub-menu"></ul>').appendTo($li);
+					
+					// 从data-list获取子菜单项
+					var listItems = $menuItem.data('list');
+					$.each(listItems, function(index, item) {
 						if(item.term) {
-							// 生成锚点链接，指向分类标题
-							var parentId = $.simpleHash($menuItem.text().trim());
-							var sectionId = "#" + parentId;
+							// 创建子菜单项，使用taxonomy名称和term名称作为跳转参数
+							var taxonomyName = $menuItem.text().trim();
+							var termName = item.term;
+							
+							// 计算跳转目标的ID
+							var targetId = "#" + $.simpleHash(taxonomyName);
 							
 							// 创建子菜单项
-							var $subMenuItem = $('<li><a href="' + sectionId + '" class="smooth" data-term="' + item.term + '">' + item.term + '</a></li>').appendTo($subMenu);
+							var $subMenuItem = $(
+								'<li>' +
+									'<a href="' + targetId + '" class="smooth" data-taxonomy="' + taxonomyName + '" data-term="' + termName + '">' + 
+										termName + 
+									'</a>' +
+								'</li>'
+							).appendTo($subMenu);
 							
-							// 添加直接点击事件
+							// 为子菜单项添加点击事件
 							$subMenuItem.find('a').on('click', function(e) {
-								e.preventDefault(); // 阻止默认锚点行为
+								e.preventDefault();
 								
-								// 获取点击的菜单项文本
-								var termText = $(this).data('term');
-								var targetId = $(this).attr('href');
+								var $link = $(this);
+								var taxonomyName = $link.data('taxonomy');
+								var termName = $link.data('term');
+								var targetId = $link.attr('href');
 								
-								console.log('菜单项点击：', termText, targetId);
-								
-								// 第一步：滚动到分类区域
-								if($(targetId).length > 0) {
+								// 首先滚动到目标分类区域
+								if($(targetId).length) {
 									$('html, body').animate({
-										scrollTop: $(targetId).offset().top - 70
-									}, 300, function() {
-										console.log('滚动完成，查找tab容器');
+										scrollTop: $(targetId).offset().top - 80
+									}, 500, function() {
+										// 滚动完成后，查找并激活对应的标签
+										// 查找标签容器
+										var $tabContainer = $(targetId).closest('h4').next('.tab-container');
 										
-										// 第二步：查找该分类下的所有tabs和tab内容
-										var $tabContainer = $(targetId).parent().find('.tab-container');
-										
-										// 如果没有找到tab容器，则尝试查找附近的tab容器
-										if ($tabContainer.length === 0) {
-											console.log('未找到tab容器，尝试更多方法查找');
-											
-											// 方法1：查找紧邻的下一个tab容器
-											$tabContainer = $(targetId).next('.tab-container');
-											
-											// 方法2：查找距离targetId最近的tab容器
-											if ($tabContainer.length === 0) {
-												$tabContainer = $(targetId).nextUntil('.tab-container').next('.tab-container');
-											}
-											
-											// 方法3：查找之后的任何tab容器
-											if ($tabContainer.length === 0) {
-												// 在目标元素后查找第一个tab容器
-												$tabContainer = $(targetId).nextAll('.tab-container').first();
-											}
-											
-											// 方法4：在父元素下查找tab容器
-											if ($tabContainer.length === 0) {
-												$tabContainer = $(targetId).closest('.sites-list').find('.tab-container').first();
-											}
-											
-											console.log('找到tab容器数量:', $tabContainer.length);
+										// 如果没找到，可能在下一个元素
+										if($tabContainer.length === 0) {
+											$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
 										}
 										
-										if ($tabContainer.length > 0) {
-											console.log('找到tab容器，开始匹配标签');
-											
-											// 记录所有tab项文本，用于调试
-											var allTabs = [];
-											$tabContainer.find('.tab-item').each(function() {
+										if($tabContainer.length > 0) {
+											// 查找匹配的标签
+											var $matchingTab = $tabContainer.find('.tab-menu .tab-item').filter(function() {
+												// 去除图标和徽章后的文本
 												var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
-												allTabs.push(tabText);
-											});
-											console.log('容器中的所有标签：', allTabs);
-											console.log('正在查找匹配：', termText);
-											
-											// 遍历所有tab项
-											var found = false;
-											$tabContainer.find('.tab-item').each(function(index) {
-												var $this = $(this);
-												// 获取纯文本内容（移除图标和徽章）
-												var tabText = $this.clone().children('i, span.badge').remove().end().text().trim();
-												
-												console.log('比较:', tabText, '与', termText);
-												
-												// 比较tab文本与点击的菜单项文本
-												if (tabText === termText) {
-													console.log('找到精确匹配：', tabText);
-													// 直接调用点击，选中匹配的tab
-													setTimeout(function() {
-														$this.click();
-														console.log('已激活标签：', tabText);
-													}, 100);
-													found = true;
-													return false; // 跳出each循环
-												}
+												return tabText === termName;
 											});
 											
-											// 如果没有找到精确匹配，尝试部分匹配
-											if (!found) {
-												console.log('未找到精确匹配，尝试部分匹配');
-												$tabContainer.find('.tab-item').each(function(index) {
-													var $this = $(this);
-													var tabText = $this.clone().children('i, span.badge').remove().end().text().trim();
-													
-													// 检查包含关系
-													if (tabText.indexOf(termText) >= 0 || termText.indexOf(tabText) >= 0) {
-														console.log('找到部分匹配：', tabText);
-														// 找到包含关系的tab，点击它
-														setTimeout(function() {
-															$this.click();
-															console.log('已激活部分匹配标签：', tabText);
-														}, 100);
-														found = true;
-														return false; // 跳出each循环
+											// 如果找到匹配的标签，激活它
+											if($matchingTab.length > 0) {
+												$matchingTab.click();
+											} else {
+												// 没有找到精确匹配，尝试部分匹配
+												$tabContainer.find('.tab-menu .tab-item').each(function() {
+													var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
+													if(tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+														$(this).click();
+														return false; // 找到第一个匹配项就退出循环
 													}
 												});
-												
-												// 如果仍未找到匹配，点击第一个标签
-												if (!found) {
-													console.log('未找到任何匹配，点击第一个标签');
-													setTimeout(function() {
-														$tabContainer.find('.tab-item').first().click();
-													}, 100);
-												}
 											}
-										} else {
-											console.log('未找到任何tab容器');
 										}
 									});
-								} else {
-									console.error('目标元素不存在:', targetId);
 								}
 							});
 						}
 					});
 				}
-			}
-			
-			// 标记为可展开
-			$menuItem.on('click', function(e) {
-				if(public_vars.$sidebarMenu.hasClass('collapsed')) {
-					return;
-				}
 				
-				e.preventDefault();
-				
-				if($li.hasClass('expanded')) {
-					sidebar_menu_item_collapse($li, $li.find('> ul.sub-menu'));
-				} else {
-					// 收起其他菜单项
-					sidebar_menu_close_items_siblings($li);
+				// 设置菜单项点击展开/收起事件
+				$menuItem.on('click', function(e) {
+					e.preventDefault();
 					
-					// 展开当前菜单项
-					sidebar_menu_item_expand($li, $li.find('> ul.sub-menu'));
-				}
-			});
+					// 处理子菜单展开/收起
+					if($li.hasClass('expanded')) {
+						// 收起子菜单
+						$li.removeClass('expanded');
+					} else {
+						// 收起其他子菜单
+						$li.siblings('.expanded').removeClass('expanded');
+						
+						// 展开当前子菜单
+						$li.addClass('expanded');
+					}
+				});
+			}
 		});
+
+		// 选中当前活动的菜单项
+		var currentPath = window.location.pathname;
+		$('.main-menu a').each(function() {
+			var $link = $(this);
+			var href = $link.attr('href');
+			
+			// 如果是当前页面的链接
+			if(href === currentPath) {
+				$link.parent('li').addClass('active');
+				// 如果在子菜单中，展开父菜单
+				var $parentMenu = $link.closest('.has-sub');
+				if($parentMenu.length > 0) {
+					$parentMenu.addClass('expanded');
+				}
+			}
+		});
+		
+		// 点击菜单项后收起移动端菜单
+		$('.main-menu a.smooth').on('click', function() {
+			if($('body').hasClass('mobile-menu-is-open')) {
+				// 收起移动端菜单
+				$('body').removeClass('mobile-menu-is-open');
+			}
+		});
+
 		// Chat Toggler
 		$('a[data-toggle="chat"]').each(function(i, el)
 		{
@@ -774,12 +740,7 @@ function sidebar_menu_item_collapse($li, $sub)
 }
 function sidebar_menu_close_items_siblings($li)
 {
-	$li.siblings().not($li).filter('.expanded, .opened').each(function(i, el)
-	{
-		var $_li = jQuery(el),
-			$_sub = $_li.children('ul');
-		sidebar_menu_item_collapse($_li, $_sub);
-	});
+	$li.siblings().not($li).filter('.expanded').removeClass('expanded');
 }
 // Horizontal Menu
 function setup_horizontal_menu()

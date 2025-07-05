@@ -284,6 +284,81 @@
         
     });
 </script>
+<!-- 底部脚本 -->
+<script>
+    // 处理URL参数中指定的标签页
+    $(document).ready(function() {
+        // 获取URL参数
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURIComponent(r[2]); return null;
+        }
+        
+        // 获取taxonomy和term参数
+        var taxonomy = getUrlParam('taxonomy');
+        var term = getUrlParam('term');
+        
+        if (taxonomy && term) {
+            // 找到对应的taxonomy区域
+            var taxonomyId = "#" + $.simpleHash(taxonomy);
+            var $taxonomySection = $(taxonomyId);
+            
+            if ($taxonomySection.length) {
+                // 滚动到分类区域
+                $('html, body').animate({
+                    scrollTop: $taxonomySection.offset().top - 80
+                }, 500, function() {
+                    // 滚动完成后查找对应标签
+                    var $tabContainer = $taxonomySection.closest('h4').next('.tab-container');
+                    
+                    // 如果没找到，可能在下一个元素
+                    if ($tabContainer.length === 0) {
+                        $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
+                    }
+                    
+                    if ($tabContainer.length > 0) {
+                        // 查找匹配的标签
+                        var $matchingTab = $tabContainer.find('.tab-menu .tab-item').filter(function() {
+                            // 去除图标和徽章后的文本
+                            var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
+                            return tabText === term;
+                        });
+                        
+                        // 如果找到匹配的标签，激活它
+                        if ($matchingTab.length > 0) {
+                            setTimeout(function() {
+                                $matchingTab.click();
+                            }, 200);
+                        }
+                    }
+                });
+                
+                // 同时在侧边栏中找到并展开对应菜单
+                $('.main-menu > li > a').each(function() {
+                    var menuText = $(this).find('.title').text().trim();
+                    if (menuText === taxonomy) {
+                        var $menuItem = $(this);
+                        var $li = $menuItem.parent();
+                        
+                        // 如果是带有子菜单的项
+                        if ($li.hasClass('has-sub')) {
+                            $li.addClass('expanded');
+                            
+                            // 查找并激活匹配的子菜单项
+                            $li.find('ul.sub-menu > li > a').each(function() {
+                                var subText = $(this).text().trim();
+                                if (subText === term) {
+                                    $(this).parent('li').addClass('active');
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
 <!-- 引入其他JS -->
 <script type='text/javascript' src='./js/bootstrap.min.js'></script>
 <script type='text/javascript' src='./js/TweenMax.min.js'></script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<meta name="generator" content="Hugo 0.147.9">
+	<meta name="generator" content="Hugo 0.147.9"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>驼铃电商百宝箱</title>
@@ -8702,6 +8702,81 @@
         })
         
         
+    });
+</script>
+
+<script>
+    
+    $(document).ready(function() {
+        
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURIComponent(r[2]); return null;
+        }
+        
+        
+        var taxonomy = getUrlParam('taxonomy');
+        var term = getUrlParam('term');
+        
+        if (taxonomy && term) {
+            
+            var taxonomyId = "#" + $.simpleHash(taxonomy);
+            var $taxonomySection = $(taxonomyId);
+            
+            if ($taxonomySection.length) {
+                
+                $('html, body').animate({
+                    scrollTop: $taxonomySection.offset().top - 80
+                }, 500, function() {
+                    
+                    var $tabContainer = $taxonomySection.closest('h4').next('.tab-container');
+                    
+                    
+                    if ($tabContainer.length === 0) {
+                        $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
+                    }
+                    
+                    if ($tabContainer.length > 0) {
+                        
+                        var $matchingTab = $tabContainer.find('.tab-menu .tab-item').filter(function() {
+                            
+                            var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
+                            return tabText === term;
+                        });
+                        
+                        
+                        if ($matchingTab.length > 0) {
+                            setTimeout(function() {
+                                $matchingTab.click();
+                            }, 200);
+                        }
+                    }
+                });
+                
+                
+                $('.main-menu > li > a').each(function() {
+                    var menuText = $(this).find('.title').text().trim();
+                    if (menuText === taxonomy) {
+                        var $menuItem = $(this);
+                        var $li = $menuItem.parent();
+                        
+                        
+                        if ($li.hasClass('has-sub')) {
+                            $li.addClass('expanded');
+                            
+                            
+                            $li.find('ul.sub-menu > li > a').each(function() {
+                                var subText = $(this).text().trim();
+                                if (subText === term) {
+                                    $(this).parent('li').addClass('active');
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
     });
 </script>
 

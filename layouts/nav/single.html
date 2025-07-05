@@ -62,9 +62,10 @@
                                <span class="title">{{ .taxonomy }}</span>
                             </a>
                             <ul>
+                                {{ $taxonomy := .taxonomy }}
                                 {{ range .list }}    
                                 <li>
-                                    <a href="#{{ md5 .term }}" class="smooth">{{ .term }}</a>
+                                    <a href="#{{ md5 .term }}" class="smooth" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">{{ .term }}</a>
                                 </li>
                                 {{ end }}
                             </ul>
@@ -133,7 +134,7 @@
                 </div>
                 {{ else }}
                 <div class="xe-card col-xs-6 col-sm-4 col-md-3 geticon">
-                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" title="{{ .description }} {{ .url }}">
+                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ .description }} {{ .url }}">
                         <div class="xe-comment-entry">
                             <div class="xe-user-img">
                                 <img class="img-circle lazy" src="../images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='../images/favicon.png'" width="40">
