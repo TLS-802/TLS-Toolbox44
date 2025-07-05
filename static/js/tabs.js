@@ -129,17 +129,12 @@ var TabManager = {
   
   // 通过名称查找并激活标签
   activateTabByName: function(taxonomyName, termName) {
-    return this.findAndActivateTab(taxonomyName, termName);
-  },
-  
-  // 查找并激活对应的标签
-  findAndActivateTab: function(taxonomyName, termName) {
     if (!taxonomyName || !termName) {
         console.error('taxonomyName 或 termName 为空');
         return false;
     }
 
-    console.log('查找标签:', taxonomyName, termName);
+    console.log('尝试激活标签:', taxonomyName, termName);
 
     // 1. 找到对应的分类区域
     var taxonomyHash = $.simpleHash(taxonomyName);
@@ -210,6 +205,14 @@ var TabManager = {
             
             // 将当前激活的标签滚动到可视区域
             this.scrollToTab($matchingTab);
+            
+            // 触发自定义事件
+            $matchingTab.trigger('tab:activated', [{
+                taxonomyName: taxonomyName,
+                termName: termName,
+                tabIndex: tabIndex
+            }]);
+            
             return true;
         }
     }

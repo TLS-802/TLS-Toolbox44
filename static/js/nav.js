@@ -109,7 +109,10 @@ function trigger_resizable()
 	{
 		console.log('初始化菜单...');
 		
-		// 初始化侧边栏菜单，为带有list属性的项设置下拉菜单
+		// 初始化侧边栏菜单
+		console.log('初始化侧边栏菜单...');
+		
+		// 为一级菜单项添加点击事件
 		$('.main-menu > li > a').each(function() {
 			var $menuItem = $(this);
 			var $li = $menuItem.parent();
@@ -127,6 +130,7 @@ function trigger_resizable()
 					var listItems = $menuItem.data('list');
 					$.each(listItems, function(index, item) {
 						if(item.term) {
+							// 创建子菜单项
 							// 创建子菜单项，使用taxonomy名称和term名称作为跳转参数
 							var taxonomyName = $menuItem.text().trim();
 							var termName = item.term;
