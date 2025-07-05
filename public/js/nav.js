@@ -157,7 +157,7 @@ function trigger_resizable()
 								var termName = $link.data('term');
 								var targetId = $link.attr('href');
 								
-								console.log('点击菜单项:', taxonomyName, termName, targetId);
+								console.log('点击侧边栏菜单项:', taxonomyName, termName, targetId);
 								
 								// 1. 找到对应的一级分类区域
 								var $taxonomySection = $('#' + $.simpleHash(taxonomyName));
@@ -174,15 +174,35 @@ function trigger_resizable()
 									var $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
 									
 									if ($tabContainer.length) {
+										console.log('找到标签容器');
+										
 										// 在标签容器中查找匹配term的标签
 										var $matchingTab = $tabContainer.find('.tab-item').filter(function() {
-											return $(this).data('term') === termName || $(this).text().trim() === termName;
+											var tabTerm = $(this).data('term');
+											var tabText = $(this).text().trim();
+											console.log('比较标签:', tabTerm, tabText, '与', termName);
+											return tabTerm === termName || tabText === termName;
 										});
 										
 										if ($matchingTab.length) {
+											console.log('找到匹配的标签，点击它');
 											// 直接触发点击事件
 											$matchingTab.trigger('click');
+										} else {
+											console.log('未找到匹配的标签，尝试按文本匹配');
+											// 尝试按文本内容匹配
+											$tabContainer.find('.tab-item').each(function() {
+												var $tab = $(this);
+												var tabText = $tab.text().trim();
+												if (tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+													console.log('通过文本内容找到匹配标签:', tabText);
+													$tab.trigger('click');
+													return false; // 跳出循环
+												}
+											});
 										}
+									} else {
+										console.error('未找到标签容器');
 									}
 								});
 							});

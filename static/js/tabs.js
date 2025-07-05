@@ -20,6 +20,8 @@ $(document).ready(function() {
       var $tab = $(this);
       var tabIndex = $tab.data('tab');
       
+      console.log('点击标签:', $tab.text().trim(), '索引:', tabIndex);
+      
       // 移除其他标签的激活状态
       $tabs.removeClass('active');
       $tab.addClass('active');
@@ -30,10 +32,17 @@ $(document).ready(function() {
       // 查找对应的内容区域并激活
       var $content = $container.find('.tab-content[data-tab="' + tabIndex + '"]');
       if ($content.length) {
-        $content.addClass('active').fadeIn(200);
+        console.log('找到匹配的内容区域');
+        $content.addClass('active').show();
       } else {
         // 备用方案：按索引查找
-        $container.find('.tab-content').eq(tabIndex).addClass('active').fadeIn(200);
+        console.log('使用索引查找内容区域:', tabIndex);
+        var $fallbackContent = $container.find('.tab-content').eq(tabIndex);
+        if ($fallbackContent.length) {
+          $fallbackContent.addClass('active').show();
+        } else {
+          console.error('未找到匹配的内容区域');
+        }
       }
       
       // 将当前激活的标签滚动到可视区域

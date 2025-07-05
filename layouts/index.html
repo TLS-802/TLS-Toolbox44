@@ -117,7 +117,7 @@
         
         <!-- 标签内容 -->
         {{ range $index, $tab := .tabs }}
-        <div class="tab-content tab-pane {{ if eq $index 0 }}active{{ end }}" data-tab="{{ $index }}">
+        <div class="tab-content {{ if eq $index 0 }}active{{ end }}" data-tab="{{ $index }}">
             <div class="row">
             {{ range $tab.links }}
                 {{ if .qrcode }}
