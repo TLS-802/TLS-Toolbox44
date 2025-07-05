@@ -14,15 +14,13 @@ $(document).ready(function() {
       $contents.first().addClass('active');
     }
     
-    // 为每个标签添加点击事件
-    $tabs.click(function(e) {
+    // 为每个标签添加点击事件 - 使用off().on()重新绑定事件，避免多次绑定
+    $tabs.off('click').on('click', function(e) {
       e.preventDefault();
       var $tab = $(this);
       
-      // 如果已经激活，不做任何处理
-      if ($tab.hasClass('active')) {
-        return;
-      }
+      // 无论标签是否已经激活，都重新处理以确保正确切换
+      console.log('标签点击:', $tab.text().trim());
       
       // 获取标签索引
       var index = $tab.index();
@@ -34,6 +32,11 @@ $(document).ready(function() {
       // 切换内容区域
       $contents.removeClass('active');
       $contents.eq(index).addClass('active');
+
+      // 将当前激活的标签滚动到可视区域
+      if ($tab[0].scrollIntoView) {
+        $tab[0].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'nearest'});
+      }
     });
   });
   
