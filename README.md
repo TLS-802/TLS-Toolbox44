@@ -25,29 +25,63 @@
 │   └── webstack.yml          # 主页导航网址数据配置
 ├── layouts/                  # 布局模板目录
 │   ├── _default/             # 默认布局模板
+│   │   └── single.html       # 默认单页布局
 │   ├── nav/                  # 导航相关布局模板
+│   │   └── single.html       # 导航页面布局
 │   ├── index.html            # 主页布局
 │   ├── search.html           # 搜索页面布局
 │   └── 404.html              # 404错误页面
 ├── static/                   # 静态资源目录
 │   ├── css/                  # CSS样式文件
+│   │   ├── bootstrap.css     # Bootstrap样式
+│   │   ├── brands.min.css    # 品牌图标样式
+│   │   ├── budan.css         # 补单计算器样式
+│   │   ├── font-awesome.min.css # 图标字体样式
+│   │   ├── nav.css           # 导航样式
+│   │   ├── roi.css           # ROI计算器样式
+│   │   ├── social.css        # 社交分享样式
+│   │   └── tabs.css          # 标签页样式
 │   ├── js/                   # JavaScript文件
-│       ├── budan.js          # 补单计算器脚本
-│       ├── roi.js            # 千川ROI计算器脚本
-│       └── nav.js            # 导航功能脚本
+│   │   ├── bootstrap.min.js  # Bootstrap脚本
+│   │   ├── budan.js          # 补单计算器脚本
+│   │   ├── jquery-1.11.1.min.js # jQuery库
+│   │   ├── lazyload.min.js   # 图片懒加载脚本
+│   │   ├── local-search.js   # 本地搜索脚本
+│   │   ├── nav.js            # 导航功能脚本
+│   │   ├── pinyin-pro-3.19.0.min.js # 拼音搜索支持
+│   │   ├── roi.js            # 千川ROI计算器脚本
+│   │   ├── social.js         # 社交分享脚本
+│   │   ├── tabs.js           # 标签页脚本
+│   │   └── TweenMax.min.js   # 动画效果库
 │   ├── pages/                # 静态页面
-│       ├── budan.html        # 补单计算器页面
-│       └── roi.html          # 千川ROI计算器页面
+│   │   ├── budan.html        # 补单计算器页面
+│   │   └── roi.html          # 千川ROI计算器页面
 │   ├── webfonts/             # 网页字体
-│   ├── _headers              # Netlify/Vercel自定义HTTP头
-│   ├── _redirects            # Netlify/Vercel重定向规则
+│   │   ├── fa-brands-400.ttf/woff2    # 品牌图标字体
+│   │   ├── fa-regular-400.ttf/woff2   # 常规图标字体
+│   │   ├── fa-solid-900.ttf/woff2     # 实心图标字体
+│   │   └── fa-v4compatibility.ttf/woff2 # V4兼容图标
+│   ├── _headers              # Netlify/Vercel/Cloudflare自定义HTTP头
+│   ├── _redirects            # Netlify/Vercel/Cloudflare重定向规则
 │   └── images/               # 图片资源目录
 │       ├── Merchant background/  # 商家背景图片
 │       ├── E-commerce plug-in/   # 电商插件图标
 │       ├── Live broadcast software/ # 直播软件图标
-│       ├── qrcodes/          # 二维码图片
-│       ├── favicon.png       # 网站图标
-│       └── logo.png          # 网站logo
+│       ├── E-commerce supply/    # 电商供应相关
+│       ├── Advertising/          # 广告相关图标
+│       ├── Data analysis/        # 数据分析相关
+│       ├── Quick Navigation/     # 快捷导航图标
+│       ├── Store settled in/     # 店铺入驻相关
+│       ├── TLS/                  # TLS相关图标
+│       ├── Video editing tools/  # 视频编辑工具图标
+│       ├── design software/      # 设计软件图标
+│       ├── graphic design/       # 图形设计相关
+│       ├── icon font/            # 图标字体
+│       ├── qrcodes/              # 二维码图片
+│       ├── tlslogo.jpg           # 网站logo
+│       └── tlslogo1.jpg          # 网站logo备用
+├── public/                   # 生成的静态网站文件(构建输出)
+├── .hugo_build.lock          # Hugo构建锁文件
 ├── hugo.toml                 # Hugo配置文件
 ├── LICENSE                   # 许可证文件
 └── README.md                 # 项目说明文档
