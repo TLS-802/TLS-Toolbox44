@@ -1302,7 +1302,16 @@
 
 - taxonomy: 广告投放
   icon: fa-bullhorn
-  links:
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 淘宝广告
+    - term: 抖音广告
+    - term: 快手广告
+    - term: 小红书广告
+    - term: 视频号广告
+    - term: TikTok广告
+  tabs:
+    - name: 淘宝广告
+      links:
         - title: 直通车
           logo: images/Advertising/taobaoggongju.png
           url: https://subway.simba.taobao.com?from=dy.199908.top
@@ -1323,6 +1332,8 @@
           logo: images/Advertising/pinxiaobao.png
           url: https://branding.taobao.com?from=dy.199908.top
           description: 淘宝品牌推广工具
+    - name: 抖音广告
+      links:
         - title: 巨量引擎
           logo: images/Advertising/juliangyinqing.png
           url: https://www.oceanengine.com?from=dy.199908.top
@@ -1335,6 +1346,12 @@
           logo: images/Advertising/juliangxingtu.png
           url: https://xingtu.jinritemai.com?from=dy.199908.top
           description: 抖音星图
+        - title: 小火龙
+          logo: images/Advertising/xiaohuolong.png
+          url: http://www.xiaohuolong.com?from=dy.199908.top
+          description: 抖音随心推投放工具
+    - name: TikTok广告
+      links:
         - title: Tiktok广告投放
           logo: images/Store settled in/tiktok.png
           url: https://www.tiktokforbusinessoutbound.com?from=dy.199908.top
@@ -1343,6 +1360,8 @@
           logo: images/Advertising/tiktok.png
           url: https://ads.tiktok.com/i18n?from=dy.199908.top
           description: Tiktok ADS
+    - name: 快手广告
+      links:
         - title: 磁力引擎
           logo: images/Advertising/ciliyinqing.png
           url: https://e.kuaishou.com?from=dy.199908.top
@@ -1351,26 +1370,40 @@
           logo: images/Advertising/cilizhitou.png
           url: https://ad.e.kuaishou.com?from=dy.199908.top
           description: 快手广告投放平台
+    - name: 小红书广告
+      links:
         - title: 聚光平台
           logo: images/Advertising/juguang.jpg
           url: https://ad.xiaohongshu.com?from=dy.199908.top
           description: 小红书广告投放平台
+    - name: 视频号广告
+      links:
         - title: 诸葛智投
           logo: images/Advertising/zhugezhitou.png
           url: https://zgzt.v-ma.com?from=dy.199908.top
           description: 视频号投放管理工具
-        - title: 小火龙
-          logo: images/Advertising/xiaohuolong.png
-          url: http://www.xiaohuolong.com?from=dy.199908.top
-          description: 抖音随心推投放工具
 
 - taxonomy: 数据分析
   icon: fa-chart-line
-  links:
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 淘宝数据
+    - term: 抖音数据
+    - term: 快手数据
+    - term: 小红书数据
+    - term: 选品工具
+  tabs:
+    - name: 淘宝数据
+      links:
         - title: 生意参谋
           logo: images/Data analysis/shengyicanmou.png
           url: https://sycm.taobao.com?from=dy.199908.top
           description: 淘宝数据分析工具
+        - title: 大淘客
+          logo: images/Data analysis/dataoke.jpg
+          url: http://www.dataoke.com?from=dy.199908.top
+          description: 淘客选品平台
+    - name: 抖音数据
+      links:
         - title: 巨量算数
           logo: images/Data analysis/juliangsuanshu.svg
           url: https://trendinsight.oceanengine.com?from=dy.199908.top
@@ -1387,6 +1420,28 @@
           logo: images/Data analysis/feigua.jpg
           url: https://www.feigua.cn?from=dy.199908.top
           description: 抖音直播数据、选品平台
+        - title: 灰豚数据-抖音
+          logo: images/Data analysis/huitun.jpg
+          url: https://dy.huitun.com?from=dy.199908.top
+          description: 灰豚数据抖音
+        - title: 抖查查
+          logo: images/Data analysis/douchacha.jpg
+          url: https://www.douchacha.com?from=dy.199908.top
+          description: 数据、达人与选品平台
+    - name: 快手数据
+      links:
+        - title: 灰豚数据-快手
+          logo: images/Data analysis/huitun.jpg
+          url: https://ks.huitun.com?from=dy.199908.top
+          description: 灰豚数据快手版
+    - name: 小红书数据
+      links:
+        - title: 郑和数据
+          logo: images/Data analysis/huitun.jpg
+          url: https://zhenghedata.com/dashboard?from=dy.199908.top
+          description: 郑和数据小红书版
+    - name: 选品工具
+      links:
         - title: 考古加
           logo: images/Data analysis/kaogujia.jpg
           url: https://www.kaogujia.com?from=dy.199908.top
@@ -1395,30 +1450,10 @@
           logo: images/Data analysis/youmiyoushu.png
           url: https://youshu.youcloud.com?from=dy.199908.top
           description: 广告投放数据分析工具
-        - title: 灰豚数据-抖音
-          logo: images/Data analysis/huitun.jpg
-          url: https://dy.huitun.com?from=dy.199908.top
-          description: 灰豚数据抖音
-        - title: 灰豚数据-快手
-          logo: images/Data analysis/huitun.jpg
-          url: https://ks.huitun.com?from=dy.199908.top
-          description: 灰豚数据快手版
-        - title: 郑和数据
-          logo: images/Data analysis/huitun.jpg
-          url: https://zhenghedata.com/dashboard?from=dy.199908.top
-          description: 郑和数据小红书版
-        - title: 大淘客
-          logo: images/Data analysis/dataoke.jpg
-          url: http://www.dataoke.com?from=dy.199908.top
-          description: 淘客选品平台
         - title: 米选
           logo: images/Data analysis/mixuan.png
           url: https://mixuan.com?from=dy.199908.top
           description: 飞瓜旗下选品平台
-        - title: 抖查查
-          logo: images/Data analysis/douchacha.jpg
-          url: https://www.douchacha.com?from=dy.199908.top
-          description: 数据、达人与选品平台
         - title: 抖老板带货助手
           logo: images/Data analysis/doulaoban.png
           url: https://zs.doulaoban.com/login?from=dy.199908.top
@@ -1426,11 +1461,20 @@
 
 - taxonomy: 设计软件
   icon: fa-palette
-  links:
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 图像处理
+    - term: 矢量设计
+    - term: 排版软件
+    - term: 3D建模
+  tabs:
+    - name: 图像处理
+      links:
         - title: photoshop
           url: https://www.adobe.com/cn/products/photoshop.html?from=dy.199908.top
           logo: images/design software/photoshop.png
           description: Photoshop不需要解释
+    - name: 矢量设计
+      links:
         - title: Affinity Designer
           url: https://affinity.serif.com?from=dy.199908.top
           logo: images/design software/AffinityDesigner.png
@@ -1439,10 +1483,14 @@
           url: https://www.adobe.com/cn/products/illustrator?from=dy.199908.top
           logo: images/design software/Illustrator.png
           description: 矢量图形和插图
+    - name: 排版软件
+      links:
         - title: indesign
           url: http://www.adobe.com/cn/products/indesign.html?from=dy.199908.top
           logo: images/design software/INDESIGN .png
           description: 页面设计、布局和出版
+    - name: 3D建模
+      links:
         - title: cinema-4d
           url: https://www.maxon.net/en/products/cinema-4d/overview?from=dy.199908.top
           logo: images/design software/cinema4d.png
@@ -1458,7 +1506,15 @@
 
 - taxonomy: 图文设计
   icon: fa-palette
-  links:
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 在线设计
+    - term: 图片素材
+    - term: 图片处理
+    - term: 配色工具
+    - term: PPT模板
+  tabs:
+    - name: 在线设计
+      links:
         - title: 稿定
           logo: images/graphic design/gaoding.png
           url: https://www.gaoding.com?from=dy.199908.top
@@ -1467,14 +1523,12 @@
           logo: images/graphic design/chuangke.png
           url: https://www.chuangkit.com?from=dy.199908.top
           description: 在线制图
-        - title: 佐糖-AI在线抠图
-          logo: images/graphic design/picwish.png
-          url: https://picwish.cn?from=dy.199908.top
-          description: AI在线抠图
         - title: 懒设计
           logo: images/graphic design/fotorlan.png
           url: https://www.fotor.com.cn?from=dy.199908.top
           description: 在线设计网站
+    - name: 图片素材
+      links:
         - title: 花瓣网
           logo: images/graphic design/huaban.png
           url: https://huaban.com?from=dy.199908.top
@@ -1519,6 +1573,12 @@
           url: https://pixabay.com?from=dy.199908.top
           logo: images/graphic design/pixabay.png
           description: 可在任何地方使用的免费图片和视频
+    - name: 图片处理
+      links:
+        - title: 佐糖-AI在线抠图
+          logo: images/graphic design/picwish.png
+          url: https://picwish.cn?from=dy.199908.top
+          description: AI在线抠图
         - title: tinypng
           url: https://tinypng.com?from=dy.199908.top
           logo: images/graphic design/tinypng.png
@@ -1535,6 +1595,8 @@
           url: https://jakearchibald.github.io/svgomg?from=dy.199908.top
           logo: images/graphic design/svgomg.png
           description: SVG在线压缩平台
+    - name: 配色工具
+      links:
         - title: adobe色卡
           logo: images/graphic design/AdobeColorCC.png
           url: https://color.adobe.com/zh/create/color-wheel?from=dy.199908.top
@@ -1543,6 +1605,8 @@
           logo: images/graphic design/colorhunt.png
           url: https://colordrop.io?from=dy.199908.top
           description: 配色网站  
+    - name: PPT模板
+      links:
         - title: OfficePLUS
           url: http://www.officeplus.cn/Template/Home.shtml?from=dy.199908.top
           logo: images/graphic design/officeplus.png
@@ -1562,7 +1626,13 @@
 
 - taxonomy: 图标字体
   icon: fa-font
-  links:
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 图标库
+    - term: 图标生成
+    - term: 字体库
+  tabs:
+    - name: 图标库
+      links:
         - title: iconfont
           logo: images/icon font/iconfont.png
           url: http://www.iconfont.cn?from=dy.199908.top
@@ -1583,10 +1653,6 @@
           logo: images/icon font/FindIcons.png
           url: https://findicons.com?from=dy.199908.top
           description: Search through 300,000 free icons
-        - title: IcoMoonApp
-          logo: images/icon font/IcoMoonApp.png
-          url: https://icomoon.io/app?from=dy.199908.top
-          description: Icon Font, SVG, PDF & PNG Generator
         - title: flaticon
           logo: images/icon font/flaticon.png
           url: https://www.flaticon.com?from=dy.199908.top
@@ -1611,6 +1677,14 @@
           logo: images/icon font/simplelineicons.png
           url: http://simplelineicons.com?from=dy.199908.top
           description: Simple line Icons pack
+    - name: 图标生成
+      links:
+        - title: IcoMoonApp
+          logo: images/icon font/IcoMoonApp.png
+          url: https://icomoon.io/app?from=dy.199908.top
+          description: Icon Font, SVG, PDF & PNG Generator
+    - name: 字体库
+      links:
         - title: Google Font
           url: https://fonts.google.com?from=dy.199908.top
           logo: images/icon font/googlefont.png
@@ -1654,16 +1728,29 @@
 
 - taxonomy: 联系我们
   icon: fa-photo-video
-  links:
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 微信客服
+    - term: 抖音客服
+    - term: 飞书客服
+    - term: 开源仓库
+  tabs:
+    - name: 微信客服
+      links:
         - title: 微信客服
           logo: images/TLS/Wechat.jpg
           url: https://www.nodeimage.com/i/32451/KTcD1Tnp3WNR5XeGsc0yd3nSh4bLOEOx.png?from=dy.199908.top
+    - name: 抖音客服
+      links:
         - title: 抖音客服
           logo: images/TLS/douyin.jpg
           url: https://v.douyin.com/OHq9e7844u8?from=dy.199908.top
+    - name: 飞书客服
+      links:
         - title: 飞书客服
           logo: images/TLS/feishu.jpg
           url: https://www.nodeimage.com/i/32451/WqUooZnM3WNR5WkCsc0yRs9SO94tsAHz.png?from=dy.199908.top
+    - name: 开源仓库
+      links:
         - title: Github
           logo: images/TLS/github.jpg
           url: https://github.com/TLS-802?from=dy.199908.top

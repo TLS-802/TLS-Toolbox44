@@ -54,7 +54,7 @@
                 <ul id="main-menu" class="main-menu">
                     {{ range .Site.Data.webstack }}
                     <li>
-                        <a href="#{{ md5 .taxonomy }}" class="smooth">
+                        <a href="#{{ md5 .taxonomy }}" class="smooth" {{ if .list }}data-list='{{ jsonify .list }}'{{ end }}>
                            <i class="fa {{ .icon }} fa-fw"></i>
                            <span class="title">{{ .taxonomy }}</span>
                         </a>
@@ -284,12 +284,12 @@
         
     });
 </script>
-<!-- 引入标签式菜单JS -->
-<script type='text/javascript' src='./js/tabs.js'></script>
 <!-- 引入其他JS -->
 <script type='text/javascript' src='./js/bootstrap.min.js'></script>
 <script type='text/javascript' src='./js/TweenMax.min.js'></script>
 <script type='text/javascript' src='./js/lazyload.min.js'></script>
+<!-- 引入标签式菜单JS -->
+<script type='text/javascript' src='./js/tabs.js'></script>
 <script type='text/javascript' src='./js/nav.js'></script>
 <script type='text/javascript' src='./js/local-search.js'></script>
 {{ if .Site.Params.pinyin.enable }}

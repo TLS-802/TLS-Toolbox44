@@ -73,9 +73,35 @@ footer.main-footer .foot-button a:hover{background-color:rgba(44,46,47,.1)}foote
 .sidebar-menu .main-menu ul li.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown{-webkit-transition-delay:320ms;-moz-transition-delay:320ms;-o-transition-delay:320ms;transition-delay:320ms}
 .sidebar-menu .main-menu ul li.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown{-webkit-transition-delay:360ms;-moz-transition-delay:360ms;-o-transition-delay:360ms;transition-delay:360ms}
 .sidebar-menu .main-menu ul li.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown{-webkit-transition-delay:400ms;-moz-transition-delay:400ms;-o-transition-delay:400ms;transition-delay:400ms}
-.sidebar-menu .main-menu ul li.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown{-webkit-transition-delay:440ms;-moz-transition-delay:440ms;-o-transition-delay:440ms;transition-delay:440ms}
+.sidebar-menu .main-menu ul li.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown+.is-shown{-webkit-transition-delay:440ms;-moz-transition-delay:440ms;-o-transition-delay:440ms;transition-delay:440ms}
 .sidebar-menu .main-menu ul li.hidden-item{visibility:hidden;zoom:1;filter:alpha(opacity=0);-webkit-opacity:0;-moz-opacity:0;opacity:0;-webkit-transition:all 250ms ease-in-out;-moz-transition:all 250ms ease-in-out;-o-transition:all 250ms ease-in-out;transition:all 250ms ease-in-out}
 .sidebar-menu .main-menu ul li a{padding-left:35px}.sidebar-menu .main-menu ul li ul li a{padding-left:60px}
+
+/* 下拉菜单箭头样式 - 最小化样式修改 */
+.menu-arrow {
+  float: right;
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+
+.expanded > a .menu-arrow {
+  transform: rotate(180deg);
+}
+.sidebar-menu .main-menu ul li a {
+  padding-left: 35px;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu .main-menu ul li a:hover {
+  background-color: rgba(69, 74, 84, 0.3);
+}
+
+/* 折叠状态下的子菜单样式 */
+.sidebar-menu.collapsed .main-menu > li:hover > ul {
+  display: block;
+  background: #2c2e2f;
+}
 .sidebar-menu .main-menu ul li ul li ul li a{padding-left:85px}.sidebar-menu .main-menu ul li ul li ul li ul li a{padding-left:110px}
 @media screen and (min-width:768px){.sidebar-menu.collapsed{width:80px;z-index:10;overflow:visible}
 .sidebar-menu.collapsed .hidden-collapsed{display:none !important}

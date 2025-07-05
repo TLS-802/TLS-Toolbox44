@@ -11,28 +11,7 @@ $(document).ready(function() {
   
   // 为每个tab-menu下的tab-item添加点击事件
   $('.tab-menu .tab-item').click(function() {
-    // 获取当前点击的标签
-    var tabId = $(this).data('tab');
-    
-    // 移除同级标签的active类
-    $(this).siblings().removeClass('active');
-    
-    // 为当前点击的标签添加active类
-    $(this).addClass('active');
-    
-    // 隐藏所有相关的内容
-    var tabContainer = $(this).closest('.tab-container');
-    tabContainer.find('.tab-content').removeClass('active');
-    
-    // 显示对应的内容
-    var $targetContent = tabContainer.find('.tab-content[data-tab="' + tabId + '"]');
-    $targetContent.addClass('active');
-
-    // 滚动到当前标签位置
-    scrollToTab($(this));
-    
-    // 添加动画效果
-    animateTabTransition($targetContent);
+    activateTab($(this));
   });
   
   // 初始化：激活每个标签组的第一个标签
@@ -186,4 +165,86 @@ $(document).ready(function() {
     
     return iconMap[tabName] || '';
   }
-}); 
+
+  // 暴露激活标签方法给全局
+  window.activateTabByName = function(tabContainerSelector, tabName) {
+    var $container = $(tabContainerSelector);
+    if(!$container.length) {
+      // 如果没有指定容器选择器，在所有容器中查找
+      $container = $('.tab-container');
+    }
+    
+    // 在指定容器中查找匹配名称的标签
+    var $tabItem = $container.find('.tab-item').filter(function() {
+      // 获取标签纯文本，排除图标和徽章
+      var tabText = $(this).clone()
+        .children('i, span.badge')
+        .remove()
+        .end()
+        .text().trim();
+      return tabText === tabName;
+    });
+    
+    // 如果找到匹配的标签，激活它
+    if($tabItem.length) {
+      activateTab($tabItem);
+      return true;
+    }
+    
+    return false;
+  };
+});
+
+// 提取为单独函数，以便在点击事件和全局方法中复用
+function activateTab($tab) {
+  // 获取当前点击的标签
+  var tabId = $tab.data('tab');
+  
+  // 移除同级标签的active类
+  $tab.siblings().removeClass('active');
+  
+  // 为当前点击的标签添加active类
+  $tab.addClass('active');
+  
+  // 隐藏所有相关的内容
+  var tabContainer = $tab.closest('.tab-container');
+  tabContainer.find('.tab-content').removeClass('active');
+  
+  // 显示对应的内容
+  var $targetContent = tabContainer.find('.tab-content[data-tab="' + tabId + '"]');
+  $targetContent.addClass('active');
+
+  // 滚动到当前标签位置
+  scrollToTab($tab);
+  
+  // 添加动画效果
+  animateTabTransition($targetContent);
+}
+
+// 滚动到当前标签位置
+function scrollToTab($tab) {
+  var $tabMenu = $tab.closest('.tab-menu');
+  var tabOffset = $tab.offset().left;
+  var tabMenuOffset = $tabMenu.offset().left;
+  var scrollLeft = $tabMenu.scrollLeft();
+  
+  // 计算需要滚动的距离，使当前标签居中
+  var scrollTo = scrollLeft + tabOffset - tabMenuOffset - ($tabMenu.width() / 2) + ($tab.width() / 2);
+  
+  // 平滑滚动到目标位置
+  $tabMenu.animate({
+    scrollLeft: scrollTo
+  }, 300);
+}
+
+// 添加标签内容切换动画
+function animateTabTransition($content) {
+  $content.css('opacity', 0).css('transform', 'translateY(15px)');
+  setTimeout(function() {
+    $content.css('transition', 'opacity 0.5s ease, transform 0.5s ease');
+    $content.css('opacity', 1).css('transform', 'translateY(0)');
+    setTimeout(function() {
+      $content.css('transition', '');
+    }, 500);
+  }, 50);
+} 

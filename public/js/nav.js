@@ -11,6 +11,20 @@ jQuery.extend(public_vars, {
 	},
 	lastBreakpoint: null
 });
+
+// 简单的字符串hash函数 (替代md5)
+jQuery.extend({
+    simpleHash: function(str) {
+        var hash = 0;
+        if (!str || str.length == 0) return hash;
+        for (var i = 0; i < str.length; i++) {
+            var char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return Math.abs(hash).toString(16);
+    }
+});
 /* Main Function that will be called each time when the screen breakpoint changes */
 function resizable(breakpoint)
 {
@@ -91,6 +105,170 @@ function trigger_resizable()
 	"use strict";
 	$(document).ready(function()
 	{
+		// 初始化带有list属性的菜单项
+		$('.main-menu > li > a[data-list]').each(function() {
+			var $menuItem = $(this);
+			var $li = $menuItem.parent();
+			
+			// 添加has-sub类
+			$li.addClass('has-sub');
+			
+			// 如果没有子菜单，创建一个
+			if($li.find('ul.sub-menu').length === 0) {
+				var $subMenu = $('<ul class="sub-menu"></ul>').appendTo($li);
+				
+				// 从data-list属性获取子菜单项数据并添加到子菜单中
+				var listData = $menuItem.data('list');
+				if(listData && Array.isArray(listData)) {
+					$.each(listData, function(index, item) {
+						if(item.term) {
+							// 生成锚点链接，指向分类标题
+							var parentId = $.simpleHash($menuItem.text().trim());
+							var sectionId = "#" + parentId;
+							
+							// 创建子菜单项
+							var $subMenuItem = $('<li><a href="' + sectionId + '" class="smooth" data-term="' + item.term + '">' + item.term + '</a></li>').appendTo($subMenu);
+							
+							// 添加直接点击事件
+							$subMenuItem.find('a').on('click', function(e) {
+								e.preventDefault(); // 阻止默认锚点行为
+								
+								// 获取点击的菜单项文本
+								var termText = $(this).data('term');
+								var targetId = $(this).attr('href');
+								
+								console.log('菜单项点击：', termText, targetId);
+								
+								// 第一步：滚动到分类区域
+								if($(targetId).length > 0) {
+									$('html, body').animate({
+										scrollTop: $(targetId).offset().top - 70
+									}, 300, function() {
+										console.log('滚动完成，查找tab容器');
+										
+										// 第二步：查找该分类下的所有tabs和tab内容
+										var $tabContainer = $(targetId).parent().find('.tab-container');
+										
+										// 如果没有找到tab容器，则尝试查找附近的tab容器
+										if ($tabContainer.length === 0) {
+											console.log('未找到tab容器，尝试更多方法查找');
+											
+											// 方法1：查找紧邻的下一个tab容器
+											$tabContainer = $(targetId).next('.tab-container');
+											
+											// 方法2：查找距离targetId最近的tab容器
+											if ($tabContainer.length === 0) {
+												$tabContainer = $(targetId).nextUntil('.tab-container').next('.tab-container');
+											}
+											
+											// 方法3：查找之后的任何tab容器
+											if ($tabContainer.length === 0) {
+												// 在目标元素后查找第一个tab容器
+												$tabContainer = $(targetId).nextAll('.tab-container').first();
+											}
+											
+											// 方法4：在父元素下查找tab容器
+											if ($tabContainer.length === 0) {
+												$tabContainer = $(targetId).closest('.sites-list').find('.tab-container').first();
+											}
+											
+											console.log('找到tab容器数量:', $tabContainer.length);
+										}
+										
+										if ($tabContainer.length > 0) {
+											console.log('找到tab容器，开始匹配标签');
+											
+											// 记录所有tab项文本，用于调试
+											var allTabs = [];
+											$tabContainer.find('.tab-item').each(function() {
+												var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
+												allTabs.push(tabText);
+											});
+											console.log('容器中的所有标签：', allTabs);
+											console.log('正在查找匹配：', termText);
+											
+											// 遍历所有tab项
+											var found = false;
+											$tabContainer.find('.tab-item').each(function(index) {
+												var $this = $(this);
+												// 获取纯文本内容（移除图标和徽章）
+												var tabText = $this.clone().children('i, span.badge').remove().end().text().trim();
+												
+												console.log('比较:', tabText, '与', termText);
+												
+												// 比较tab文本与点击的菜单项文本
+												if (tabText === termText) {
+													console.log('找到精确匹配：', tabText);
+													// 直接调用点击，选中匹配的tab
+													setTimeout(function() {
+														$this.click();
+														console.log('已激活标签：', tabText);
+													}, 100);
+													found = true;
+													return false; // 跳出each循环
+												}
+											});
+											
+											// 如果没有找到精确匹配，尝试部分匹配
+											if (!found) {
+												console.log('未找到精确匹配，尝试部分匹配');
+												$tabContainer.find('.tab-item').each(function(index) {
+													var $this = $(this);
+													var tabText = $this.clone().children('i, span.badge').remove().end().text().trim();
+													
+													// 检查包含关系
+													if (tabText.indexOf(termText) >= 0 || termText.indexOf(tabText) >= 0) {
+														console.log('找到部分匹配：', tabText);
+														// 找到包含关系的tab，点击它
+														setTimeout(function() {
+															$this.click();
+															console.log('已激活部分匹配标签：', tabText);
+														}, 100);
+														found = true;
+														return false; // 跳出each循环
+													}
+												});
+												
+												// 如果仍未找到匹配，点击第一个标签
+												if (!found) {
+													console.log('未找到任何匹配，点击第一个标签');
+													setTimeout(function() {
+														$tabContainer.find('.tab-item').first().click();
+													}, 100);
+												}
+											}
+										} else {
+											console.log('未找到任何tab容器');
+										}
+									});
+								} else {
+									console.error('目标元素不存在:', targetId);
+								}
+							});
+						}
+					});
+				}
+			}
+			
+			// 标记为可展开
+			$menuItem.on('click', function(e) {
+				if(public_vars.$sidebarMenu.hasClass('collapsed')) {
+					return;
+				}
+				
+				e.preventDefault();
+				
+				if($li.hasClass('expanded')) {
+					sidebar_menu_item_collapse($li, $li.find('> ul.sub-menu'));
+				} else {
+					// 收起其他菜单项
+					sidebar_menu_close_items_siblings($li);
+					
+					// 展开当前菜单项
+					sidebar_menu_item_expand($li, $li.find('> ul.sub-menu'));
+				}
+			});
+		});
 		// Chat Toggler
 		$('a[data-toggle="chat"]').each(function(i, el)
 		{
@@ -497,47 +675,86 @@ function sidebar_menu_item_expand($li, $sub)
 {
 	if($li.data('is-busy') || ($li.parent('.main-menu').length && public_vars.$sidebarMenu.hasClass('collapsed')))
 		return;
+		
 	$li.addClass('expanded').data('is-busy', true);
+	
+	// 检查是否有list属性
+	var listData = $li.children('a').data('list');
+	if(listData && (!$sub || $sub.length === 0 || $sub.children().length === 0)) {
+		// 如果没有子菜单或子菜单为空，创建一个
+		if(!$sub || $sub.length === 0) {
+			$sub = $('<ul class="sub-menu"></ul>').appendTo($li);
+		}
+		
+		// 清空子菜单
+		$sub.empty();
+		
+		// 遍历list中的项目，创建子菜单项
+		$.each(listData, function(index, item) {
+			var termId = item.term.toLowerCase().replace(/\s+/g, '-');
+			var $subItem = $('<li><a href="#' + termId + '"><span class="title">' + item.term + '</span></a></li>');
+			$sub.append($subItem);
+		});
+	}
+	
 	$sub.show();
+	
 	var $sub_items 	  = $sub.children(),
 		sub_height	= $sub.outerHeight(),
+		
 		win_y			 = jQuery(window).height(),
 		total_height	  = $li.outerHeight(),
 		current_y		 = public_vars.$sidebarMenu.scrollTop(),
 		item_max_y		= $li.position().top + current_y,
 		fit_to_viewpport  = public_vars.$sidebarMenu.hasClass('fit-in-viewport');
+		
 	$sub_items.addClass('is-hidden');
 	$sub.height(0);
-	TweenMax.to($sub, sm_duration, {css: {height: sub_height}, onUpdate: ps_update, onComplete: function(){
+	
+	TweenMax.set($sub_items, {css: {opacity: 0}});
+	
+	TweenMax.to($sub, .2, {css: {height: sub_height}, onUpdate: ps_update, onComplete: function(){
 		$sub.height('');
 	}});
+	
 	var interval_1 = $li.data('sub_i_1'),
 		interval_2 = $li.data('sub_i_2');
+	
 	window.clearTimeout(interval_1);
-	interval_1 = setTimeout(function()
-	{
-		$sub_items.each(function(i, el)
-		{
+	
+	interval_1 = setTimeout(function(){
+		$sub_items.each(function(i, el){
 			var $sub_item = jQuery(el);
+			
 			$sub_item.addClass('is-shown');
+			
+			TweenMax.to($sub_item, .15, {css: {opacity: 1}, delay: i * 0.05});
 		});
-		var finish_on = sm_transition_delay * $sub_items.length,
-			t_duration = parseFloat($sub_items.eq(0).css('transition-duration')),
-			t_delay = parseFloat($sub_items.last().css('transition-delay'));
-		if(t_duration && t_delay)
-		{
-			finish_on = (t_duration + t_delay) * 1000;
-		}
-		// In the end
-		window.clearTimeout(interval_2);
-		interval_2 = setTimeout(function()
-		{
-			$sub_items.removeClass('is-hidden is-shown');
-		}, finish_on);
+		
+		TweenMax.to($sub, .25, {css: {height: ''}});
+		
 		$li.data('is-busy', false);
-	}, 0);
-	$li.data('sub_i_1', interval_1),
-	$li.data('sub_i_2', interval_2);
+		
+	}, 200);
+	
+	$li.data('sub_i_1', interval_1);
+	
+	if(fit_to_viewpport)
+	{
+		window.clearTimeout(interval_2);
+		
+		interval_2 = setTimeout(function(){
+			var scrollTo = item_max_y + $sub.outerHeight() - win_y + 10;
+			
+			if(scrollTo > 0)
+			{
+				public_vars.$sidebarMenu.stop().animate({scrollTop: current_y + scrollTo}, {duration: 300, easing: 'easeInOutQuad'});
+			}
+			
+		}, 200);
+		
+		$li.data('sub_i_2', interval_2);
+	}
 }
 function sidebar_menu_item_collapse($li, $sub)
 {
@@ -763,21 +980,3 @@ function attrDefault($el, data_var, default_val)
 	}
 	return default_val;
 }
-
-// 添加二级菜单下拉列表式交互
-$(document).ready(function() {
-  // 使用原有的交互逻辑，只添加expanded类用于控制箭头旋转
-  $(document).on('click', '.has-sub > a', function(e) {
-    var _this = $(this).parent();
-    
-    // 切换expanded类
-    if(_this.hasClass('expanded')) {
-      _this.removeClass('expanded');
-    } else {
-      _this.addClass('expanded');
-    }
-    
-    // 阻止事件冒泡，避免触发两次
-    e.stopPropagation();
-  });
-});
