@@ -109,8 +109,9 @@
     <div class="tab-container nav-tab-spacing">
         <!-- 标签菜单 -->
         <div class="tab-menu">
+            {{ $taxonomyName := .taxonomy }}
             {{ range $index, $tab := .tabs }}
-            <div class="tab-item" data-tab="{{ $index }}" data-taxonomy="{{ $taxonomy }}" data-term="{{ $tab.name }}">{{ $tab.name }}</div>
+            <div class="tab-item" data-tab="{{ $index }}" data-taxonomy="{{ $taxonomyName }}" data-term="{{ $tab.name }}">{{ $tab.name }}</div>
             {{ end }}
         </div>
         
