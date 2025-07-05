@@ -432,6 +432,7 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    display: none; /* 初始状态隐藏 */
 }
 
 .main-menu > li.has-sub.expanded > ul.sub-menu {
@@ -460,32 +461,14 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 }
 
 /* 下拉菜单箭头样式 */
-.main-menu > li.has-sub > a:before {
-    position: relative;
-    display: inline-block;
-    font-family: FontAwesome;
-    content: '\f107';
+.menu-arrow {
     float: right;
-    color: #6d747a;
-    margin-left: 10px;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    -webkit-transition: all 150ms ease-in-out;
-    -moz-transition: all 150ms ease-in-out;
-    -o-transition: all 150ms ease-in-out;
-    transition: all 150ms ease-in-out;
+    margin-right: 5px;
+    transition: transform 0.3s ease;
 }
 
-/* 展开状态的箭头样式 */
-.main-menu > li.has-sub.expanded > a:before {
-    -webkit-transform: rotate(0);
-    -moz-transform: rotate(0);
-    -o-transform: rotate(0);
-    -ms-transform: rotate(0);
-    transform: rotate(0);
+.expanded > a .menu-arrow {
+    transform: rotate(180deg);
 }
 
 

@@ -12,6 +12,53 @@ jQuery.extend(public_vars, {
 	lastBreakpoint: null
 });
 
+// 确保在文档加载完成后执行
+jQuery(document).ready(function($) {
+	// 侧边栏下拉菜单处理
+	$('.main-menu > li.has-sub > a').on('click', function(e) {
+		e.preventDefault();
+		
+		var $li = $(this).parent('li');
+		console.log('点击菜单项:', $li.find('> a').text().trim());
+		
+		// 如果当前菜单已展开，则收起
+		if ($li.hasClass('expanded')) {
+			console.log('收起菜单');
+			$li.removeClass('expanded');
+			$li.find('> ul.sub-menu').slideUp(200);
+		} else {
+			console.log('展开菜单');
+			// 收起其他已展开的菜单
+			$('.main-menu > li.has-sub.expanded').removeClass('expanded').find('> ul.sub-menu').slideUp(200);
+			
+			// 展开当前菜单
+			$li.addClass('expanded');
+			$li.find('> ul.sub-menu').slideDown(200);
+		}
+	});
+	
+	// 子菜单项点击事件处理
+	$('.main-menu > li.has-sub > ul.sub-menu > li > a').on('click', function(e) {
+		var $link = $(this);
+		var taxonomyName = $link.data('taxonomy');
+		var termName = $link.data('term');
+		var targetId = $link.attr('href');
+		
+		console.log('子菜单点击:', { taxonomy: taxonomyName, term: termName, targetId: targetId });
+		
+		// 标记当前菜单项为活动状态
+		$('.main-menu > li.has-sub > ul.sub-menu > li').removeClass('active');
+		$link.parent('li').addClass('active');
+	});
+	
+	// 初始化时展开当前活动的菜单项
+	var $activeMenuItem = $('.main-menu > li.has-sub > ul.sub-menu > li.active');
+	if($activeMenuItem.length > 0) {
+		$activeMenuItem.parents('li.has-sub').addClass('expanded');
+		$activeMenuItem.parents('li.has-sub').find('> ul.sub-menu').show();
+	}
+});
+
 // 统一的哈希函数实现
 function simpleHash(str) {
     if (!str) return '';
@@ -607,73 +654,7 @@ function trigger_resizable()
 				if($(targetId).length > 0) {
 					$('html, body').animate({
 						scrollTop: $(targetId).offset().top - 80
-					}, 300, function() {
-						// 滚动完成后，直接尝试匹配标签并激活
-						setTimeout(function() {
-							// 查找最近的标签容器
-							var $taxonomyElement = $(targetId);
-							var $tabContainer = $taxonomyElement.closest('h4').nextAll('.tab-container').first();
-							
-							if ($tabContainer.length > 0) {
-								console.log('找到标签容器');
-								
-								// 在标签容器中查找所有标签
-								var $tabs = $tabContainer.find('.tab-menu .tab-item');
-								var $contents = $tabContainer.find('.tab-content');
-								var found = false;
-								
-								// 遍历所有标签，查找匹配的
-								$tabs.each(function(index) {
-									var $tab = $(this);
-									var tabTerm = $tab.data('term');
-									var tabText = $tab.text().trim();
-									
-									// 如果找到匹配的标签
-									if (tabTerm === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-										console.log('找到匹配的标签:', tabText);
-										
-										// 1. 取消所有标签的激活状态
-										$tabs.removeClass('active');
-										
-										// 2. 激活当前标签
-										$tab.addClass('active');
-										
-										// 3. 取消所有内容区域的激活状态
-										$contents.removeClass('active');
-										
-										// 4. 激活对应的内容区域
-										var tabIndex = $tab.data('tab');
-										var $content = $contents.filter('[data-tab="' + tabIndex + '"]');
-										if (!$content.length) {
-											$content = $contents.eq(index);
-										}
-										
-										if ($content.length) {
-											$content.addClass('active');
-										}
-										
-										found = true;
-										return false; // 跳出循环
-									}
-								});
-								
-								// 如果没有找到匹配的标签，激活第一个
-								if (!found && $tabs.length > 0) {
-									console.log('未找到匹配的标签，激活第一个');
-									
-									// 激活第一个标签
-									$tabs.removeClass('active');
-									$tabs.first().addClass('active');
-									
-									// 激活第一个内容区域
-									$contents.removeClass('active');
-									$contents.first().addClass('active');
-								}
-							} else {
-								console.error('未找到标签容器');
-							}
-						}, 100);
-					});
+					}, 300);
 				} else {
 					console.error('目标元素不存在:', targetId);
 				}
@@ -684,11 +665,7 @@ function trigger_resizable()
 		var $activeMenuItem = $('.main-menu > li.has-sub > ul.sub-menu > li.active');
 		if($activeMenuItem.length > 0) {
 			$activeMenuItem.parents('li.has-sub').addClass('expanded');
-			
-			// 触发一次点击事件，确保对应的标签页被激活
-			setTimeout(function() {
-				$activeMenuItem.find('a').trigger('click');
-			}, 500);
+			$activeMenuItem.parents('li.has-sub').find('> ul.sub-menu').show();
 		}
 	});
 })(jQuery, window);
