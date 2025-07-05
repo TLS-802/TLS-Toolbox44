@@ -157,7 +157,18 @@ function trigger_resizable()
 								var termName = $link.data('term');
 								var targetId = $link.attr('href');
 								
+								// 调试信息
+								console.log('================== 侧边栏菜单点击 ==================');
 								console.log('点击菜单项:', taxonomyName, termName, targetId);
+								console.log('目标元素:', $('#' + $.simpleHash(taxonomyName)).length ? '找到' : '未找到');
+								console.log('页面中所有标签数量:', $('.tab-item').length);
+								
+								// 打印所有标签及其数据
+								console.log('页面中的所有标签:');
+								$('.tab-item').each(function(index) {
+									var $t = $(this);
+									console.log(index + ':', $t.data('taxonomy'), $t.data('term'), $t.text().trim());
+								});
 								
 								// 1. 找到对应的一级分类区域
 								var $taxonomySection = $('#' + $.simpleHash(taxonomyName));
@@ -171,40 +182,124 @@ function trigger_resizable()
 								// 2. 滚动到分类区域
 								$('html, body').animate({
 									scrollTop: $taxonomySection.offset().top - 80
-								}, 300);
-								
-								// 3. 直接查找页面中匹配term的标签项
-								var $matchingTab = null;
-								
-								// 查找所有标签项
-								$('.tab-item').each(function() {
-									var $tab = $(this);
-									var tabTerm = $tab.data('term');
-									var tabText = $tab.clone().children().remove().end().text().trim();
-									
-									console.log('比较标签:', tabTerm, tabText, '与', termName);
-									
-									if (tabTerm === termName || tabText === termName) {
-										$matchingTab = $tab;
-										console.log('找到匹配的标签:', tabText);
-										return false; // 跳出循环
-									}
+								}, 300, function() {
+									// 滚动完成后，开始查找标签
+									findAndClickMatchingTab();
 								});
 								
-								// 4. 如果找到匹配的标签，模拟点击它
-								if ($matchingTab && $matchingTab.length) {
-									// 延迟执行点击操作，确保DOM已经准备好
-									setTimeout(function() {
-										console.log('点击匹配的标签');
-										$matchingTab.click();
-									}, 400);
-								} else {
-									console.error('未找到匹配的标签:', termName);
-								}
-								
-								// 5. 更新URL，但不触发默认行为
-								if (history.pushState) {
-									history.pushState(null, null, targetId);
+								// 查找并点击匹配的标签
+								function findAndClickMatchingTab() {
+									// 3. 直接查找页面中匹配term的标签项
+									var $matchingTab = null;
+									
+									// 确定应该查找哪个标签容器
+									var $tabContainer = $taxonomySection.closest('h4').next('.tab-container');
+									if($tabContainer.length === 0) {
+										$tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
+									}
+									
+									if (!$tabContainer.length) {
+										console.error('未找到标签容器');
+										// 尝试在所有标签中查找
+										$('.tab-item').each(function() {
+											var $tab = $(this);
+											var tabTerm = $tab.data('term');
+											
+											if (tabTerm === termName) {
+												$matchingTab = $tab;
+												return false; // 跳出循环
+											}
+										});
+									} else {
+										console.log('找到标签容器，查找其中的标签');
+										// 在找到的标签容器中查找匹配的标签
+										$tabContainer.find('.tab-item').each(function() {
+											var $tab = $(this);
+											var tabTerm = $tab.data('term');
+											var tabText = $tab.clone().children().remove().end().text().trim();
+											
+											console.log('比较标签:', tabTerm, tabText, '与', termName);
+											
+											if (tabTerm === termName || tabText === termName) {
+												$matchingTab = $tab;
+												console.log('找到匹配的标签:', tabText);
+												return false; // 跳出循环
+											}
+										});
+									}
+									
+									// 如果仍未找到，尝试完全匹配文本
+									if (!$matchingTab || !$matchingTab.length) {
+										console.log('未能通过term属性找到匹配的标签，尝试通过文本匹配');
+										
+										$('.tab-item').each(function() {
+											var $tab = $(this);
+											var tabText = $tab.clone().children().remove().end().text().trim();
+											
+											if (tabText === termName) {
+												$matchingTab = $tab;
+												console.log('通过文本找到匹配的标签:', tabText);
+												return false; // 跳出循环
+											}
+										});
+									}
+									
+									// 如果仍未找到，尝试部分匹配
+									if (!$matchingTab || !$matchingTab.length) {
+										console.log('未能通过精确匹配找到标签，尝试部分匹配');
+										
+										$('.tab-item').each(function() {
+											var $tab = $(this);
+											var tabText = $tab.clone().children().remove().end().text().trim();
+											
+											if (tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+												$matchingTab = $tab;
+												console.log('通过部分匹配找到标签:', tabText);
+												return false; // 跳出循环
+											}
+										});
+									}
+									
+									// 4. 如果找到匹配的标签，模拟点击它
+									if ($matchingTab && $matchingTab.length) {
+										// 延迟执行点击操作，确保DOM已经准备好
+										setTimeout(function() {
+											console.log('点击匹配的标签:', $matchingTab.text().trim());
+											$matchingTab.click();
+											
+											// 激活对应的内容区域
+											var tabIndex = $matchingTab.data('tab');
+											if (tabIndex !== undefined) {
+												var $tabContainer = $matchingTab.closest('.tab-container');
+												var $content = $tabContainer.find('.tab-content[data-tab="' + tabIndex + '"]');
+												
+												if ($content.length) {
+													console.log('直接激活内容区域:', tabIndex);
+													$tabContainer.find('.tab-content').removeClass('active');
+													$content.addClass('active').show();
+												}
+											}
+											
+											// 更新URL，但不触发默认行为
+											if (history.pushState) {
+												// 生成唯一的URL，确保每次点击都会产生不同的哈希值
+												var now = new Date().getTime();
+												// 先移除哈希值，再添加新的哈希值，强制触发变化
+												history.pushState(null, null, ' ');
+												setTimeout(function() {
+													history.pushState(null, null, targetId + '?' + now);
+													// 立即更改回原始哈希值，但保留状态
+													setTimeout(function() {
+														history.pushState(null, null, targetId);
+														// 手动触发hashchange事件
+														$(window).trigger('hashchange');
+													}, 10);
+												}, 10);
+											}
+										}, 400);
+									} else {
+										console.error('未找到匹配的标签:', termName);
+									}
 								}
 							});
 						}
@@ -782,7 +877,8 @@ function setup_sidebar_menu()
 		{
 			var $li = jQuery(el),
 				$a = $li.children('a'),
-				$sub = $li.children('ul');
+				$sub = $li.children('ul'),
+				is_root_element = $li.parent().is('.navbar-nav');
 			$li.addClass('has-sub');
 			$a.on('click', function(ev)
 			{

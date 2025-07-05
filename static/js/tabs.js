@@ -19,7 +19,10 @@ $(document).ready(function() {
       e.preventDefault();
       var $tab = $(this);
       
+      // 添加调试信息
+      console.log('================ 标签点击 ================');
       console.log('标签点击:', $tab.text().trim(), '索引:', $tab.data('tab'));
+      console.log('标签属性:', '分类=', $tab.data('taxonomy'), '术语=', $tab.data('term'));
       
       // 移除其他标签的激活状态
       $tabs.removeClass('active');
@@ -33,12 +36,20 @@ $(document).ready(function() {
       
       console.log('找到内容区域数量:', $tabContents.length);
       
-      // 首先移除所有激活状态
-      $tabContents.removeClass('active');
+      // 遍历所有内容区域，输出它们的data-tab属性
+      console.log('所有内容区域的data-tab属性:');
+      $tabContents.each(function(i) {
+        console.log(i, ':', $(this).data('tab'));
+      });
+      
+      // 首先移除所有内容区域的激活状态
+      $container.find('.tab-content').removeClass('active');
       
       // 查找匹配索引的内容
       var $matchingContent = $tabContents.filter(function() {
-        return $(this).data('tab') == tabIndex;
+        var contentTabIndex = $(this).data('tab');
+        console.log('比较内容区域:', contentTabIndex, '与', tabIndex);
+        return contentTabIndex == tabIndex;
       });
       
       if ($matchingContent.length) {
@@ -49,6 +60,16 @@ $(document).ready(function() {
         $matchingContent.hide().fadeIn(300);
       } else {
         console.error('未找到匹配的内容区域:', tabIndex);
+        
+        // 尝试按索引顺序查找内容区域
+        var $fallbackContent = $container.find('.tab-content').eq(tabIndex);
+        if ($fallbackContent.length) {
+          console.log('使用索引匹配内容区域:', tabIndex);
+          $fallbackContent.addClass('active');
+          $fallbackContent.hide().fadeIn(300);
+        } else {
+          console.error('使用索引也未找到内容区域');
+        }
       }
 
       // 将当前激活的标签滚动到可视区域
@@ -56,6 +77,22 @@ $(document).ready(function() {
       
       // 触发窗口大小变化事件，确保内容正确显示
       $(window).trigger('resize');
+      
+      // 更新URL哈希值
+      var term = $tab.data('term');
+      var taxonomy = $tab.data('taxonomy');
+      if (term && taxonomy) {
+        var hashId = $.simpleHash ? $.simpleHash(taxonomy + "-" + term) : window.simpleHash(taxonomy + "-" + term);
+        if (history.pushState) {
+          // 生成唯一的URL，确保每次点击都会产生不同的哈希值
+          var now = new Date().getTime();
+          history.pushState(null, null, "#" + hashId + "?" + now);
+          // 立即更改回原始哈希值，但保留状态
+          setTimeout(function() {
+            history.pushState(null, null, "#" + hashId);
+          }, 10);
+        }
+      }
     });
   });
   
@@ -482,11 +519,15 @@ $(document).ready(function() {
 
   // 处理URL中的哈希值
   function handleUrlHash() {
-    // 获取哈希值（不包括#号）
-    var hash = window.location.hash.substring(1);
+    // 获取哈希值（不包括#号和可能的查询字符串）
+    var hash = window.location.hash.substring(1).split('?')[0];
     if (!hash) return;
     
     console.log('处理URL哈希值:', hash);
+    
+    // 强制销毁和重建所有激活的标签内容
+    $('.tab-menu .tab-item.active').removeClass('active');
+    $('.tab-content.active').removeClass('active');
     
     // 查找对应的元素
     var $target = $('#' + hash);
@@ -497,86 +538,147 @@ $(document).ready(function() {
     
     // 查找匹配的菜单项
     var $menuItem = $('.main-menu a[href="#' + hash + '"]');
-    if (!$menuItem.length) {
-      console.log('未找到匹配的菜单项');
-      // 尝试通过解析哈希值来找到分类和标签
-      var hashParts = hash.split('-');
-      if (hashParts.length >= 2) {
-        // 尝试遍历所有标签，查找匹配项
-        $('.tab-item').each(function() {
-          var $tab = $(this);
-          if ($tab.data('term') && hash.indexOf($tab.data('term')) !== -1) {
-            setTimeout(function() {
-              $tab.click();
-            }, 200);
-            return false; // 找到匹配项，退出循环
+    
+    // 如果hash包含分隔符，可能是"taxonomy-term"格式
+    if (hash.indexOf('-') !== -1) {
+      var parts = hash.split('-');
+      var taxonomyHash = parts[0];
+      var termPart = parts.slice(1).join('-'); // 处理term名称中可能含有'-'的情况
+      
+      console.log('哈希值可能包含taxonomy和term:', taxonomyHash, termPart);
+      
+      // 查找对应的分类区域
+      var $taxonomySection = $('[id="' + taxonomyHash + '"]');
+      if (!$taxonomySection.length) {
+        // 尝试查找包含ID的元素
+        $('*[id]').each(function() {
+          if ($(this).attr('id').indexOf(taxonomyHash) >= 0) {
+            $taxonomySection = $(this);
+            return false;
           }
         });
       }
-      return;
-    }
-    
-    // 获取菜单项数据
-    var taxonomyName = $menuItem.data('taxonomy');
-    var termName = $menuItem.data('term');
-    
-    if (!taxonomyName || !termName) {
-      console.log('菜单项缺少必要的数据属性');
-      return;
-    }
-    
-    console.log('菜单项数据:', taxonomyName, termName);
-    
-    // 滚动到分类区域
-    var taxonomyId = $.simpleHash ? $.simpleHash(taxonomyName) : window.simpleHash(taxonomyName);
-    var $taxonomySection = $('#' + taxonomyId);
-    
-    if (!$taxonomySection.length) {
-      console.log('未找到分类区域:', taxonomyName, taxonomyId);
-      // 尝试直接寻找目标标签
-      $('.tab-item').each(function() {
-        var $tab = $(this);
-        if ($tab.data('term') === termName) {
-          setTimeout(function() {
-            $tab.click();
-          }, 200);
-          return false; // 找到匹配项，退出循环
-        }
-      });
-      return;
-    }
-    
-    // 滚动到分类区域
-    $('html, body').animate({
-      scrollTop: $taxonomySection.offset().top - 80
-    }, 300, function() {
-      // 查找匹配的标签
-      var $matchingTab = $('.tab-item').filter(function() {
-        return $(this).data('term') === termName || $(this).text().trim() === termName;
-      });
       
-      if ($matchingTab.length) {
-        console.log('找到匹配的标签:', $matchingTab.text().trim());
-        setTimeout(function() {
-          $matchingTab.click();
-        }, 200);
-      } else {
-        console.log('未找到匹配的标签:', termName);
-        // 尝试部分匹配
-        $('.tab-item').each(function() {
-          var $tab = $(this);
-          var tabText = $tab.text().trim();
+      if ($taxonomySection.length) {
+        console.log('找到分类区域:', $taxonomySection.attr('id'));
+        
+        // 滚动到分类区域
+        $('html, body').animate({
+          scrollTop: $taxonomySection.offset().top - 80
+        }, 300, function() {
+          // 查找附近的标签容器
+          var $tabContainer = $taxonomySection.closest('h4').next('.tab-container');
+          if($tabContainer.length === 0) {
+            $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
+          }
           
-          if (tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-            console.log('找到部分匹配的标签:', tabText);
-            setTimeout(function() {
-              $tab.click();
-            }, 200);
-            return false; // 找到匹配项，退出循环
+          if (!$tabContainer.length) {
+            // 在整个页面中查找标签容器
+            $tabContainer = $('.tab-container').first();
+          }
+          
+          if ($tabContainer.length) {
+            console.log('找到标签容器');
+            
+            // 在标签容器中查找匹配term的标签
+            var $matchingTab = findMatchingTab($tabContainer, termPart);
+            
+            // 如果找到匹配的标签，点击它
+            if ($matchingTab && $matchingTab.length) {
+              console.log('点击匹配的标签');
+              setTimeout(function() {
+                forceActivateTab($matchingTab);
+              }, 200);
+            } else {
+              // 如果没找到匹配的标签，默认激活第一个标签
+              console.log('未找到匹配的标签，激活第一个标签');
+              forceActivateTab($tabContainer.find('.tab-item').first());
+            }
           }
         });
+        
+        return;
+      }
+    }
+    
+    console.log('常规哈希处理完成');
+  }
+  
+  // 辅助函数：查找匹配的标签
+  function findMatchingTab($container, termText) {
+    var $matchingTab = null;
+    
+    // 方法1：通过data-term属性查找
+    $container.find('.tab-item').each(function() {
+      var $tab = $(this);
+      var tabTerm = $tab.data('term');
+      
+      if (tabTerm && (tabTerm === termText || $.simpleHash(tabTerm) === termText)) {
+        console.log('通过data-term找到匹配标签:', tabTerm);
+        $matchingTab = $tab;
+        return false; // 跳出循环
       }
     });
+    
+    // 方法2：通过文本内容查找
+    if (!$matchingTab || !$matchingTab.length) {
+      $container.find('.tab-item').each(function() {
+        var $tab = $(this);
+        var tabText = $tab.clone().children().remove().end().text().trim();
+        
+        if (tabText === termText || $.simpleHash(tabText) === termText) {
+          console.log('通过文本内容找到匹配标签:', tabText);
+          $matchingTab = $tab;
+          return false; // 跳出循环
+        }
+      });
+    }
+    
+    // 方法3：部分匹配
+    if (!$matchingTab || !$matchingTab.length) {
+      $container.find('.tab-item').each(function() {
+        var $tab = $(this);
+        var tabText = $tab.clone().children().remove().end().text().trim();
+        
+        if (tabText.indexOf(termText) >= 0 || termText.indexOf(tabText) >= 0) {
+          console.log('通过部分匹配找到标签:', tabText);
+          $matchingTab = $tab;
+          return false; // 跳出循环
+        }
+      });
+    }
+    
+    return $matchingTab;
+  }
+  
+  // 辅助函数：强制激活标签
+  function forceActivateTab($tab) {
+    if (!$tab || !$tab.length) return;
+    
+    // 先触发点击事件
+    $tab.click();
+    
+    // 然后直接激活匹配的内容
+    var tabIndex = $tab.data('tab');
+    var $tabContainer = $tab.closest('.tab-container');
+    
+    if (tabIndex !== undefined && $tabContainer.length) {
+      // 移除所有激活状态
+      $tabContainer.find('.tab-item').removeClass('active');
+      $tab.addClass('active');
+      
+      // 查找并激活对应内容
+      var $content = $tabContainer.find('.tab-content[data-tab="' + tabIndex + '"]');
+      if (!$content.length) {
+        $content = $tabContainer.find('.tab-content').eq(tabIndex);
+      }
+      
+      if ($content.length) {
+        console.log('直接激活内容区域:', tabIndex);
+        $tabContainer.find('.tab-content').removeClass('active');
+        $content.addClass('active').show();
+      }
+    }
   }
 
   // 页面加载完成后处理URL哈希值
@@ -586,9 +688,101 @@ $(document).ready(function() {
 
   // 当哈希值变化时重新处理
   $(window).on('hashchange', function() {
-    handleUrlHash();
+    console.log('检测到URL哈希值变化:', window.location.hash);
+    // 清除所有现有的超时操作
+    for (var i = 1; i < 1000; i++) {
+      window.clearTimeout(i);
+    }
+    
+    setTimeout(function() {
+      handleUrlHash();
+    }, 100);
   });
+
+  // 创建一个函数，模拟触发hash变化
+  function simulateHashChange(hash) {
+    var oldURL = window.location.href;
+    window.location.hash = hash;
+    var newURL = window.location.href;
+    
+    // 创建一个自定义事件
+    var hashChangeEvent = new HashChangeEvent('hashchange', {
+      oldURL: oldURL,
+      newURL: newURL
+    });
+    
+    // 触发自定义事件
+    window.dispatchEvent(hashChangeEvent);
+  }
+
+  // 全局函数，强制重新绑定所有标签事件
+  window.rebindAllTabs = function() {
+    console.log('重新绑定所有标签事件');
+    
+    // 遍历所有标签容器
+    $('.tab-container').each(function() {
+      var $container = $(this);
+      var $tabs = $container.find('.tab-menu .tab-item');
+      var $contents = $container.find('.tab-content');
+      
+      // 为每个标签重新绑定点击事件
+      $tabs.off('click').on('click', function(e) {
+        e.preventDefault();
+        var $tab = $(this);
+        var tabIndex = $tab.data('tab');
+        
+        console.log('标签点击:', $tab.text().trim(), '索引:', tabIndex);
+        
+        // 移除其他标签的激活状态
+        $tabs.removeClass('active');
+        $tab.addClass('active');
+        
+        // 移除所有内容区域的激活状态
+        $contents.removeClass('active');
+        
+        // 查找匹配索引的内容
+        var $matchingContent = $contents.filter(function() {
+          return $(this).data('tab') == tabIndex;
+        });
+        
+        if ($matchingContent.length) {
+          $matchingContent.addClass('active').show();
+        } else {
+          // 使用索引查找内容区域
+          var $fallbackContent = $contents.eq(tabIndex);
+          if ($fallbackContent.length) {
+            $fallbackContent.addClass('active').show();
+          }
+        }
+      });
+      
+      // 确保有一个标签被激活
+      if ($tabs.filter('.active').length === 0 && $tabs.length > 0) {
+        $tabs.first().addClass('active');
+        $contents.first().addClass('active');
+      }
+    });
+    
+    return '重新绑定完成';
+  };
 });
+
+// 简单的哈希函数
+$.simpleHash = function(str) {
+  if (!str) return '';
+  
+  // 使用一个简单的哈希算法将字符串转换为短哈希值
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    var char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // 转换为32位整数
+  }
+  
+  // 将哈希值转换为十六进制字符串
+  var hashStr = (hash >>> 0).toString(16);
+  return hashStr;
+};
 
 // 提取为单独函数，以便在点击事件和全局方法中复用
 function activateTab($tabContainer, tabIndex) {
