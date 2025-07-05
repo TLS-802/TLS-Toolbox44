@@ -427,6 +427,18 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 .black .posts-nav{color:rgba(221,221,221,.2)}
 .black .input-group-addon{color:#ddd;background:#26282a;border-color:#26282a}
 
+/* 确保子菜单正确显示 */
+.main-menu > li.has-sub > ul.sub-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.main-menu > li.has-sub.expanded > ul.sub-menu {
+    max-height: 500px; /* 增大值以确保可以容纳所有子菜单项 */
+    display: block;
+}
+
 /* 子菜单激活状态 */
 .main-menu > li.has-sub > ul.sub-menu > li.active > a {
     color: #ffffff;
@@ -435,7 +447,7 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 
 /* 增强子菜单可见度 */
 .main-menu > li.has-sub > ul.sub-menu > li > a {
-    padding-left: 25px;
+    padding-left: 25px !important;
     font-size: 0.9em;
     position: relative;
     transition: all 0.3s ease;
@@ -445,15 +457,32 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 确保子菜单正确显示 */
-.main-menu > li.has-sub > ul.sub-menu {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
+/* 下拉菜单箭头样式 */
+.main-menu > li.has-sub > a:before {
+    position: relative;
+    display: inline-block;
+    font-family: FontAwesome;
+    content: '\f107';
+    float: right;
+    color: #6d747a;
+    margin-left: 10px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    -webkit-transition: all 150ms ease-in-out;
+    -moz-transition: all 150ms ease-in-out;
+    -o-transition: all 150ms ease-in-out;
+    transition: all 150ms ease-in-out;
 }
 
-.main-menu > li.has-sub.active > ul.sub-menu {
-    max-height: 500px; /* 增大值以确保可以容纳所有子菜单项 */
+.main-menu > li.has-sub.expanded > a:before {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
 }
 
 

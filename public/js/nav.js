@@ -105,6 +105,8 @@ function trigger_resizable()
 	"use strict";
 	$(document).ready(function()
 	{
+		console.log('初始化菜单...');
+		
 		// 初始化侧边栏菜单，为带有list属性的项设置下拉菜单
 		$('.main-menu > li > a').each(function() {
 			var $menuItem = $(this);
@@ -465,35 +467,31 @@ function trigger_resizable()
 			}
 		});
 
-		// 给已有的has-sub类菜单项添加点击事件
+		// 为带有has-sub类的菜单项添加点击事件，处理展开/收起
 		$('.main-menu > li.has-sub > a').on('click', function(e) {
 			e.preventDefault();
 			
-			var $li = $(this).parent();
+			var $li = $(this).parent('li');
 			
+			console.log('点击菜单项:', $li.find('> a').text().trim());
+			
+			// 如果当前菜单已展开，则收起
 			if ($li.hasClass('expanded')) {
-				// 收起菜单
+				console.log('收起菜单');
 				$li.removeClass('expanded');
+				$li.find('> ul.sub-menu').slideUp(200);
 			} else {
+				console.log('展开菜单');
 				// 收起其他已展开的菜单
-				$('.main-menu > li.expanded').removeClass('expanded');
+				$('.main-menu > li.has-sub.expanded').removeClass('expanded').find('> ul.sub-menu').slideUp(200);
 				
 				// 展开当前菜单
 				$li.addClass('expanded');
+				$li.find('> ul.sub-menu').slideDown(200);
 			}
 		});
 		
-		// 调试函数 - 将信息输出到控制台和页面上（开发时使用）
-		function debugLog(message, data) {
-			console.log(message, data);
-			// 如果需要在页面上显示调试信息，取消下面的注释
-			// if (!$('#debug-panel').length) {
-			//     $('body').append('<div id="debug-panel" style="position:fixed;bottom:10px;right:10px;background:rgba(0,0,0,0.8);color:white;padding:10px;max-width:300px;max-height:200px;overflow:auto;z-index:9999;"></div>');
-			// }
-			// $('#debug-panel').append('<p>' + message + ' ' + (data ? JSON.stringify(data) : '') + '</p>');
-		}
-
-		// 重写子菜单项的点击事件处理，使用最直接的方法
+		// 子菜单项点击事件处理
 		$('.main-menu > li.has-sub > ul.sub-menu > li > a').on('click', function(e) {
 			e.preventDefault();
 			
@@ -513,27 +511,71 @@ function trigger_resizable()
 				$('html, body').animate({
 					scrollTop: $(targetId).offset().top - 80
 				}, 500, function() {
-					// 滚动完成后，延迟一点时间再激活标签页
+					// 滚动完成后，查找对应标签页
 					setTimeout(function() {
 						// 查找目标分类下的标签容器
 						var $tabContainer = $(targetId).closest('h4').next('.tab-container');
+						
+						// 如果没找到，可能在下一个元素
 						if($tabContainer.length === 0) {
 							$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
 						}
 						
 						console.log('找到标签容器:', { found: $tabContainer.length > 0 });
 						
-						// 如果找到了标签容器，在其中激活标签
+						// 在标签容器中查找与termName匹配的标签
 						if($tabContainer.length > 0) {
-							if(window.activateTabByName) {
-								window.activateTabByName($tabContainer, termName);
-							} else {
-								console.error('activateTabByName 函数不可用');
+							var $tabs = $tabContainer.find('.tab-menu .tab-item');
+							var found = false;
+							
+							// 首先尝试精确匹配
+							$tabs.each(function() {
+								var $tab = $(this);
+								var tabText = $tab.clone().children().remove().end().text().trim();
+								
+								console.log('比较标签:', tabText, termName);
+								
+								if(tabText === termName) {
+									console.log('找到匹配标签，激活');
+									$tabs.removeClass('active');
+									$tab.addClass('active');
+									
+									// 激活对应内容
+									var tabIndex = $tab.index();
+									var $contents = $tabContainer.find('.tab-content .tab-pane');
+									$contents.removeClass('active');
+									$contents.eq(tabIndex).addClass('active');
+									
+									found = true;
+									return false; // 跳出循环
+								}
+							});
+							
+							// 如果没有精确匹配，尝试部分匹配
+							if(!found) {
+								$tabs.each(function() {
+									var $tab = $(this);
+									var tabText = $tab.clone().children().remove().end().text().trim();
+									
+									if(tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+										console.log('找到部分匹配标签，激活');
+										$tabs.removeClass('active');
+										$tab.addClass('active');
+										
+										// 激活对应内容
+										var tabIndex = $tab.index();
+										var $contents = $tabContainer.find('.tab-content .tab-pane');
+										$contents.removeClass('active');
+										$contents.eq(tabIndex).addClass('active');
+										
+										found = true;
+										return false; // 跳出循环
+									}
+								});
 							}
-						} else {
-							// 如果没找到容器，尝试在所有标签容器中查找
-							if(window.activateTabByName) {
-								window.activateTabByName(null, termName);
+							
+							if(!found) {
+								console.log('未找到匹配标签');
 							}
 						}
 					}, 300);
@@ -542,6 +584,13 @@ function trigger_resizable()
 				console.error('目标元素不存在:', targetId);
 			}
 		});
+		
+		// 初始化时展开当前活动的菜单项
+		var $activeMenuItem = $('.main-menu > li.has-sub > ul.sub-menu > li.active');
+		if($activeMenuItem.length > 0) {
+			$activeMenuItem.closest('li.has-sub').addClass('expanded');
+			$activeMenuItem.closest('ul.sub-menu').show();
+		}
 	});
 })(jQuery, window);
 
