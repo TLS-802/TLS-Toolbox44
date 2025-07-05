@@ -337,6 +337,58 @@ $(document).ready(function() {
 
   // 设置全局函数以便其他脚本调用
   window.activateTabByName = activateTabByText;
+
+  // 检查URL hash值，如果有则尝试激活对应的标签
+  // 获取hash值（不包括#号）
+  var hash = window.location.hash.substring(1);
+  if(hash) {
+    // 尝试查找对应的元素
+    var $target = $('#' + hash);
+    if($target.length) {
+      // 滚动到元素位置
+      $('html, body').animate({
+        scrollTop: $target.offset().top - 80
+      }, 500, function() {
+        // 查找附近的标签容器
+        var $tabContainer = $target.closest('.tab-container');
+        if(!$tabContainer.length) {
+          // 如果元素不在标签容器内，则查找最近的标签容器
+          $tabContainer = $target.closest('h4').next('.tab-container');
+          if(!$tabContainer.length) {
+            $tabContainer = $target.closest('h4').nextAll('.tab-container').first();
+          }
+        }
+        
+        // 如果找到标签容器，查找数据属性中包含hash值的标签
+        if($tabContainer.length) {
+          var $tabs = $tabContainer.find('.tab-menu .tab-item');
+          var $matchingTab = null;
+          
+          // 如果hash值包含"-"，可能是我们的组合hash
+          if(hash.indexOf('-') !== -1) {
+            // 尝试从URL中提取taxonomy和term参数
+            var params = new URLSearchParams(window.location.search);
+            var termParam = params.get('term');
+            
+            if(termParam) {
+              // 根据term参数查找标签
+              $matchingTab = $tabs.filter(function() {
+                return $(this).data('term') === termParam;
+              });
+            }
+          }
+          
+          // 如果找到匹配的标签，激活它
+          if($matchingTab && $matchingTab.length) {
+            $matchingTab.click();
+          } else {
+            // 如果没有找到匹配的标签，默认激活第一个
+            $tabs.first().click();
+          }
+        }
+      });
+    }
+  }
 });
 
 // 提取为单独函数，以便在点击事件和全局方法中复用

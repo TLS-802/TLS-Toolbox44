@@ -130,7 +130,7 @@ function trigger_resizable()
 							var termName = item.term;
 							
 							// 计算跳转目标的ID
-							var targetId = "#" + $.simpleHash(taxonomyName);
+							var targetId = "#" + $.simpleHash(taxonomyName + "-" + termName);
 							
 							// 创建子菜单项
 							var $subMenuItem = $(
@@ -150,18 +150,22 @@ function trigger_resizable()
 								var termName = $link.data('term');
 								var targetId = $link.attr('href');
 								
+								// 更新URL的hash值，但不触发滚动
+								history.replaceState(null, null, targetId);
+								
 								// 首先滚动到目标分类区域
-								if($(targetId).length) {
+								var $targetSection = $(taxonomyName ? '#' + $.simpleHash(taxonomyName) : targetId);
+								if($targetSection.length) {
 									$('html, body').animate({
-										scrollTop: $(targetId).offset().top - 80
+										scrollTop: $targetSection.offset().top - 80
 									}, 500, function() {
 										// 滚动完成后，查找并激活对应的标签
 										// 查找标签容器
-										var $tabContainer = $(targetId).closest('h4').next('.tab-container');
+										var $tabContainer = $targetSection.closest('h4').next('.tab-container');
 										
 										// 如果没找到，可能在下一个元素
 										if($tabContainer.length === 0) {
-											$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
+											$tabContainer = $targetSection.closest('h4').nextAll('.tab-container').first();
 										}
 										
 										if($tabContainer.length > 0) {

@@ -56,7 +56,7 @@
                             {{ $taxonomy := .taxonomy }}
                             {{ range .list }}
                             <li>
-                                <a href="#{{ $taxonomy | lower | urlize }}" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">
+                                <a href="#{{ md5 (print $taxonomy "-" .term) }}" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">
                                     {{ .term }}
                                 </a>
                             </li>
