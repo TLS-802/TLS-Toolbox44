@@ -359,40 +359,41 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 .black .posts-nav{color:rgba(221,221,221,.2)}
 .black .input-group-addon{color:#ddd;background:#26282a;border-color:#26282a}
 
-/* 二级菜单下拉列表式样式 - 只添加箭头指示器 */
-.sidebar-menu .main-menu .has-sub > a {
-  position: relative;
-}
-
-.sidebar-menu .main-menu .has-sub > a:after {
-  content: '\f107';
+/* 二级菜单下拉列表式样式 - 修改原有箭头样式 */
+.sidebar-menu .main-menu li.has-sub > a:before {
+  content: '\f107' !important;
   font-family: FontAwesome;
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #979898;
-  transition: transform 0.3s ease;
+  float: right;
+  color: #6d747a;
+  margin-left: 10px;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transition: all 150ms ease-in-out;
+  -moz-transition: all 150ms ease-in-out;
+  -o-transition: all 150ms ease-in-out;
+  transition: all 150ms ease-in-out;
 }
 
-.sidebar-menu .main-menu .has-sub.expanded > a:after {
-  transform: translateY(-50%) rotate(180deg);
-}
-
-/* 折叠状态下隐藏箭头 */
-.sidebar-menu.collapsed .main-menu .has-sub > a:after {
-  display: none;
+/* 展开状态下的箭头旋转 */
+.sidebar-menu .main-menu li.has-sub.expanded > a:before {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
 }
 
 /* 暗色模式箭头颜色 */
-.black .sidebar-menu .main-menu .has-sub > a:after {
+.black .sidebar-menu .main-menu li.has-sub > a:before {
   color: #bcbcbc;
 }
 
 /* 移动端样式适配 */
 @media screen and (max-width: 767px) {
-  .sidebar-menu .main-menu .has-sub > a:after {
-    right: 10px;
+  .sidebar-menu .main-menu li.has-sub > a:before {
+    margin-right: 10px;
   }
 }
