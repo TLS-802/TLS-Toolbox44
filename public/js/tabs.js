@@ -1,3 +1,20 @@
+// 简单的哈希函数
+$.simpleHash = function(str) {
+  if (!str) return '';
+  
+  // 使用一个简单的哈希算法将字符串转换为短哈希值
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    var char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // 转换为32位整数
+  }
+  
+  // 将哈希值转换为十六进制字符串
+  var hashStr = (hash >>> 0).toString(16);
+  return hashStr;
+};
+
 // 标签式二级菜单交互
 $(document).ready(function() {
   console.log('标签页初始化...');
@@ -548,23 +565,6 @@ $(document).ready(function() {
     return '重新绑定完成';
   };
 });
-
-// 简单的哈希函数
-$.simpleHash = function(str) {
-  if (!str) return '';
-  
-  // 使用一个简单的哈希算法将字符串转换为短哈希值
-  var hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    var char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // 转换为32位整数
-  }
-  
-  // 将哈希值转换为十六进制字符串
-  var hashStr = (hash >>> 0).toString(16);
-  return hashStr;
-};
 
 // 提取为单独函数，以便在点击事件和全局方法中复用
 function activateTab($tabContainer, tabIndex) {
