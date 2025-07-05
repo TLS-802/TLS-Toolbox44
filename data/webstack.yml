@@ -42,6 +42,17 @@
 
 - taxonomy: 快捷导航
   icon: fa-shopping-cart
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 淘宝
+    - term: 抖音
+    - term: 京东
+    - term: 快手
+    - term: 小红书
+    - term: 视频号
+    - term: 拼多多
+    - term: 1688
+    - term: 跨境电商
+    - term: 其他平台
   tabs:
     - name: 淘宝
       links:
@@ -986,6 +997,11 @@
 
 - taxonomy: 电商辅助
   icon: fa-cogs
+  list:  # 添加list属性，用于侧边栏显示
+    - term: 电商辅助
+    - term: 电商货源
+    - term: 直播辅助
+    - term: 视频剪辑
   tabs:
     - name: 电商辅助
       links:
