@@ -53,8 +53,6 @@ footer.main-footer .foot-button span
 footer.main-footer .foot-button a:hover{background-color:rgba(44,46,47,.1)}footer.main-footer.footer-type-2{background-color:#252729;border-top:0;color:#fff}
 .sidebar-menu .main-menu li.active>a{color:#fff}.sidebar-menu .main-menu li.has-sub>a:before{position:relative;display:inline-block;font-family:FontAwesome;content:'\f107';float:right;color:#6d747a;margin-left:10px;-webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);-o-transform:rotate(-90deg);-ms-transform:rotate(-90deg);transform:rotate(-90deg);-webkit-transition:all 150ms ease-in-out;-moz-transition:all 150ms ease-in-out;-o-transition:all 150ms ease-in-out;transition:all 150ms ease-in-out}
 .sidebar-menu .main-menu li.has-sub.opened>a:before,.sidebar-menu .main-menu li.has-sub.expanded>a:before{-webkit-transform:rotate(0);-moz-transform:rotate(0);-o-transform:rotate(0);-ms-transform:rotate(0);transform:rotate(0)}
-
-
 .sidebar-menu .main-menu a{color:#979898;text-decoration:none;display:block;padding:13px 5px;border-bottom:1px solid #313437}
 .sidebar-menu .main-menu a>i{display:inline-block;margin-right:10px}
 .sidebar-menu .main-menu a>i+span{padding-right:10px}
@@ -187,48 +185,6 @@ footer.main-footer{border-top:0;background-color:#fff}
 .collapsed .main-menu>li>a>span:first-of-type{display:-webkit-box!important;overflow:hidden;position:relative;padding:0;bottom:36px;-webkit-line-clamp:1;-webkit-box-orient:vertical;transition:.25s ease-in-out}
 .collapsed .main-menu>li>a:hover>i{top:100%}  
 .collapsed .main-menu>li>a:hover>span:first-of-type{bottom:0px}
-
-/* 快捷导航与标签式菜单间距 */
-h4.text-gray + .tab-container {
-  margin-top: 20px;
-}
-
-/* 专用间距类 */
-.nav-tab-spacing {
-  margin-top: 30px !important;
-}
-
-/* 响应式间距调整 */
-@media screen and (max-width: 767px) {
-  h4.text-gray + .tab-container {
-    margin-top: 15px;
-  }
-  
-  .nav-tab-spacing {
-    margin-top: 20px !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  h4.text-gray + .tab-container {
-    margin-top: 18px;
-  }
-  
-  .nav-tab-spacing {
-    margin-top: 25px !important;
-  }
-}
-
-@media (min-width: 992px) {
-  h4.text-gray + .tab-container {
-    margin-top: 20px;
-  }
-  
-  .nav-tab-spacing {
-    margin-top: 30px !important;
-  }
-}
-
 .siteico{background:#f1f5f8;position:relative;overflow:hidden;box-shadow:0 30px 20px -20px rgba(0,0,0,.15);border-radius:10px}
 .siteico:before{content:'';display:block;padding-top:100%}
 .blur{-moz-filter:blur(15px);-ms-filter:blur(15px);filter:blur(15px);filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius=15,MakeShadow=false)}
@@ -403,4 +359,40 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 .black .posts-nav{color:rgba(221,221,221,.2)}
 .black .input-group-addon{color:#ddd;background:#26282a;border-color:#26282a}
 
+/* 二级菜单下拉列表式样式 - 只添加箭头指示器 */
+.sidebar-menu .main-menu .has-sub > a {
+  position: relative;
+}
 
+.sidebar-menu .main-menu .has-sub > a:after {
+  content: '\f107';
+  font-family: FontAwesome;
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #979898;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-menu .main-menu .has-sub.expanded > a:after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* 折叠状态下隐藏箭头 */
+.sidebar-menu.collapsed .main-menu .has-sub > a:after {
+  display: none;
+}
+
+/* 暗色模式箭头颜色 */
+.black .sidebar-menu .main-menu .has-sub > a:after {
+  color: #bcbcbc;
+}
+
+/* 移动端样式适配 */
+@media screen and (max-width: 767px) {
+  .sidebar-menu .main-menu .has-sub > a:after {
+    right: 10px;
+  }
+}

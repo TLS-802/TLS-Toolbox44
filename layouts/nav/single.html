@@ -56,13 +56,12 @@
                 <ul id="main-menu" class="main-menu">
                     {{ range .Params.data }}
                     {{ if .list }}
-                        <li class="has-sub dropdown-menu-item">
+                        <li class="has-sub">
                             <a>
                                <i class="fa {{ .icon }} fa-fw"></i>
                                <span class="title">{{ .taxonomy }}</span>
-                               <span class="dropdown-arrow"></span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul>
                                 {{ range .list }}    
                                 <li>
                                     <a href="#{{ md5 .term }}" class="smooth">{{ .term }}</a>
@@ -377,7 +376,6 @@
 <script type='text/javascript' src='../js/TweenMax.min.js?ver=1.13.1'></script>
 <script type='text/javascript' src='../js/nav.js?ver=2.0.0'></script>
 <script type='text/javascript' src='../js/lazyload.min.js?ver=2.0.0'></script>
-<script type='text/javascript' src='../js/dropdown.js?ver=1.0.0'></script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {{ if .Site.Params.pinyin.enable }}<script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.19.0/dist/index.js"></script>{{ end }}
 <script type='text/javascript' src='../js/local-search.js'></script>

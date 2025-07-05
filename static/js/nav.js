@@ -763,3 +763,16 @@ function attrDefault($el, data_var, default_val)
 	}
 	return default_val;
 }
+
+// 添加二级菜单下拉列表式交互
+$(document).ready(function() {
+  // 使用原有的交互逻辑，只添加expanded类用于控制箭头旋转
+  $(document).on('click', '.has-sub', function() {
+    var _this = $(this);
+    if(!_this.hasClass('expanded')) {
+      _this.addClass('expanded');
+    } else {
+      _this.removeClass('expanded');
+    }
+  });
+});

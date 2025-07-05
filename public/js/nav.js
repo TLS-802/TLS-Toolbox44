@@ -454,7 +454,6 @@ function setup_sidebar_menu()
 		var $items_with_subs = public_vars.$sidebarMenu.find('li:has(> ul)'),
 			toggle_others = public_vars.$sidebarMenu.hasClass('toggle-others');
 		$items_with_subs.filter('.active').addClass('expanded');
-		
 		// On larger screens collapse sidebar when the window is tablet screen
 		if(is('largescreen') && public_vars.$sidebarMenu.hasClass('collapsed') == false)
 		{
@@ -473,33 +472,24 @@ function setup_sidebar_menu()
 				}
 			});
 		}
-		
 		$items_with_subs.each(function(i, el)
 		{
 			var $li = jQuery(el),
 				$a = $li.children('a'),
 				$sub = $li.children('ul');
 			$li.addClass('has-sub');
-			
 			$a.on('click', function(ev)
 			{
 				ev.preventDefault();
-				
 				if(toggle_others)
 				{
 					sidebar_menu_close_items_siblings($li);
 				}
-				
 				if($li.hasClass('expanded') || $li.hasClass('opened'))
 					sidebar_menu_item_collapse($li, $sub);
 				else
 					sidebar_menu_item_expand($li, $sub);
 			});
-		});
-		
-		// 为侧边栏标签链接添加点击事件
-		public_vars.$sidebarMenu.find('.sidebar-tab-link').on('click', function(ev) {
-			// 事件处理已经在sidebar-tabs.js中实现，这里不需要阻止默认行为
 		});
 	}
 }
@@ -773,3 +763,16 @@ function attrDefault($el, data_var, default_val)
 	}
 	return default_val;
 }
+
+// 添加二级菜单下拉列表式交互
+$(document).ready(function() {
+  // 使用原有的交互逻辑，只添加expanded类用于控制箭头旋转
+  $(document).on('click', '.has-sub', function() {
+    var _this = $(this);
+    if(!_this.hasClass('expanded')) {
+      _this.addClass('expanded');
+    } else {
+      _this.removeClass('expanded');
+    }
+  });
+});

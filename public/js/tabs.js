@@ -11,7 +11,28 @@ $(document).ready(function() {
   
   // 为每个tab-menu下的tab-item添加点击事件
   $('.tab-menu .tab-item').click(function() {
-    activateTab($(this));
+    // 获取当前点击的标签
+    var tabId = $(this).data('tab');
+    
+    // 移除同级标签的active类
+    $(this).siblings().removeClass('active');
+    
+    // 为当前点击的标签添加active类
+    $(this).addClass('active');
+    
+    // 隐藏所有相关的内容
+    var tabContainer = $(this).closest('.tab-container');
+    tabContainer.find('.tab-content').removeClass('active');
+    
+    // 显示对应的内容
+    var $targetContent = tabContainer.find('.tab-content[data-tab="' + tabId + '"]');
+    $targetContent.addClass('active');
+
+    // 滚动到当前标签位置
+    scrollToTab($(this));
+    
+    // 添加动画效果
+    animateTabTransition($targetContent);
   });
   
   // 初始化：激活每个标签组的第一个标签
@@ -165,30 +186,4 @@ $(document).ready(function() {
     
     return iconMap[tabName] || '';
   }
-  
-  // 激活标签函数，供外部调用
-  window.activateTab = function($tab) {
-    // 获取当前点击的标签
-    var tabId = $tab.data('tab');
-    
-    // 移除同级标签的active类
-    $tab.siblings().removeClass('active');
-    
-    // 为当前点击的标签添加active类
-    $tab.addClass('active');
-    
-    // 隐藏所有相关的内容
-    var tabContainer = $tab.closest('.tab-container');
-    tabContainer.find('.tab-content').removeClass('active');
-    
-    // 显示对应的内容
-    var $targetContent = tabContainer.find('.tab-content[data-tab="' + tabId + '"]');
-    $targetContent.addClass('active');
-
-    // 滚动到当前标签位置
-    scrollToTab($tab);
-    
-    // 添加动画效果
-    animateTabTransition($targetContent);
-  };
 }); 
