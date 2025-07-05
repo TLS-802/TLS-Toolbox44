@@ -270,6 +270,7 @@
     </div id="overlay"> 
 <script type="text/javascript">
     $(document).ready(function() {
+        // 页面加载完成后的初始化
         // 黑暗和明亮模式切换功能
         $('footer.main-footer .foot-button .bright-dark').click(function(){   
             var currentIcon = $(this).find('i').attr('class'); 
@@ -292,7 +293,6 @@
             }
         })
         // END 利用iowen API 获取网址icon
-        
     });
 </script>
 <!-- 底部脚本 -->
@@ -378,73 +378,5 @@
 {{ if .Site.Params.pinyin.enable }}
 <script type='text/javascript' src='./js/pinyin-pro-3.19.0.min.js'></script>
 {{ end }}
-<!-- 底部脚本 -->
-<script>
-// 添加调试按钮
-$(document).ready(function() {
-    var $debugPanel = $('<div id="debug-panel" style="position: fixed; bottom: 10px; left: 10px; z-index: 9999; background: rgba(0,0,0,0.8); color: #fff; padding: 10px; border-radius: 5px; font-size: 12px;"></div>');
-    
-    // 添加按钮
-    $debugPanel.append('<button id="debug-info" style="margin: 2px; padding: 3px 8px; border: none; background: #4f5b93; color: white; border-radius: 3px;">诊断</button>');
-    $debugPanel.append('<button id="rebind-tabs" style="margin: 2px; padding: 3px 8px; border: none; background: #4f5b93; color: white; border-radius: 3px;">重绑定</button>');
-    $debugPanel.append('<button id="reset-hash" style="margin: 2px; padding: 3px 8px; border: none; background: #4f5b93; color: white; border-radius: 3px;">重置URL</button>');
-    
-    // 诊断按钮
-    $debugPanel.find('#debug-info').on('click', function() {
-        console.log('获取所有标签数据:');
-        var tabInfo = [];
-        $('.tab-item').each(function(index) {
-            var $tab = $(this);
-            tabInfo.push({
-                index: index,
-                text: $tab.text().trim(),
-                taxonomy: $tab.data('taxonomy'),
-                term: $tab.data('term'),
-                tab: $tab.data('tab')
-            });
-            console.log(index, $tab.data('taxonomy'), $tab.data('term'), $tab.text().trim(), $tab.data('tab'));
-        });
-        console.log('当前URL:', window.location.href);
-        
-        // 输出哈希值信息
-        var hash = window.location.hash.substring(1);
-        if (hash) {
-            console.log('当前哈希值:', hash);
-            if (hash.indexOf('-') !== -1) {
-                var parts = hash.split('-');
-                console.log('分解后:', parts[0], parts.slice(1).join('-'));
-            }
-        }
-    });
-    
-    // 重新绑定标签事件
-    $debugPanel.find('#rebind-tabs').on('click', function() {
-        if (window.rebindAllTabs) {
-            window.rebindAllTabs();
-        } else {
-            console.error('未找到rebindAllTabs函数');
-        }
-    });
-    
-    // 重置URL哈希值
-    $debugPanel.find('#reset-hash').on('click', function() {
-        var currentHash = window.location.hash;
-        if (currentHash) {
-            history.pushState(null, null, ' ');
-            setTimeout(function() {
-                history.pushState(null, null, currentHash + '?' + new Date().getTime());
-                setTimeout(function() {
-                    history.pushState(null, null, currentHash);
-                    $(window).trigger('hashchange');
-                }, 10);
-            }, 10);
-        } else {
-            alert('当前URL没有哈希值');
-        }
-    });
-    
-    $('body').append($debugPanel);
-});
-</script>
 </body>
 </html>
