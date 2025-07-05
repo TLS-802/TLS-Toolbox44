@@ -53,12 +53,28 @@
                 <!-- 主菜单列表 -->
                 <ul id="main-menu" class="main-menu">
                     {{ range .Site.Data.webstack }}
-                    <li>
-                        <a href="#{{ md5 .taxonomy }}" class="smooth">
-                           <i class="fa {{ .icon }} fa-fw"></i>
-                           <span class="title">{{ .taxonomy }}</span>
-                        </a>
-                    </li>                 
+                    {{ if .list }}
+                        <li class="has-sub">
+                            <a>
+                               <i class="fa {{ .icon }} fa-fw"></i>
+                               <span class="title">{{ .taxonomy }}</span>
+                            </a>
+                            <ul>
+                                {{ range .list }}    
+                                <li>
+                                    <a href="#{{ md5 .term }}" class="smooth">{{ .term }}</a>
+                                </li>
+                                {{ end }}
+                            </ul>
+                        </li>
+                    {{ else }}
+                        <li>
+                            <a href="#{{ md5 .taxonomy }}" class="smooth">
+                               <i class="fa {{ .icon }} fa-fw"></i>
+                               <span class="title">{{ .taxonomy }}</span>
+                            </a>
+                        </li> 
+                    {{ end }}                 
                     {{ end }}
                 </ul>
                 
@@ -91,26 +107,14 @@
 <!-- 网站列表展示区域 -->
 <div class="sites-list" style="margin-bottom: 8.5rem;">
 {{ range .Site.Data.webstack }}
-    <!-- {{ .taxonomy }} -->
-    <h4 class="text-gray" style="display: inline-block; margin-bottom: 20px;"><i class="fa {{ .icon }}" style="margin-right: 27px;" id="{{ md5 .taxonomy }}"></i>{{ .taxonomy }}</h4>
-    
-    {{ if .tabs }}
-    <!-- 有标签式二级菜单的分类 -->
-    <div class="tab-container nav-tab-spacing">
-        <!-- 标签菜单 -->
-        <div class="tab-menu">
-            {{ range $index, $tab := .tabs }}
-            <div class="tab-item" data-tab="{{ $index }}">{{ $tab.name }}</div>
-            {{ end }}
-        </div>
-        
-        <!-- 标签内容 -->
-        {{ range $index, $tab := .tabs }}
-        <div class="tab-content" data-tab="{{ $index }}">
+    {{ if .list }}
+        {{ $subicon := .icon }}
+        {{ range .list }}
+        <!-- {{ .term }} -->
+        <h4 class="text-gray" style="display: inline-block;"><i class="fa {{ $subicon }}" style="margin-right: 27px;" id="{{ md5 .term }}"></i>{{ .term }}</h4>
             <div class="row">
-            {{ range $tab.links }}
+            {{ range .links }}
                 {{ if .qrcode }}
-                <!-- 带二维码的网站卡片 -->
                 <div class="xe-card col-xs-6 col-sm-4 col-md-3 qrcode geticon">
                     <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<img src='{{ .qrcode }}' width='128'>">
                         <div class="xe-comment-entry">
@@ -127,10 +131,8 @@
                     </a>
                 </div>
                 {{ else }}
-                <!-- 普通网站卡片 -->
                 <div class="xe-card col-xs-6 col-sm-4 col-md-3 geticon">
-                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" 
-                    title="{{ .description }} {{ .url }}">
+                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" title="{{ .description }} {{ .url }}">
                         <div class="xe-comment-entry">
                             <div class="xe-user-img">
                                 <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
@@ -147,53 +149,52 @@
                 {{ end }}
             {{ end }}
             </div>
-        </div>
+        <br />
+        <!--END {{ .term }} -->
         {{ end }}
-    </div>
     {{ else }}
-    <!-- 无标签式二级菜单的普通分类 -->
-    <div class="row">
-    {{ range .links }}
-        {{ if .qrcode }}
-        <!-- 带二维码的网站卡片 -->
-        <div class="xe-card col-xs-6 col-sm-4 col-md-3 qrcode geticon">
-            <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<img src='{{ .qrcode }}' width='128'>">
-                <div class="xe-comment-entry">
-                    <div class="xe-user-img">
-                        <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
-                    </div>
-                    <div class="xe-comment">
-                        <div class="xe-user-name overflowClip_1">
-                            <strong>{{ .title }}</strong>
+        <!-- {{ .taxonomy }} -->
+        <h4 class="text-gray" style="display: inline-block;"><i class="fa {{ .icon }}" style="margin-right: 27px;" id="{{ md5 .taxonomy }}"></i>{{ .taxonomy }}</h4>
+            <div class="row">
+            {{ range .links }}
+                {{ if .qrcode }}
+                <div class="xe-card col-xs-6 col-sm-4 col-md-3 qrcode geticon">
+                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" data-html="true" title="<img src='{{ .qrcode }}' width='128'>">
+                        <div class="xe-comment-entry">
+                            <div class="xe-user-img">
+                                <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
+                            </div>
+                            <div class="xe-comment">
+                                <div class="xe-user-name overflowClip_1">
+                                    <strong>{{ .title }}</strong>
+                                </div>
+                                <p class="overflowClip_2">{{ .description }}</p>
+                            </div>
                         </div>
-                        <p class="overflowClip_2">{{ .description }}</p>
-                    </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-        {{ else }}
-        <!-- 普通网站卡片 -->
-        <div class="xe-card col-xs-6 col-sm-4 col-md-3 geticon">
-            <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom" 
-            title="{{ .description }} {{ .url }}">
-                <div class="xe-comment-entry">
-                    <div class="xe-user-img">
-                        <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
-                    </div>
-                    <div class="xe-comment">
-                        <div class="xe-user-name overflowClip_1">
-                            <strong>{{ .title }}</strong>
+                {{ else }}
+                <div class="xe-card col-xs-6 col-sm-4 col-md-3 geticon">
+                    <a href="{{ .url }}" target="_blank" class="xe-widget xe-conversations box2 label-info" data-toggle="tooltip" data-placement="bottom"  title="{{ .description }} {{ .url }}">
+                        <div class="xe-comment-entry">
+                            <div class="xe-user-img">
+                                <img class="img-circle lazy" src="./images/favicon.png" data-src="{{ .logo }}" onerror="javascript:this.src='./images/favicon.png'" width="40">
+                            </div>
+                            <div class="xe-comment">
+                                <div class="xe-user-name overflowClip_1">
+                                    <strong>{{ .title }}</strong>
+                                </div>
+                                <p class="overflowClip_2">{{ .description }}</p>
+                            </div>
                         </div>
-                        <p class="overflowClip_2">{{ .description }}</p>
-                    </div>
+                    </a>
                 </div>
-            </a>
-        </div>
-        {{ end }}
+                {{ end }}
+            {{ end }}
+            </div>
+        <br />
+        <!--END {{ .taxonomy }} -->
     {{ end }}
-    </div>
-    {{ end }}
-    
     <!-- 友情链接 -->
     {{ if .friend }}
     <div class="friendlink" style="margin-bottom:-40px">
@@ -207,8 +208,6 @@
     </div>
     {{ end }}
     <!-- END 友情链接    -->
-    <br />
-    <!--END {{ .taxonomy }} -->
 {{ end }}
 </div>
             <!-- 页脚 -->
@@ -291,6 +290,7 @@
 <script type='text/javascript' src='./js/TweenMax.min.js'></script>
 <script type='text/javascript' src='./js/lazyload.min.js'></script>
 <script type='text/javascript' src='./js/nav.js'></script>
+<script type='text/javascript' src='./js/dropdown.js'></script>
 <script type='text/javascript' src='./js/local-search.js'></script>
 {{ if .Site.Params.pinyin.enable }}
 <script type='text/javascript' src='./js/pinyin-pro-3.19.0.min.js'></script>

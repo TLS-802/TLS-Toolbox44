@@ -361,8 +361,10 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 
 /* 二级菜单下拉列表式样式 - 修改原有箭头样式 */
 .sidebar-menu .main-menu li.has-sub > a:before {
-  content: '\f107' !important;
+  position: relative;
+  display: inline-block;
   font-family: FontAwesome;
+  content: '\f107' !important;
   float: right;
   color: #6d747a;
   margin-left: 10px;

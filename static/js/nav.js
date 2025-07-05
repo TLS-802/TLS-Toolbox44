@@ -91,234 +91,202 @@ function trigger_resizable()
 	"use strict";
 	$(document).ready(function()
 	{
-		// Chat Toggler
-		$('a[data-toggle="chat"]').each(function(i, el)
+		// 初始化公共变量
+		public_vars.$body = $("body");
+		public_vars.$pageContainer = public_vars.$body.find(".page-container");
+		public_vars.$chat = public_vars.$pageContainer.find("#chat");
+		public_vars.$sidebarMenu = public_vars.$pageContainer.find('.sidebar-menu');
+		public_vars.$sidebarProfile = public_vars.$sidebarMenu.find('.sidebar-user-info');
+		public_vars.$mainMenu = public_vars.$sidebarMenu.find('.main-menu');
+		public_vars.$horizontalNavbar = public_vars.$body.find('.navbar.horizontal-menu');
+		public_vars.$horizontalMenu = public_vars.$horizontalNavbar.find('.navbar-nav');
+		public_vars.$mainContent = public_vars.$pageContainer.find('.main-content');
+		public_vars.$mainFooter = public_vars.$body.find('footer.main-footer');
+		public_vars.$userInfoMenuHor = public_vars.$body.find('.navbar.horizontal-menu');
+		public_vars.$userInfoMenu = public_vars.$body.find('nav.navbar.user-info-navbar');
+		public_vars.$settingsPane = public_vars.$body.find('.settings-pane');
+		public_vars.$settingsPaneIn = public_vars.$settingsPane.find('.settings-pane-inner');
+		public_vars.wheelPropagation = true;
+		public_vars.defaultColorsPalette = ['#68b828','#7c38bc','#0e62c7','#fcd036','#4fcdfc','#00b19d','#ff6264','#f7aa47'];
+		
+		// 设置默认动画持续时间
+		var sm_animation_duration = 0.3; // 秒
+		if(public_vars.$mainMenu.length)
 		{
-			$(el).on('click', function(ev)
-			{
-				ev.preventDefault();
-				public_vars.$body.toggleClass('chat-open');
-				if($.isFunction($.fn.perfectScrollbar))
-				{
-					setTimeout(function()
-					{
-						public_vars.$chat.find('.chat_inner').perfectScrollbar('update');
-						$(window).trigger('xenon.resize');
-					}, 1);
-				}
-			});
+			var sm_duration = sm_animation_duration;
+			sm_transition_delay = 0.1; // 秒
+		}
+		
+		// 设置自动大小调整
+		$(window).on('resize', function()
+		{
+			trigger_resizable();
 		});
-		// Settings Pane Toggler
-		$('a[data-toggle="settings-pane"]').each(function(i, el)
+		
+		// 初始化菜单
+		setup_sidebar_menu();
+		setup_horizontal_menu();
+		
+		// 确保所有带有子菜单的项目都有 has-sub 类
+		public_vars.$sidebarMenu.find('li:has(> ul)').addClass('has-sub');
+		
+		// 粘性页脚
+		stickFooterToBottom();
+		$(window).on('resize', stickFooterToBottom);
+		
+		// 滚动条
+		if($.isFunction($.fn.perfectScrollbar))
 		{
-			$(el).on('click', function(ev)
+			if(public_vars.$sidebarMenu.hasClass('fixed'))
+				ps_init();
+			$(".ps-scrollbar").each(function(i, el)
 			{
-				ev.preventDefault();
-				var use_animation = attrDefault($(el), 'animate', false) && ! isxs();
-				var scroll = {
-					top: $(document).scrollTop(),
-					toTop: 0
-				};
-				if(public_vars.$body.hasClass('settings-pane-open'))
+				var $el = $(el);
+				if($el.hasClass('ps-scroll-down'))
 				{
-					scroll.toTop = scroll.top;
+					$el.scrollTop($el.prop('scrollHeight'));
 				}
-				TweenMax.to(scroll, (use_animation ? .1 : 0), {top: scroll.toTop, roundProps: ['top'], ease: scroll.toTop < 10 ? null : Sine.easeOut, onUpdate: function()
-					{
-						$(window).scrollTop( scroll.top );
-					},
-					onComplete: function()
-					{
-						if(use_animation)
-						{
-							// With Animation
-							public_vars.$settingsPaneIn.addClass('with-animation');
-							// Opening
-							if( ! public_vars.$settingsPane.is(':visible'))
-							{
-								public_vars.$body.addClass('settings-pane-open');
-								var height = public_vars.$settingsPane.outerHeight(true);
-								public_vars.$settingsPane.css({
-									height: 0
-								});
-								TweenMax.to(public_vars.$settingsPane, .25, {css: {height: height}, ease: Circ.easeInOut, onComplete: function()
-								{
-									public_vars.$settingsPane.css({height: ''});
-								}});
-								public_vars.$settingsPaneIn.addClass('visible');
-							}
-							// Closing
-							else
-							{
-								public_vars.$settingsPaneIn.addClass('closing');
-								TweenMax.to(public_vars.$settingsPane, .25, {css: {height: 0}, delay: .15, ease: Power1.easeInOut, onComplete: function()
-								{
-									public_vars.$body.removeClass('settings-pane-open');
-									public_vars.$settingsPane.css({height: ''});
-									public_vars.$settingsPaneIn.removeClass('closing visible');
-								}});
-							}
-						}
-						else
-						{
-							// Without Animation
-							public_vars.$body.toggleClass('settings-pane-open');
-							public_vars.$settingsPaneIn.removeClass('visible');
-							public_vars.$settingsPaneIn.removeClass('with-animation');
-						}
-					}
+				$el.perfectScrollbar({
+					wheelPropagation: false
 				});
 			});
-		});
-		// Sidebar Toggle
+			
+			// Chat Scrollbar
+			var $chat_inner = public_vars.$pageContainer.find('#chat .chat-inner');
+			if($chat_inner.parent().hasClass('fixed'))
+				$chat_inner.css({maxHeight: $(window).height()}).perfectScrollbar();
+			
+			
+			// User info opening dropdown trigger PS update
+			$(".dropdown:has(.ps-scrollbar)").each(function(i, el)
+			{
+				var $scrollbar = $(this).find('.ps-scrollbar');
+				$(this).on('click', '[data-toggle="dropdown"]', function(ev)
+				{
+					ev.preventDefault();
+					setTimeout(function()
+					{
+						$scrollbar.perfectScrollbar('update');
+					}, 1);
+				});
+			});
+			
+			
+			// Scrollable
+			$("div.scrollable").each(function(i, el)
+			{
+				var $this = $(el),
+					max_height = parseInt(attrDefault($this, 'max-height', 200), 10);
+				max_height = max_height < 0 ? 200 : max_height;
+				$this.css({maxHeight: max_height}).perfectScrollbar({
+					wheelPropagation: true
+				});
+			});
+		}
+		
+		// 移动设备的菜单切换
 		$('a[data-toggle="sidebar"]').each(function(i, el)
 		{
 			$(el).on('click', function(ev)
 			{
 				ev.preventDefault();
-				if(public_vars.$sidebarMenu.hasClass('collapsed'))
+				
+				if(public_vars.$mainMenu.hasClass('mobile-is-visible'))
 				{
-					public_vars.$sidebarMenu.removeClass('collapsed');
-					ps_init();
+					public_vars.$mainMenu.removeClass('mobile-is-visible');
+					public_vars.$sidebarMenu.removeClass('mobile-is-visible');
 				}
 				else
 				{
-					public_vars.$sidebarMenu.addClass('collapsed');
-					ps_destroy();
+					public_vars.$mainMenu.addClass('mobile-is-visible');
+					public_vars.$sidebarMenu.addClass('mobile-is-visible');
+					
+					setTimeout(function()
+					{
+						public_vars.$sidebarMenu.addClass('mobile-is-visible');
+					}, 200);
 				}
-				$(window).trigger('xenon.resize');
 			});
 		});
+		
 		// Mobile Menu Trigger
 		$('a[data-toggle="mobile-menu"]').on('click', function(ev)
 		{
 			ev.preventDefault();
 			public_vars.$mainMenu.add(public_vars.$sidebarProfile).toggleClass('mobile-is-visible');
-            if($("#main-menu").hasClass('mobile-is-visible') === true){
+			if($("#main-menu").hasClass('mobile-is-visible') === true){
 				public_vars.$sidebarMenu.removeClass('collapsed');
-                $(".sidebar-menu-inner").css("max-height",window.innerHeight);
-                ps_init();
-            }
-            else{
-                ps_destroy();
-            }
+				$(".sidebar-menu-inner").css("max-height",window.innerHeight);
+				ps_init();
+			}
 		});
-		// Mobile Menu Trigger for Horizontal Menu
-		$('a[data-toggle="mobile-menu-horizontal"]').on('click', function(ev)
-		{
-			ev.preventDefault();
-			public_vars.$horizontalMenu.toggleClass('mobile-is-visible');
-		});
-		// Mobile Menu Trigger for Sidebar & Horizontal Menu
-		$('a[data-toggle="mobile-menu-both"]').on('click', function(ev)
-		{
-			ev.preventDefault();
-			public_vars.$mainMenu.toggleClass('mobile-is-visible both-menus-visible');
-			public_vars.$horizontalMenu.toggleClass('mobile-is-visible both-menus-visible');
-		});
+		
 		// Mobile User Info Menu Trigger
 		$('a[data-toggle="user-info-menu"]').on('click', function(ev)
 		{
 			ev.preventDefault();
 			public_vars.$userInfoMenu.toggleClass('mobile-is-visible');
 		});
-		// Mobile User Info Menu Trigger for Horizontal Menu
-		$('a[data-toggle="user-info-menu-horizontal"]').on('click', function(ev)
-		{
-			ev.preventDefault();
-			public_vars.$userInfoMenuHor.find('.nav.nav-userinfo').toggleClass('mobile-is-visible');
-		});
+		
 		// Panel Close
 		$('body').on('click', '.panel a[data-toggle="remove"]', function(ev)
 		{
 			ev.preventDefault();
+			
 			var $panel = $(this).closest('.panel'),
 				$panel_parent = $panel.parent();
+			
 			$panel.remove();
+			
 			if($panel_parent.children().length == 0)
 			{
 				$panel_parent.remove();
 			}
 		});
+		
 		// Panel Reload
 		$('body').on('click', '.panel a[data-toggle="reload"]', function(ev)
 		{
 			ev.preventDefault();
+			
 			var $panel = $(this).closest('.panel');
+			
 			// This is just a simulation, nothing is going to be reloaded
 			$panel.append('<div class="panel-disabled"><div class="loader-1"></div></div>');
+			
 			var $pd = $panel.find('.panel-disabled');
+			
 			setTimeout(function()
 			{
 				$pd.fadeOut('fast', function()
 				{
 					$pd.remove();
 				});
+				
 			}, 500 + 300 * (Math.random() * 5));
 		});
+		
 		// Panel Expand/Collapse Toggle
 		$('body').on('click', '.panel a[data-toggle="panel"]', function(ev)
 		{
 			ev.preventDefault();
+			
 			var $panel = $(this).closest('.panel');
+			
 			$panel.toggleClass('collapsed');
 		});
-		// Loading Text toggle
-		$('[data-loading-text]').each(function(i, el) // Temporary for demo purpose only
+		
+		// 返回顶部按钮
+		$('a[rel="go-top"]').on('click', function(ev)
 		{
-			var $this = $(el);
-			$this.on('click', function(ev)
+			ev.preventDefault();
+			
+			var obj = {pos: $(window).scrollTop()};
+			
+			TweenLite.to(obj, .3, {pos: 0, ease:Power4.easeOut, onUpdate: function()
 			{
-				$this.button('loading');
-				setTimeout(function(){ $this.button('reset'); }, 1800);
-			});
-		});
-		// Popovers and tooltips
-		$('[data-toggle="popover"]').each(function(i, el)
-		{
-			var $this = $(el),
-				placement = attrDefault($this, 'placement', 'right'),
-				trigger = attrDefault($this, 'trigger', 'click'),
-				popover_class = $this.get(0).className.match(/(popover-[a-z0-9]+)/i);
-			$this.popover({
-				placement: placement,
-				trigger: trigger
-			});
-			if(popover_class)
-			{
-				$this.removeClass(popover_class[1]);
-				$this.on('show.bs.popover', function(ev)
-				{
-					setTimeout(function()
-					{
-						var $popover = $this.next();
-						$popover.addClass(popover_class[1]);
-					}, 0);
-				});
-			}
-		});
-		$('[data-toggle="tooltip"]').each(function(i, el)
-		{
-			var $this = $(el),
-				placement = attrDefault($this, 'placement', 'top'),
-				trigger = attrDefault($this, 'trigger', 'hover'),
-				tooltip_class = $this.get(0).className.match(/(tooltip-[a-z0-9]+)/i);
-			$this.tooltip({
-				placement: placement,
-				trigger: trigger
-			});
-			if(tooltip_class)
-			{
-				$this.removeClass(tooltip_class[1]);
-				$this.on('show.bs.tooltip', function(ev)
-				{
-					setTimeout(function()
-					{
-						var $tooltip = $this.next();
-						$tooltip.addClass(tooltip_class[1]);
-					}, 0);
-				});
-			}
+				$(window).scrollTop(obj.pos);
+			}});
 		});
 	});
 })(jQuery, window);
@@ -453,7 +421,13 @@ function setup_sidebar_menu()
 	{
 		var $items_with_subs = public_vars.$sidebarMenu.find('li:has(> ul)'),
 			toggle_others = public_vars.$sidebarMenu.hasClass('toggle-others');
+		
+		// 确保所有带有子菜单的项都有 has-sub 类
+		$items_with_subs.addClass('has-sub');
+		
+		// 已激活的项添加 expanded 类
 		$items_with_subs.filter('.active').addClass('expanded');
+		
 		// On larger screens collapse sidebar when the window is tablet screen
 		if(is('largescreen') && public_vars.$sidebarMenu.hasClass('collapsed') == false)
 		{
@@ -472,19 +446,22 @@ function setup_sidebar_menu()
 				}
 			});
 		}
+		
 		$items_with_subs.each(function(i, el)
 		{
 			var $li = jQuery(el),
 				$a = $li.children('a'),
 				$sub = $li.children('ul');
-			$li.addClass('has-sub');
+			
 			$a.on('click', function(ev)
 			{
 				ev.preventDefault();
+				
 				if(toggle_others)
 				{
 					sidebar_menu_close_items_siblings($li);
 				}
+				
 				if($li.hasClass('expanded') || $li.hasClass('opened'))
 					sidebar_menu_item_collapse($li, $sub);
 				else
@@ -497,8 +474,10 @@ function sidebar_menu_item_expand($li, $sub)
 {
 	if($li.data('is-busy') || ($li.parent('.main-menu').length && public_vars.$sidebarMenu.hasClass('collapsed')))
 		return;
+	
 	$li.addClass('expanded').data('is-busy', true);
 	$sub.show();
+	
 	var $sub_items 	  = $sub.children(),
 		sub_height	= $sub.outerHeight(),
 		win_y			 = jQuery(window).height(),
@@ -506,14 +485,19 @@ function sidebar_menu_item_expand($li, $sub)
 		current_y		 = public_vars.$sidebarMenu.scrollTop(),
 		item_max_y		= $li.position().top + current_y,
 		fit_to_viewpport  = public_vars.$sidebarMenu.hasClass('fit-in-viewport');
+	
 	$sub_items.addClass('is-hidden');
 	$sub.height(0);
+	
 	TweenMax.to($sub, sm_duration, {css: {height: sub_height}, onUpdate: ps_update, onComplete: function(){
 		$sub.height('');
 	}});
+	
 	var interval_1 = $li.data('sub_i_1'),
 		interval_2 = $li.data('sub_i_2');
+	
 	window.clearTimeout(interval_1);
+	
 	interval_1 = setTimeout(function()
 	{
 		$sub_items.each(function(i, el)
@@ -521,21 +505,26 @@ function sidebar_menu_item_expand($li, $sub)
 			var $sub_item = jQuery(el);
 			$sub_item.addClass('is-shown');
 		});
+		
 		var finish_on = sm_transition_delay * $sub_items.length,
 			t_duration = parseFloat($sub_items.eq(0).css('transition-duration')),
 			t_delay = parseFloat($sub_items.last().css('transition-delay'));
+		
 		if(t_duration && t_delay)
 		{
 			finish_on = (t_duration + t_delay) * 1000;
 		}
+		
 		// In the end
 		window.clearTimeout(interval_2);
 		interval_2 = setTimeout(function()
 		{
 			$sub_items.removeClass('is-hidden is-shown');
 		}, finish_on);
+		
 		$li.data('is-busy', false);
 	}, 0);
+	
 	$li.data('sub_i_1', interval_1),
 	$li.data('sub_i_2', interval_2);
 }
@@ -543,9 +532,12 @@ function sidebar_menu_item_collapse($li, $sub)
 {
 	if($li.data('is-busy'))
 		return;
+	
 	var $sub_items = $sub.children();
+	
 	$li.removeClass('expanded').data('is-busy', true);
 	$sub_items.addClass('hidden-item');
+	
 	TweenMax.to($sub, sm_duration, {css: {height: 0}, onUpdate: ps_update, onComplete: function()
 	{
 		$li.data('is-busy', false).removeClass('opened');
