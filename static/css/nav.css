@@ -453,8 +453,10 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
     transition: all 0.3s ease;
 }
 
+/* 子菜单项悬停效果 */
 .main-menu > li.has-sub > ul.sub-menu > li > a:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 28px !important;
 }
 
 /* 下拉菜单箭头样式 */
@@ -477,12 +479,13 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
     transition: all 150ms ease-in-out;
 }
 
+/* 展开状态的箭头样式 */
 .main-menu > li.has-sub.expanded > a:before {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+    transform: rotate(0);
 }
 
 

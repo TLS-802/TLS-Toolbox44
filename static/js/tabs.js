@@ -124,6 +124,17 @@ var TabManager = {
       var targetId = $link.attr('href');
       
       console.log('标签管理器检测到侧边栏菜单项点击:', taxonomyName, termName, targetId);
+      
+      // 标记当前菜单项为活动状态
+      $('.main-menu .sub-menu li').removeClass('active');
+      $link.parent('li').addClass('active');
+      
+      // 确保父菜单项展开
+      var $parentLi = $link.closest('.has-sub');
+      if ($parentLi.length && !$parentLi.hasClass('expanded')) {
+        $('.main-menu > li.has-sub.expanded').removeClass('expanded');
+        $parentLi.addClass('expanded');
+      }
     });
   },
   
@@ -182,39 +193,7 @@ var TabManager = {
     // 4. 如果找到匹配的标签，激活它
     if ($matchingTab && $matchingTab.length) {
         console.log('找到匹配的标签:', $matchingTab.text().trim());
-        
-        // 获取标签索引
-        var tabIndex = $matchingTab.data('tab');
-        var $contents = $tabContainer.find('.tab-content');
-        
-        // 移除其他标签的激活状态
-        $tabs.removeClass('active');
-        $matchingTab.addClass('active');
-        
-        // 移除所有内容区域的激活状态
-        $contents.removeClass('active');
-        
-        // 查找并激活对应的内容区域
-        var $content = $contents.filter('[data-tab="' + tabIndex + '"]');
-        if (!$content.length) {
-            $content = $contents.eq(tabIndex);
-        }
-        
-        if ($content.length) {
-            $content.addClass('active').show();
-            
-            // 将当前激活的标签滚动到可视区域
-            this.scrollToTab($matchingTab);
-            
-            // 触发自定义事件
-            $matchingTab.trigger('tab:activated', [{
-                taxonomyName: taxonomyName,
-                termName: termName,
-                tabIndex: tabIndex
-            }]);
-            
-            return true;
-        }
+        return this.activateTab($matchingTab);
     }
     
     console.error('未找到匹配的标签:', termName);
@@ -315,18 +294,22 @@ var TabManager = {
   
   // 滚动到当前标签位置
   scrollToTab: function($tab) {
+    if (!$tab || !$tab.length) return;
+    
     var $tabMenu = $tab.closest('.tab-menu');
-    var tabOffset = $tab.offset().left;
-    var tabMenuOffset = $tabMenu.offset().left;
-    var scrollLeft = $tabMenu.scrollLeft();
+    if (!$tabMenu.length) return;
     
-    // 计算需要滚动的距离，使当前标签居中
-    var scrollTo = scrollLeft + tabOffset - tabMenuOffset - ($tabMenu.width() / 2) + ($tab.width() / 2);
+    var tabOffset = $tab.position().left;
+    var tabWidth = $tab.outerWidth();
+    var menuWidth = $tabMenu.width();
+    var menuScrollLeft = $tabMenu.scrollLeft();
     
-    // 平滑滚动到目标位置
-    $tabMenu.animate({
-      scrollLeft: scrollTo
-    }, 300);
+    // 如果标签在可视区域外，滚动到合适位置
+    if (tabOffset < 0 || tabOffset + tabWidth > menuWidth) {
+      // 将标签滚动到菜单中间位置
+      var scrollTo = tabOffset + menuScrollLeft - (menuWidth / 2) + (tabWidth / 2);
+      $tabMenu.animate({ scrollLeft: scrollTo }, 300);
+    }
   }
 };
 

@@ -57,13 +57,17 @@
                         <a href="#{{ md5 .taxonomy }}" class="smooth" {{ if .list }}data-list='{{ jsonify .list }}'{{ end }}>
                            <i class="fa {{ .icon }} fa-fw"></i>
                            <span class="title">{{ .taxonomy }}</span>
+                           {{ if .list }}<i class="fa fa-angle-down menu-arrow"></i>{{ end }}
                         </a>
                         {{ if .list }}
                         <ul class="sub-menu">
                             {{ $taxonomy := .taxonomy }}
                             {{ range .list }}
                             <li>
-                                <a href="#{{ md5 (print $taxonomy "-" .term) }}" class="smooth" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">{{ .term }}</a>
+                                <a href="#{{ md5 (print $taxonomy "-" .term) }}" class="smooth" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">
+                                    <i class="fa fa-circle-o fa-fw"></i>
+                                    {{ .term }}
+                                </a>
                             </li>
                             {{ end }}
                         </ul>

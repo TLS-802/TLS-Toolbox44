@@ -381,4 +381,96 @@ body.black .scroll-indicator i {
   .tab-container {
     margin-top: 40px; /* 桌面设备保持较大间距 */
   }
+}
+
+/* 卡片样式改进 */
+.xe-card {
+  position: relative;
+  height: 86px;
+  margin: 20px 0 0 0;
+  transition: all 0.3s ease;
+}
+
+.xe-widget.xe-conversations {
+  position: absolute;
+  background: #fff;
+  margin-bottom: 0px;
+  padding: 15px;
+  left: 0;
+  right: 0;
+  margin: 0 10px;
+  border-radius: 4px;
+  border: 1px solid #e4ecf3;
+  transition: all 0.3s ease;
+}
+
+.xe-widget.xe-conversations:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 40px -24px rgba(0,36,100,.3);
+}
+
+/* 卡片内容样式 */
+.xe-comment {
+  transform: translateY(-50%);
+  position: absolute;
+  margin-left: 50px;
+  top: 50%;
+}
+
+.xe-comment p {
+  margin-bottom: 0px;
+  margin-right: 15px;
+  font-size: 12px;
+}
+
+/* 卡片图标样式 */
+.xe-user-img {
+  float: left;
+  display: block;
+  margin-right: 10px;
+}
+
+.img-circle {
+  padding: 7px 0;
+  border-radius: 50%;
+}
+
+/* 卡片标题和描述文字样式 */
+.overflowClip_1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.overflowClip_2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 暗色模式适配 */
+body.black .tab-menu {
+  background: #3d4044;
+  border-color: #444;
+}
+
+body.black .tab-menu .tab-item {
+  color: #ddd;
+}
+
+body.black .tab-menu .tab-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.black .xe-widget.xe-conversations {
+  background-color: #3d4044;
+  border-color: #444;
+}
+
+body.black .xe-widget.xe-conversations:hover {
+  box-shadow: 0 26px 40px -24px rgba(2,4,6,.3);
 } 
