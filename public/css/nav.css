@@ -435,6 +435,8 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
     position: absolute;
     right: 15px;
     top: 15px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
     transition: all 0.3s ease;
 }
 
@@ -442,6 +444,12 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
     transform: rotate(90deg);
 }
 
+/* 明亮模式下的箭头颜色 */
+.white .sidebar-menu .main-menu > li.has-sub > a:after {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* 子菜单样式 */
 .sidebar-menu .main-menu > li.has-sub > ul.sub-menu {
     padding: 0;
     margin: 0;
@@ -496,6 +504,14 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 .white .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a:hover {
     color: #4f5b93;
     background-color: rgba(0,0,0,0.05);
+}
+
+/* 移动端样式优化 */
+@media (max-width: 768px) {
+    .sidebar-menu .main-menu > li.has-sub > a:after {
+        top: 12px;
+        right: 12px;
+    }
 }
 
 

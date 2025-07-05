@@ -56,12 +56,12 @@
                 <ul id="main-menu" class="main-menu">
                     {{ range .Params.data }}
                     {{ if .list }}
-                        <li>
+                        <li class="has-sub">
                             <a>
                                <i class="fa {{ .icon }} fa-fw"></i>
                                <span class="title">{{ .taxonomy }}</span>
                             </a>
-                            <ul>
+                            <ul class="sub-menu">
                                 {{ $taxonomy := .taxonomy }}
                                 {{ range .list }}    
                                 <li>

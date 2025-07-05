@@ -53,11 +53,20 @@
                 <!-- 主菜单列表 -->
                 <ul id="main-menu" class="main-menu">
                     {{ range .Site.Data.webstack }}
-                    <li>
+                    <li {{ if .list }}class="has-sub"{{ end }}>
                         <a href="#{{ md5 .taxonomy }}" class="smooth" {{ if .list }}data-list='{{ jsonify .list }}'{{ end }}>
                            <i class="fa {{ .icon }} fa-fw"></i>
                            <span class="title">{{ .taxonomy }}</span>
                         </a>
+                        {{ if .list }}
+                        <ul class="sub-menu">
+                            {{ range .list }}
+                            <li>
+                                <a href="#{{ md5 .term }}" class="smooth" data-taxonomy="{{ $.taxonomy }}" data-term="{{ .term }}">{{ .term }}</a>
+                            </li>
+                            {{ end }}
+                        </ul>
+                        {{ end }}
                     </li>                 
                     {{ end }}
                 </ul>

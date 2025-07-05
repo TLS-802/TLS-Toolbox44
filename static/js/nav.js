@@ -464,6 +464,29 @@ function trigger_resizable()
 				});
 			}
 		});
+
+		// 给已有的has-sub类菜单项添加点击事件
+		$('.main-menu > li.has-sub > a').on('click', function(e) {
+			e.preventDefault();
+			
+			var $li = $(this).parent();
+			
+			if ($li.hasClass('expanded')) {
+				// 收起菜单
+				$li.removeClass('expanded');
+			} else {
+				// 收起其他已展开的菜单
+				$('.main-menu > li.expanded').removeClass('expanded');
+				
+				// 展开当前菜单
+				$li.addClass('expanded');
+			}
+		});
+		
+		// 子菜单项的点击事件，防止冒泡到父菜单
+		$('.main-menu > li.has-sub > ul.sub-menu > li > a').on('click', function(e) {
+			e.stopPropagation();
+		});
 	});
 })(jQuery, window);
 
@@ -941,3 +964,14 @@ function attrDefault($el, data_var, default_val)
 	}
 	return default_val;
 }
+
+// 外部链接点击跟踪
+$(document).ready(function() {
+    $('.xe-widget').on('click', function(e) {
+        var url = $(this).attr('href');
+        if(url && !url.startsWith('#')) {
+            // 记录外部链接点击
+            console.log('外部链接点击:', url);
+        }
+    });
+});
