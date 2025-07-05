@@ -427,91 +427,33 @@ input[type="button"],input[type="submit"]{background-color:#222;border:0;-webkit
 .black .posts-nav{color:rgba(221,221,221,.2)}
 .black .input-group-addon{color:#ddd;background:#26282a;border-color:#26282a}
 
-/* 二级菜单样式增强 */
-.sidebar-menu .main-menu > li.has-sub > a:after {
-    content: '\f105';
-    font-family: 'FontAwesome';
-    display: inline-block;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+/* 子菜单激活状态 */
+.main-menu > li.has-sub > ul.sub-menu > li.active > a {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 增强子菜单可见度 */
+.main-menu > li.has-sub > ul.sub-menu > li > a {
+    padding-left: 25px;
+    font-size: 0.9em;
+    position: relative;
     transition: all 0.3s ease;
 }
 
-.sidebar-menu .main-menu > li.has-sub.expanded > a:after {
-    transform: rotate(90deg);
+.main-menu > li.has-sub > ul.sub-menu > li > a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 明亮模式下的箭头颜色 */
-.white .sidebar-menu .main-menu > li.has-sub > a:after {
-    color: rgba(0, 0, 0, 0.5);
-}
-
-/* 子菜单样式 */
-.sidebar-menu .main-menu > li.has-sub > ul.sub-menu {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    overflow: hidden;
+/* 确保子菜单正确显示 */
+.main-menu > li.has-sub > ul.sub-menu {
     max-height: 0;
-    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
-.sidebar-menu .main-menu > li.has-sub.expanded > ul.sub-menu {
-    max-height: 1000px;
-}
-
-.sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a {
-    padding-left: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: block;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 13px;
-    transition: all 0.3s;
-    border-left: 2px solid transparent;
-}
-
-.sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li.active > a {
-    color: #fff;
-    background-color: rgba(255,255,255,0.1);
-    border-left-color: #4f5b93;
-}
-
-.sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a:hover {
-    color: #fff;
-    background-color: rgba(255,255,255,0.1);
-}
-
-/* 暗色模式样式调整 */
-.black .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.black .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li.active > a,
-.black .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a:hover {
-    color: #fff;
-}
-
-/* 明亮模式样式调整 */
-.white .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a {
-    color: rgba(0, 0, 0, 0.7);
-}
-
-.white .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li.active > a,
-.white .sidebar-menu .main-menu > li.has-sub > ul.sub-menu > li > a:hover {
-    color: #4f5b93;
-    background-color: rgba(0,0,0,0.05);
-}
-
-/* 移动端样式优化 */
-@media (max-width: 768px) {
-    .sidebar-menu .main-menu > li.has-sub > a:after {
-        top: 12px;
-        right: 12px;
-    }
+.main-menu > li.has-sub.active > ul.sub-menu {
+    max-height: 500px; /* 增大值以确保可以容纳所有子菜单项 */
 }
 
 

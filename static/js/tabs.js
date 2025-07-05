@@ -1,5 +1,89 @@
 // 标签式二级菜单交互
 $(document).ready(function() {
+  console.log('标签页初始化...');
+
+  // 初始化所有标签容器
+  $('.tab-container').each(function() {
+    var $container = $(this);
+    var $tabs = $container.find('.tab-menu .tab-item');
+    var $contents = $container.find('.tab-content .tab-pane');
+    
+    // 如果没有标签被激活，默认激活第一个
+    if ($tabs.filter('.active').length === 0 && $tabs.length > 0) {
+      $tabs.first().addClass('active');
+      $contents.first().addClass('active');
+    }
+    
+    // 为每个标签添加点击事件
+    $tabs.click(function(e) {
+      e.preventDefault();
+      var $tab = $(this);
+      
+      // 如果已经激活，不做任何处理
+      if ($tab.hasClass('active')) {
+        return;
+      }
+      
+      // 获取标签索引
+      var index = $tab.index();
+      
+      // 移除其他标签的激活状态，并激活当前标签
+      $tabs.removeClass('active');
+      $tab.addClass('active');
+      
+      // 切换内容区域
+      $contents.removeClass('active');
+      $contents.eq(index).addClass('active');
+    });
+  });
+  
+  // URL参数处理
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+  
+  // 获取taxonomy和term参数
+  var taxonomyParam = getParameterByName('taxonomy');
+  var termParam = getParameterByName('term');
+  
+  if (taxonomyParam && termParam) {
+    console.log('URL参数:', taxonomyParam, termParam);
+    
+    // 延迟执行以确保DOM已完全加载
+    setTimeout(function() {
+      // 查找分类ID
+      var taxonomyId = '#' + taxonomyParam.toLowerCase().replace(/\s+/g, '-');
+      var $taxonomySection = $(taxonomyId);
+      
+      if ($taxonomySection.length) {
+        // 滚动到分类
+        $('html, body').animate({
+          scrollTop: $taxonomySection.offset().top - 80
+        }, 300, function() {
+          // 查找最近的标签容器
+          var $tabContainer = $taxonomySection.closest('h4').next('.tab-container');
+          if ($tabContainer.length === 0) {
+            $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
+          }
+          
+          // 激活匹配的标签
+          if ($tabContainer.length > 0) {
+            activateTabByText($tabContainer, termParam);
+          } else {
+            // 全局搜索
+            activateTabByText(null, termParam);
+          }
+        });
+      }
+    }, 300);
+  }
+
   // 为每个tab-menu下的tab-item添加图标
   $('.tab-menu .tab-item').each(function() {
     var tabName = $(this).text().trim();
@@ -7,11 +91,6 @@ $(document).ready(function() {
     if (iconClass) {
       $(this).prepend('<i class="fa ' + iconClass + '"></i>');
     }
-  });
-  
-  // 为每个tab-menu下的tab-item添加点击事件
-  $('.tab-menu .tab-item').click(function() {
-    activateTab($(this));
   });
   
   // 初始化：激活每个标签组的第一个标签
@@ -47,9 +126,6 @@ $(document).ready(function() {
         scrollLeft: $tabMenu.scrollLeft() + 300
       }, 300);
     });
-    
-    // 激活第一个标签
-    $(this).find('.tab-menu .tab-item:first').click();
     
     // 添加链接数量徽章
     $(this).find('.tab-content').each(function(index) {
@@ -166,105 +242,135 @@ $(document).ready(function() {
     return iconMap[tabName] || '';
   }
 
-  // 暴露激活标签方法给全局
-  window.activateTabByName = function(tabContainerSelector, tabName) {
-    var $container = $(tabContainerSelector);
-    if(!$container.length) {
-      // 如果没有指定容器选择器，在所有容器中查找
-      $container = $('.tab-container');
+  // 添加选择器通用函数
+  function sanitizeText(text) {
+    if(!text) return '';
+    return text.toString().trim();
+  }
+
+  // 激活标签页（新版本）
+  function activateTabByText(tabContainer, tabText) {
+    console.log('尝试通过文本激活标签:', tabText);
+    
+    // 标准化输入参数
+    tabText = sanitizeText(tabText);
+    if(!tabText) return false;
+    
+    // 查找所有标签页
+    var $allTabContainers = [];
+    if(tabContainer && $(tabContainer).length > 0) {
+      // 如果提供了特定的标签容器
+      $allTabContainers = [$(tabContainer)];
+    } else {
+      // 否则搜索所有标签容器
+      $allTabContainers = $('.tab-container').map(function() {
+        return $(this);
+      }).get();
     }
     
-    // 在指定容器中查找匹配名称的标签
+    console.log('查找标签容器数量:', $allTabContainers.length);
+    
+    // 尝试在所有容器中查找匹配的标签
     var found = false;
-    $container.each(function() {
-      var $currentContainer = $(this);
-      var $tabItem = $currentContainer.find('.tab-item').filter(function() {
-        // 获取标签纯文本，排除图标和徽章
-        var tabText = $(this).clone()
-          .children('i, span.badge')
-          .remove()
-          .end()
-          .text().trim();
-        return tabText === tabName;
+    $.each($allTabContainers, function(i, $container) {
+      var $tabs = $container.find('.tab-menu .tab-item');
+      console.log('容器中标签数:', $tabs.length);
+      
+      // 首先尝试精确匹配
+      $tabs.each(function() {
+        var $tab = $(this);
+        // 移除任何子元素后获取文本
+        var currentText = $tab.clone().children().remove().end().text().trim();
+        console.log('比较:', currentText, tabText);
+        
+        if(currentText === tabText) {
+          console.log('找到精确匹配');
+          // 激活标签
+          $tabs.removeClass('active');
+          $tab.addClass('active');
+          
+          // 激活对应内容
+          var tabIndex = $tab.index();
+          var $contents = $container.find('.tab-content .tab-pane');
+          $contents.removeClass('active');
+          $contents.eq(tabIndex).addClass('active');
+          
+          found = true;
+          return false; // 跳出 each 循环
+        }
       });
       
-      // 如果找到匹配的标签，激活它
-      if($tabItem.length) {
-        activateTab($tabItem);
-        found = true;
-        return false; // 跳出each循环
+      if(!found) {
+        // 如果没有精确匹配，尝试部分匹配
+        $tabs.each(function() {
+          var $tab = $(this);
+          var currentText = $tab.clone().children().remove().end().text().trim();
+          
+          if(currentText.indexOf(tabText) >= 0 || tabText.indexOf(currentText) >= 0) {
+            console.log('找到部分匹配');
+            // 激活标签
+            $tabs.removeClass('active');
+            $tab.addClass('active');
+            
+            // 激活对应内容
+            var tabIndex = $tab.index();
+            var $contents = $container.find('.tab-content .tab-pane');
+            $contents.removeClass('active');
+            $contents.eq(tabIndex).addClass('active');
+            
+            found = true;
+            return false; // 跳出 each 循环
+          }
+        });
+      }
+      
+      if(found) {
+        return false; // 跳出外层 each 循环
       }
     });
     
-    // 如果没有找到精确匹配，尝试部分匹配
-    if(!found) {
-      $container.each(function() {
-        var $currentContainer = $(this);
-        var $tabItems = $currentContainer.find('.tab-item');
-        
-        $tabItems.each(function() {
-          var $this = $(this);
-          var tabText = $this.clone()
-            .children('i, span.badge')
-            .remove()
-            .end()
-            .text().trim();
-          
-          if(tabText.indexOf(tabName) >= 0 || tabName.indexOf(tabText) >= 0) {
-            activateTab($this);
-            found = true;
-            return false; // 跳出each循环
-          }
-        });
-        
-        if(found) return false; // 如果找到了，跳出外层each循环
-      });
-    }
-    
     return found;
-  };
+  }
 
-  // 根据索引激活标签
-  window.activateTabByIndex = function(tabContainerSelector, tabIndex) {
-    var $container = $(tabContainerSelector);
-    if(!$container.length) {
-      return false;
-    }
-    
-    var $tabItem = $container.find('.tab-item').eq(tabIndex);
-    if($tabItem.length) {
-      activateTab($tabItem);
-      return true;
-    }
-    
-    return false;
-  };
+  // 设置全局函数以便其他脚本调用
+  window.activateTabByName = activateTabByText;
 });
 
 // 提取为单独函数，以便在点击事件和全局方法中复用
-function activateTab($tab) {
-  // 获取当前点击的标签
-  var tabId = $tab.data('tab');
+function activateTab($tabContainer, tabIndex) {
+  if (!$tabContainer || !$tabContainer.length) return false;
   
-  // 移除同级标签的active类
-  $tab.siblings().removeClass('active');
+  var $tabs = $tabContainer.find('.tab-menu .tab-item');
   
-  // 为当前点击的标签添加active类
-  $tab.addClass('active');
+  // 确保索引有效
+  if (tabIndex < 0 || tabIndex >= $tabs.length) {
+    tabIndex = 0;
+  }
   
-  // 隐藏所有相关的内容
-  var tabContainer = $tab.closest('.tab-container');
-  tabContainer.find('.tab-content').removeClass('active');
+  // 获取目标标签和内容
+  var $targetTab = $tabs.eq(tabIndex);
   
-  // 显示对应的内容
-  var $targetContent = tabContainer.find('.tab-content[data-tab="' + tabId + '"]');
-  $targetContent.addClass('active');
-
+  // 如果标签已经是激活状态，不需要再次激活
+  if ($targetTab.hasClass('active')) {
+    return true;
+  }
+  
+  // 激活标签
+  $tabs.removeClass('active');
+  $targetTab.addClass('active');
+  
+  // 激活对应的内容
+  var $contents = $tabContainer.find('.tab-content .tab-pane');
+  $contents.removeClass('active');
+  $contents.eq(tabIndex).addClass('active');
+  
   // 滚动到当前标签位置
-  scrollToTab($tab);
+  scrollToTab($targetTab);
   
   // 添加动画效果
-  animateTabTransition($targetContent);
+  animateTabTransition($contents.eq(tabIndex));
+  
+  return true;
 }
 
 // 滚动到当前标签位置
@@ -293,4 +399,45 @@ function animateTabTransition($content) {
       $content.css('transition', '');
     }, 500);
   }, 50);
+}
+
+// 检查URL参数中是否指定了标签
+function getParameterByName(name) {
+  var url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+  var results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+// 获取指定的标签和分类
+var termParam = getParameterByName('term');
+var taxonomyParam = getParameterByName('taxonomy');
+
+// 如果URL中指定了标签参数，尝试激活它
+if (termParam) {
+  console.log('URL中指定了标签:', termParam);
+  
+  // 如果同时指定了分类，先滚动到该分类
+  if (taxonomyParam) {
+    var targetElement = $('#' + taxonomyParam.replace(/\s+/g, '-').toLowerCase());
+    if (targetElement.length) {
+      $('html, body').animate({
+        scrollTop: targetElement.offset().top - 80
+      }, 500, function() {
+        // 滚动完成后激活标签
+        setTimeout(function() {
+          activateTabByName(null, termParam);
+        }, 300);
+      });
+    } else {
+      // 如果找不到分类，直接尝试激活标签
+      activateTabByName(null, termParam);
+    }
+  } else {
+    // 没有指定分类，直接尝试激活标签
+    activateTabByName(null, termParam);
+  }
 } 

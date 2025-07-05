@@ -483,53 +483,63 @@ function trigger_resizable()
 			}
 		});
 		
-		// 子菜单项的点击事件处理
+		// 调试函数 - 将信息输出到控制台和页面上（开发时使用）
+		function debugLog(message, data) {
+			console.log(message, data);
+			// 如果需要在页面上显示调试信息，取消下面的注释
+			// if (!$('#debug-panel').length) {
+			//     $('body').append('<div id="debug-panel" style="position:fixed;bottom:10px;right:10px;background:rgba(0,0,0,0.8);color:white;padding:10px;max-width:300px;max-height:200px;overflow:auto;z-index:9999;"></div>');
+			// }
+			// $('#debug-panel').append('<p>' + message + ' ' + (data ? JSON.stringify(data) : '') + '</p>');
+		}
+
+		// 重写子菜单项的点击事件处理，使用最直接的方法
 		$('.main-menu > li.has-sub > ul.sub-menu > li > a').on('click', function(e) {
-			e.preventDefault(); // 阻止默认的锚点跳转，我们将使用自定义滚动和标签切换逻辑
+			e.preventDefault();
 			
 			var $link = $(this);
 			var taxonomyName = $link.data('taxonomy');
 			var termName = $link.data('term');
 			var targetId = $link.attr('href');
 			
-			console.log('子菜单点击:', taxonomyName, termName, targetId);
+			console.log('子菜单点击:', { taxonomy: taxonomyName, term: termName, targetId: targetId });
+			
+			// 标记当前菜单项为活动状态
+			$('.main-menu > li.has-sub > ul.sub-menu > li').removeClass('active');
+			$link.parent('li').addClass('active');
 			
 			// 首先滚动到目标分类区域
 			if($(targetId).length > 0) {
 				$('html, body').animate({
 					scrollTop: $(targetId).offset().top - 80
-				}, 300, function() {
-					// 滚动完成后，等待一小段时间确保DOM已经就绪
+				}, 500, function() {
+					// 滚动完成后，延迟一点时间再激活标签页
 					setTimeout(function() {
-						// 尝试使用全局函数激活标签
-						if(window.activateTabByName && typeof window.activateTabByName === 'function') {
-							// 先尝试在当前分类下查找标签
-							var $tabContainer = $(targetId).closest('h4').next('.tab-container');
-							if($tabContainer.length === 0) {
-								$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
-							}
-							
-							var success = false;
-							if($tabContainer.length > 0) {
-								// 如果找到了标签容器，尝试在其中激活标签
-								success = window.activateTabByName($tabContainer, termName);
-							}
-							
-							// 如果特定容器中没找到，尝试在所有标签容器中查找
-							if(!success) {
-								success = window.activateTabByName(null, termName);
-							}
-							
-							if(!success) {
-								console.log('无法找到匹配的标签:', termName);
+						// 查找目标分类下的标签容器
+						var $tabContainer = $(targetId).closest('h4').next('.tab-container');
+						if($tabContainer.length === 0) {
+							$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
+						}
+						
+						console.log('找到标签容器:', { found: $tabContainer.length > 0 });
+						
+						// 如果找到了标签容器，在其中激活标签
+						if($tabContainer.length > 0) {
+							if(window.activateTabByName) {
+								window.activateTabByName($tabContainer, termName);
+							} else {
+								console.error('activateTabByName 函数不可用');
 							}
 						} else {
-							console.log('activateTabByName函数不可用');
+							// 如果没找到容器，尝试在所有标签容器中查找
+							if(window.activateTabByName) {
+								window.activateTabByName(null, termName);
+							}
 						}
-					}, 200);
+					}, 300);
 				});
 			} else {
-				console.log('目标元素不存在:', targetId);
+				console.error('目标元素不存在:', targetId);
 			}
 		});
 	});

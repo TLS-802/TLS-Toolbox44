@@ -31,57 +31,48 @@
                 <header class="logo-env">
                     <!-- logo -->
                     <div class="logo">
-                        <a href="../" class="logo-expanded">
-                            {{ if .Params.logo }}
-                            <img src="../{{ .Params.logo }}" height="40" alt="" />
-                            {{ else }}
-                            <img src="../images/logo.png" height="40" alt="" />
-                            {{ end }}
-                            &nbsp;&nbsp;{{ if .Params.title }}{{ .Params.title }}{{ else }}{{ .Site.Title }}{{ end }}
+                        <a href="/" class="logo-expanded">
+                            <img src="/images/logo@2x.png" width="100%" alt="TLS-Toolbox" />
                         </a>
-                        <a href="../" class="logo-collapsed">
-                            {{ if .Params.sidebar_logo }}
-                            <img src="../{{ .Params.sidebar_logo }}" height="40" alt="">
-                            {{ else }}
-                            <img src="../images/logo.png" height="40" alt="">
-                            {{ end }}
+                        <a href="/" class="logo-collapsed">
+                            <img src="/images/logo-collapsed@2x.png" width="40" alt="TLS-Toolbox" />
                         </a>
                     </div>
                     <div class="mobile-menu-toggle visible-xs">
                         <a href="#" data-toggle="mobile-menu">
-                            <i class="fa fa-bars"></i>
+                            <i class="fa-bars"></i>
                         </a>
                     </div>
                 </header>
                 <ul id="main-menu" class="main-menu">
-                    {{ range .Params.data }}
-                    {{ if .list }}
-                        <li class="has-sub">
-                            <a>
-                               <i class="fa {{ .icon }} fa-fw"></i>
-                               <span class="title">{{ .taxonomy }}</span>
-                            </a>
-                            <ul class="sub-menu">
-                                {{ $taxonomy := .taxonomy }}
-                                {{ range .list }}    
-                                <li>
-                                    <a href="#{{ md5 $taxonomy }}" class="smooth" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">{{ .term }}</a>
-                                </li>
-                                {{ end }}
-                            </ul>
-                        </li>
-                    {{ else }}
-                        <li>
-                            <a href="#{{ md5 .taxonomy }}" class="smooth">
-                               <i class="fa {{ .icon }} fa-fw"></i>
-                               <span class="title">{{ .taxonomy }}</span>
-                            </a>
-                        </li> 
-                    {{ end }}                 
+                    {{ range .Site.Data.webstack }}
+                    <li {{ if .list }}class="has-sub"{{ end }}>
+                        <a href="#{{ .taxonomy | lower | urlize }}">
+                            <i class="fa {{ .icon }}"></i>
+                            <span class="title">{{ .taxonomy }}</span>
+                        </a>
+                        {{ if .list }}
+                        <ul class="sub-menu">
+                            {{ $taxonomy := .taxonomy }}
+                            {{ range .list }}
+                            <li>
+                                <a href="#{{ $taxonomy | lower | urlize }}" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">
+                                    {{ .term }}
+                                </a>
+                            </li>
+                            {{ end }}
+                        </ul>
+                        {{ end }}
+                    </li>
                     {{ end }}
                 </ul>
-                
-
+                <div class="submit-tag">
+                    <a href="/about/">
+                        <i class="linecons-heart"></i>
+                        <span class="tooltip-blue">关于本站</span>
+                        <span class="label label-Primary pull-right hidden-collapsed">♥︎</span>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="main-content">
@@ -91,8 +82,12 @@
             <li class="hidden-xs">
                 <a href="#" data-toggle="sidebar" ><i class="fa fa-bars"></i></a>
             </li>
-
-      </ul>
+            <li class="dropdown hover-line language-switcher">
+                <a href="/index.html" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="/images/flags/flag-cn.png" alt="flag-cn" /> 中文
+                </a>
+            </li>
+        </ul>
         {{ if .Site.Params.Github.enable }}
         <ul class="user-info-menu right-links list-inline list-unstyled">
             <li class="hidden-sm hidden-xs">

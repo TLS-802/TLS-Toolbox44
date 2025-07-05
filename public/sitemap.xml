@@ -2,18 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:50114/about/</loc>
+    <loc>//localhost:59757/about/</loc>
     <lastmod>2023-12-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:50114/</loc>
+    <loc>//localhost:59757/</loc>
     <lastmod>2023-12-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:50114/sub1/</loc>
+    <loc>//localhost:59757/sub1/</loc>
   </url><url>
-    <loc>//localhost:50114/sub2/</loc>
+    <loc>//localhost:59757/sub2/</loc>
   </url><url>
-    <loc>//localhost:50114/categories/</loc>
+    <loc>//localhost:59757/categories/</loc>
   </url><url>
-    <loc>//localhost:50114/tags/</loc>
+    <loc>//localhost:59757/tags/</loc>
   </url>
 </urlset>
