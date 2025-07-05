@@ -485,7 +485,17 @@ function trigger_resizable()
 		
 		// 子菜单项的点击事件，防止冒泡到父菜单
 		$('.main-menu > li.has-sub > ul.sub-menu > li > a').on('click', function(e) {
-			e.stopPropagation();
+			// 不要阻止冒泡，这会导致smooth滚动失效
+			// e.stopPropagation(); 
+			
+			var $link = $(this);
+			var taxonomyName = $link.data('taxonomy');
+			var termName = $link.data('term');
+			
+			// 记录点击事件以便调试
+			if(taxonomyName && termName) {
+				console.log('子菜单点击:', taxonomyName, termName);
+			}
 		});
 	});
 })(jQuery, window);

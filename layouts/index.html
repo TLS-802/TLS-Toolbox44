@@ -60,9 +60,10 @@
                         </a>
                         {{ if .list }}
                         <ul class="sub-menu">
+                            {{ $taxonomy := .taxonomy }}
                             {{ range .list }}
                             <li>
-                                <a href="#{{ md5 .term }}" class="smooth" data-taxonomy="{{ $.taxonomy }}" data-term="{{ .term }}">{{ .term }}</a>
+                                <a href="#{{ md5 .term }}" class="smooth" data-taxonomy="{{ $taxonomy }}" data-term="{{ .term }}">{{ .term }}</a>
                             </li>
                             {{ end }}
                         </ul>
