@@ -986,7 +986,9 @@
 
 - taxonomy: 电商辅助
   icon: fa-cogs
-  links:
+  tabs:
+    - name: 电商辅助
+      links:
         - title: 巨量创意
           logo: images/E-commerce plug-in/juliangchuangyi.png
           url: https://cc.oceanengine.com?from=dy.199908.top
@@ -1055,10 +1057,8 @@
           logo: images/E-commerce plug-in/Lingyao AI.jpg
           url: https://limob.cn?from=dy.199908.top
           description: 抖音微信达人邀约软件
-
-- taxonomy: 电商货源
-  icon: fa-shopping-cart
-  links:
+    - name: 电商货源
+      links:
         - title: 1688
           logo: images/E-commerce supply/1688.png
           url: https://www.1688.com
@@ -1191,10 +1191,8 @@
           logo: images/E-commerce supply/soukuan.png
           url: https://www.vvic.com/gz?from=dy.199908.top
           description: 搜款网
-
-- taxonomy: 直播辅助
-  icon: fa-video
-  links:
+    - name: 直播辅助
+      links:
         - title: 抖音直播伴侣
           logo: images/Live broadcast software/douyinzhibobanlv.jpg
           url: https://streamingtool.douyin.com?from=dy.199908.top
@@ -1215,10 +1213,8 @@
           logo: images/Live broadcast software/StreamCap.jpg
           url: https://fbjvryq00y.feishu.cn/drive/folder/Y0BTfqMWoleXphdT1cNci3fDnUg?from=dy.199908.top
           description: 多平台直播录屏软件
-
-- taxonomy: 视频编辑
-  icon: fa-video
-  links:
+    - name: 视频剪辑
+      links:
         - title: 剪映
           logo: images/Video editing tools/jianying.png
           url: https://www.capcut.cn?from=dy.199908.top
