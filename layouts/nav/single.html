@@ -56,12 +56,13 @@
                 <ul id="main-menu" class="main-menu">
                     {{ range .Params.data }}
                     {{ if .list }}
-                        <li>
+                        <li class="has-sub dropdown-menu-item">
                             <a>
                                <i class="fa {{ .icon }} fa-fw"></i>
                                <span class="title">{{ .taxonomy }}</span>
+                               <span class="dropdown-arrow"></span>
                             </a>
-                            <ul>
+                            <ul class="dropdown-menu">
                                 {{ range .list }}    
                                 <li>
                                     <a href="#{{ md5 .term }}" class="smooth">{{ .term }}</a>
@@ -250,10 +251,10 @@
         <p style="font-size:11px">键盘：Ctrl+F 开关，<strong>↑</strong> 和 <strong>↓</strong> 选择，Enter 访问</p>
     </div>
     <script>var rootPath = '../'</script>
-    </div id="overlay"> 
+    </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        <!-- 黑暗和明亮模式 START -->
+        // 黑暗和明亮模式 START 
         $('footer.main-footer .foot-button .bright-dark').click(function(){   
             var currentIcon = $(this).find('i').attr('class');    
             if (currentIcon.includes('fa-moon')) {
@@ -264,8 +265,8 @@
                     $('body').removeClass('black').addClass('white');
             }        
         });
-        <!-- 黑暗和明亮模式 END -->
-        <!-- 利用iowen API 获取网址icon START --> 
+        // 黑暗和明亮模式 END
+        // 利用iowen API 获取网址icon START
         $(".geticon").each(function(){
             var url = $(this).find('a').attr('href');
             var apiUrl="https://api.iowen.cn/favicon/"+url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')+".png"
@@ -273,7 +274,8 @@
                 $(this).find('img').attr('data-src', apiUrl);
             }
         })
-        <!-- END 利用iowen API 获取网址icon START-->
+        // END 利用iowen API 获取网址icon START
+        
         $(document).on('click', '.has-sub', function(){
             var _this = $(this)
             if(!$(this).hasClass('expanded')) {
@@ -298,7 +300,7 @@
             var percentage = ((col_width + 30) / row_width).toFixed(2);
             if($('.sidebar-menu').hasClass('collapsed')) {
                 $('.has-sub.expanded > ul').attr("style","")
-                <!-- 缩小菜单栏 卡片列数+1 -->
+                // 缩小菜单栏 卡片列数+1
                  switch (percentage){
                     case '0.33': 
                         $(".col-md-3").css("width", "25%");
@@ -313,10 +315,10 @@
                         $(".col-md-3").css("width", "14.286%");
                         break;                        
                 }
-                <!-- 缩小菜单栏 卡片列数+1 END-->
+                // 缩小菜单栏 卡片列数+1 END
             } else {
                 $('.has-sub.expanded > ul').show()
-                <!-- 展开菜单栏 卡片列数-1 -->
+                // 展开菜单栏 卡片列数-1
                 switch (percentage){
                     case '0.25': 
                         $(".col-md-3").css("width", "33.333%");
@@ -331,7 +333,7 @@
                         $(".col-md-3").css("width", "16.666%");
                         break;                                                 
                 }
-                <!-- 展开菜单栏 卡片列数-1 END-->
+                // 展开菜单栏 卡片列数-1 END
             }
         })
         $("#main-menu li ul li").click(function() {
@@ -375,6 +377,7 @@
 <script type='text/javascript' src='../js/TweenMax.min.js?ver=1.13.1'></script>
 <script type='text/javascript' src='../js/nav.js?ver=2.0.0'></script>
 <script type='text/javascript' src='../js/lazyload.min.js?ver=2.0.0'></script>
+<script type='text/javascript' src='../js/dropdown.js?ver=1.0.0'></script>
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {{ if .Site.Params.pinyin.enable }}<script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.19.0/dist/index.js"></script>{{ end }}
 <script type='text/javascript' src='../js/local-search.js'></script>
