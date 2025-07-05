@@ -25,6 +25,12 @@ jQuery.extend({
         return Math.abs(hash).toString(16);
     }
 });
+
+// 全局可访问的hash函数
+window.simpleHash = function(str) {
+    return jQuery.simpleHash(str);
+};
+
 /* Main Function that will be called each time when the screen breakpoint changes */
 function resizable(breakpoint)
 {
@@ -130,7 +136,7 @@ function trigger_resizable()
 							var termName = item.term;
 							
 							// 计算跳转目标的ID
-							var targetId = "#" + $.simpleHash(taxonomyName);
+							var targetId = "#" + $.simpleHash(taxonomyName + "-" + termName);
 							
 							// 创建子菜单项
 							var $subMenuItem = $(
@@ -145,48 +151,60 @@ function trigger_resizable()
 							$subMenuItem.find('a').on('click', function(e) {
 								e.preventDefault();
 								
+								// 获取菜单项数据
 								var $link = $(this);
 								var taxonomyName = $link.data('taxonomy');
 								var termName = $link.data('term');
 								var targetId = $link.attr('href');
 								
-								// 首先滚动到目标分类区域
-								if($(targetId).length) {
-									$('html, body').animate({
-										scrollTop: $(targetId).offset().top - 80
-									}, 500, function() {
-										// 滚动完成后，查找并激活对应的标签
-										// 查找标签容器
-										var $tabContainer = $(targetId).closest('h4').next('.tab-container');
-										
-										// 如果没找到，可能在下一个元素
-										if($tabContainer.length === 0) {
-											$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
-										}
-										
-										if($tabContainer.length > 0) {
-											// 查找匹配的标签
-											var $matchingTab = $tabContainer.find('.tab-menu .tab-item').filter(function() {
-												// 去除图标和徽章后的文本
-												var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
-												return tabText === termName;
-											});
-											
-											// 如果找到匹配的标签，激活它
-											if($matchingTab.length > 0) {
-												$matchingTab.click();
-											} else {
-												// 没有找到精确匹配，尝试部分匹配
-												$tabContainer.find('.tab-menu .tab-item').each(function() {
-													var tabText = $(this).clone().children('i, span.badge').remove().end().text().trim();
-													if(tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-														$(this).click();
-														return false; // 找到第一个匹配项就退出循环
-													}
-												});
-											}
-										}
-									});
+								console.log('点击菜单项:', taxonomyName, termName, targetId);
+								
+								// 1. 找到对应的一级分类区域
+								var $taxonomySection = $('#' + $.simpleHash(taxonomyName));
+								if (!$taxonomySection.length) {
+									console.error('未找到分类区域:', taxonomyName);
+									return;
+								}
+								
+								console.log('找到分类区域:', taxonomyName);
+								
+								// 2. 滚动到分类区域
+								$('html, body').animate({
+									scrollTop: $taxonomySection.offset().top - 80
+								}, 300);
+								
+								// 3. 直接查找页面中匹配term的标签项
+								var $matchingTab = null;
+								
+								// 查找所有标签项
+								$('.tab-item').each(function() {
+									var $tab = $(this);
+									var tabTerm = $tab.data('term');
+									var tabText = $tab.clone().children().remove().end().text().trim();
+									
+									console.log('比较标签:', tabTerm, tabText, '与', termName);
+									
+									if (tabTerm === termName || tabText === termName) {
+										$matchingTab = $tab;
+										console.log('找到匹配的标签:', tabText);
+										return false; // 跳出循环
+									}
+								});
+								
+								// 4. 如果找到匹配的标签，模拟点击它
+								if ($matchingTab && $matchingTab.length) {
+									// 延迟执行点击操作，确保DOM已经准备好
+									setTimeout(function() {
+										console.log('点击匹配的标签');
+										$matchingTab.click();
+									}, 400);
+								} else {
+									console.error('未找到匹配的标签:', termName);
+								}
+								
+								// 5. 更新URL，但不触发默认行为
+								if (history.pushState) {
+									history.pushState(null, null, targetId);
 								}
 							});
 						}

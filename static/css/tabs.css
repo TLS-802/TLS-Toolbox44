@@ -83,13 +83,21 @@
   border: 1px solid #e4ecf3;
 }
 
+.tab-content.active {
+  display: block;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.tab-content.active {
-  display: block;
 }
 
 /* 标签内容区域样式 */

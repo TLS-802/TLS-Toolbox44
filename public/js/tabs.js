@@ -19,24 +19,43 @@ $(document).ready(function() {
       e.preventDefault();
       var $tab = $(this);
       
-      // 无论标签是否已经激活，都重新处理以确保正确切换
-      console.log('标签点击:', $tab.text().trim());
+      console.log('标签点击:', $tab.text().trim(), '索引:', $tab.data('tab'));
       
-      // 获取标签索引
-      var index = $tab.index();
-      
-      // 移除其他标签的激活状态，并激活当前标签
+      // 移除其他标签的激活状态
       $tabs.removeClass('active');
       $tab.addClass('active');
       
-      // 切换内容区域
-      $contents.removeClass('active');
-      $contents.eq(index).addClass('active');
+      // 获取标签索引
+      var tabIndex = $tab.data('tab');
+      
+      // 查找对应的tab-content
+      var $tabContents = $container.find('.tab-content');
+      
+      console.log('找到内容区域数量:', $tabContents.length);
+      
+      // 首先移除所有激活状态
+      $tabContents.removeClass('active');
+      
+      // 查找匹配索引的内容
+      var $matchingContent = $tabContents.filter(function() {
+        return $(this).data('tab') == tabIndex;
+      });
+      
+      if ($matchingContent.length) {
+        console.log('激活内容区域:', tabIndex);
+        $matchingContent.addClass('active');
+        
+        // 添加过渡动画
+        $matchingContent.hide().fadeIn(300);
+      } else {
+        console.error('未找到匹配的内容区域:', tabIndex);
+      }
 
       // 将当前激活的标签滚动到可视区域
-      if ($tab[0].scrollIntoView) {
-        $tab[0].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'nearest'});
-      }
+      scrollToTab($tab);
+      
+      // 触发窗口大小变化事件，确保内容正确显示
+      $(window).trigger('resize');
     });
   });
   
@@ -279,55 +298,70 @@ $(document).ready(function() {
       var $tabs = $container.find('.tab-menu .tab-item');
       console.log('容器中标签数:', $tabs.length);
       
-      // 首先尝试精确匹配
-      $tabs.each(function() {
-        var $tab = $(this);
-        // 移除任何子元素后获取文本
-        var currentText = $tab.clone().children().remove().end().text().trim();
-        console.log('比较:', currentText, tabText);
-        
-        if(currentText === tabText) {
-          console.log('找到精确匹配');
-          // 激活标签
-          $tabs.removeClass('active');
-          $tab.addClass('active');
-          
-          // 激活对应内容
-          var tabIndex = $tab.index();
-          var $contents = $container.find('.tab-content .tab-pane');
-          $contents.removeClass('active');
-          $contents.eq(tabIndex).addClass('active');
-          
-          found = true;
-          return false; // 跳出 each 循环
-        }
+      // 首先尝试通过data-term属性匹配
+      var $matchingTab = $tabs.filter(function() {
+        return sanitizeText($(this).data('term')) === tabText;
       });
       
-      if(!found) {
-        // 如果没有精确匹配，尝试部分匹配
+      if($matchingTab.length === 0) {
+        // 如果没找到，尝试通过文本内容匹配
         $tabs.each(function() {
           var $tab = $(this);
-          var currentText = $tab.clone().children().remove().end().text().trim();
+          // 移除任何子元素后获取文本
+          var currentText = sanitizeText($tab.clone().children().remove().end().text());
           
-          if(currentText.indexOf(tabText) >= 0 || tabText.indexOf(currentText) >= 0) {
-            console.log('找到部分匹配');
-            // 激活标签
-            $tabs.removeClass('active');
-            $tab.addClass('active');
-            
-            // 激活对应内容
-            var tabIndex = $tab.index();
-            var $contents = $container.find('.tab-content .tab-pane');
-            $contents.removeClass('active');
-            $contents.eq(tabIndex).addClass('active');
-            
-            found = true;
-            return false; // 跳出 each 循环
+          if(currentText === tabText) {
+            $matchingTab = $tab;
+            return false; // 跳出循环
           }
         });
       }
       
-      if(found) {
+      // 如果仍未找到，尝试部分匹配
+      if($matchingTab.length === 0) {
+        $tabs.each(function() {
+          var $tab = $(this);
+          var currentText = sanitizeText($tab.clone().children().remove().end().text());
+          
+          if(currentText.indexOf(tabText) >= 0 || tabText.indexOf(currentText) >= 0) {
+            $matchingTab = $tab;
+            return false; // 跳出循环
+          }
+        });
+      }
+      
+      // 如果找到匹配的标签，激活它
+      if($matchingTab && $matchingTab.length > 0) {
+        console.log('找到匹配的标签:', sanitizeText($matchingTab.text()));
+        
+        // 获取标签索引和数据
+        var tabIndex = $matchingTab.data('tab');
+        
+        // 移除其他标签的激活状态，激活当前标签
+        $tabs.removeClass('active');
+        $matchingTab.addClass('active');
+        
+        // 查找并激活对应的内容
+        var $allContents = $container.find('.tab-content');
+        $allContents.removeClass('active');
+        
+        // 根据data-tab属性查找对应内容
+        var $matchingContent = $allContents.filter(function() {
+          return $(this).data('tab') == tabIndex;
+        });
+        
+        if($matchingContent.length > 0) {
+          $matchingContent.addClass('active');
+        } else {
+          $allContents.eq(tabIndex).addClass('active');
+        }
+        
+        // 滚动到当前标签
+        if($matchingTab[0].scrollIntoView) {
+          $matchingTab[0].scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'nearest'});
+        }
+        
+        found = true;
         return false; // 跳出外层 each 循环
       }
     });
@@ -337,6 +371,223 @@ $(document).ready(function() {
 
   // 设置全局函数以便其他脚本调用
   window.activateTabByName = activateTabByText;
+
+  // 检查URL hash值，如果有则尝试激活对应的标签
+  // 获取hash值（不包括#号）
+  var hash = window.location.hash.substring(1);
+  if(hash) {
+    console.log("处理URL hash:", hash);
+    
+    // 尝试查找对应的元素
+    var $target = $('#' + hash);
+    if($target.length) {
+      // 滚动到元素位置
+      $('html, body').animate({
+        scrollTop: $target.offset().top - 80
+      }, 500, function() {
+        console.log("滚动到元素位置完成");
+        
+        // 提取term信息
+        var termInfo = null;
+        
+        // 查找对应的菜单项，获取数据属性
+        $('.main-menu a[href="#' + hash + '"]').each(function() {
+          var $menuLink = $(this);
+          termInfo = {
+            taxonomy: $menuLink.data('taxonomy'),
+            term: $menuLink.data('term')
+          };
+          console.log("从菜单项提取到数据:", termInfo);
+        });
+        
+        if (!termInfo || !termInfo.term) {
+          console.log("未找到菜单项数据，尝试从URL搜索参数获取");
+          // 从URL参数获取数据
+          var urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.has('taxonomy') && urlParams.has('term')) {
+            termInfo = {
+              taxonomy: urlParams.get('taxonomy'),
+              term: urlParams.get('term')
+            };
+          }
+        }
+        
+        if (termInfo && termInfo.term) {
+          console.log("尝试根据termInfo激活标签:", termInfo);
+          
+          // 查找最近的标签容器
+          var $tabContainer = $target.closest('.tab-container');
+          if(!$tabContainer.length) {
+            $tabContainer = $target.closest('h4').next('.tab-container');
+            if(!$tabContainer.length) {
+              $tabContainer = $target.closest('h4').nextAll('.tab-container').first();
+            }
+          }
+          
+          // 如果找到标签容器，尝试激活匹配的标签
+          if($tabContainer.length) {
+            console.log("找到标签容器，标签数:", $tabContainer.find('.tab-menu .tab-item').length);
+            
+            var $tabs = $tabContainer.find('.tab-menu .tab-item');
+            var $matchingTab = null;
+            
+            // 查找匹配的标签
+            $tabs.each(function() {
+              var $tab = $(this);
+              var tabText = $tab.clone().children().remove().end().text().trim();
+              var dataTerm = $tab.data('term') || '';
+              
+              console.log("比较标签:", tabText, "与", termInfo.term);
+              
+              if (tabText === termInfo.term || dataTerm === termInfo.term) {
+                console.log("找到匹配标签");
+                $matchingTab = $tab;
+                return false; // 跳出循环
+              }
+            });
+            
+            // 如果没找到精确匹配，尝试部分匹配
+            if (!$matchingTab) {
+              $tabs.each(function() {
+                var $tab = $(this);
+                var tabText = $tab.clone().children().remove().end().text().trim();
+                
+                if(tabText.indexOf(termInfo.term) >= 0 || termInfo.term.indexOf(tabText) >= 0) {
+                  console.log("找到部分匹配标签");
+                  $matchingTab = $tab;
+                  return false; // 跳出循环
+                }
+              });
+            }
+            
+            // 如果找到匹配的标签，激活它
+            if($matchingTab && $matchingTab.length) {
+              console.log("激活匹配的标签");
+              $matchingTab.click();
+            } else {
+              console.log("未找到匹配标签，激活第一个标签");
+              $tabs.first().click();
+            }
+          } else {
+            console.log("未找到标签容器");
+          }
+        } else {
+          console.log("未能提取到term信息");
+        }
+      });
+    } else {
+      console.log("未找到目标元素:", hash);
+    }
+  }
+
+  // 处理URL中的哈希值
+  function handleUrlHash() {
+    // 获取哈希值（不包括#号）
+    var hash = window.location.hash.substring(1);
+    if (!hash) return;
+    
+    console.log('处理URL哈希值:', hash);
+    
+    // 查找对应的元素
+    var $target = $('#' + hash);
+    if (!$target.length) {
+      console.log('未找到目标元素:', hash);
+      return;
+    }
+    
+    // 查找匹配的菜单项
+    var $menuItem = $('.main-menu a[href="#' + hash + '"]');
+    if (!$menuItem.length) {
+      console.log('未找到匹配的菜单项');
+      // 尝试通过解析哈希值来找到分类和标签
+      var hashParts = hash.split('-');
+      if (hashParts.length >= 2) {
+        // 尝试遍历所有标签，查找匹配项
+        $('.tab-item').each(function() {
+          var $tab = $(this);
+          if ($tab.data('term') && hash.indexOf($tab.data('term')) !== -1) {
+            setTimeout(function() {
+              $tab.click();
+            }, 200);
+            return false; // 找到匹配项，退出循环
+          }
+        });
+      }
+      return;
+    }
+    
+    // 获取菜单项数据
+    var taxonomyName = $menuItem.data('taxonomy');
+    var termName = $menuItem.data('term');
+    
+    if (!taxonomyName || !termName) {
+      console.log('菜单项缺少必要的数据属性');
+      return;
+    }
+    
+    console.log('菜单项数据:', taxonomyName, termName);
+    
+    // 滚动到分类区域
+    var taxonomyId = $.simpleHash ? $.simpleHash(taxonomyName) : window.simpleHash(taxonomyName);
+    var $taxonomySection = $('#' + taxonomyId);
+    
+    if (!$taxonomySection.length) {
+      console.log('未找到分类区域:', taxonomyName, taxonomyId);
+      // 尝试直接寻找目标标签
+      $('.tab-item').each(function() {
+        var $tab = $(this);
+        if ($tab.data('term') === termName) {
+          setTimeout(function() {
+            $tab.click();
+          }, 200);
+          return false; // 找到匹配项，退出循环
+        }
+      });
+      return;
+    }
+    
+    // 滚动到分类区域
+    $('html, body').animate({
+      scrollTop: $taxonomySection.offset().top - 80
+    }, 300, function() {
+      // 查找匹配的标签
+      var $matchingTab = $('.tab-item').filter(function() {
+        return $(this).data('term') === termName || $(this).text().trim() === termName;
+      });
+      
+      if ($matchingTab.length) {
+        console.log('找到匹配的标签:', $matchingTab.text().trim());
+        setTimeout(function() {
+          $matchingTab.click();
+        }, 200);
+      } else {
+        console.log('未找到匹配的标签:', termName);
+        // 尝试部分匹配
+        $('.tab-item').each(function() {
+          var $tab = $(this);
+          var tabText = $tab.text().trim();
+          
+          if (tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+            console.log('找到部分匹配的标签:', tabText);
+            setTimeout(function() {
+              $tab.click();
+            }, 200);
+            return false; // 找到匹配项，退出循环
+          }
+        });
+      }
+    });
+  }
+
+  // 页面加载完成后处理URL哈希值
+  $(window).on('load', function() {
+    handleUrlHash();
+  });
+
+  // 当哈希值变化时重新处理
+  $(window).on('hashchange', function() {
+    handleUrlHash();
+  });
 });
 
 // 提取为单独函数，以便在点击事件和全局方法中复用
