@@ -167,36 +167,51 @@ function trigger_resizable()
 		});
 
 		// 为侧边栏二级菜单项添加点击事件
-		$('.main-menu .sub-menu li a').on('click', function(e) {
+		$('.main-menu .sub-menu li a, .main-menu ul li a').on('click', function(e) {
 			e.preventDefault();
 			
 			// 获取菜单项数据
 			var $link = $(this);
+			var href = $link.attr('href');
 			var taxonomyName = $link.data('taxonomy');
 			var termName = $link.data('term');
-			var targetId = $link.attr('href');
 			
-			console.log('点击侧边栏二级菜单项:', taxonomyName, termName, targetId);
+			console.log('点击侧边栏菜单项:', taxonomyName, termName, href);
 			
-			// 1. 找到对应的一级分类区域
-			var taxonomyHash = $.simpleHash(taxonomyName);
-			var $taxonomySection = $('#' + taxonomyHash);
-			
-			if ($taxonomySection.length) {
-				// 2. 滚动到分类区域
-				$('html, body').animate({
-					scrollTop: $taxonomySection.offset().top - 80
-				}, 300, function() {
-					// 3. 查找并激活对应的标签
-					var $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
+			// 如果链接包含#，说明是页内跳转
+			if (href && href.indexOf('#') !== -1) {
+				var targetId = href.substring(href.indexOf('#'));
+				var isExternalPage = href.indexOf('../') === 0;
+				
+				// 如果是外部页面链接（如 ../index.html#xxx），则直接跳转
+				if (isExternalPage) {
+					window.location.href = href;
+					return;
+				}
+				
+				// 尝试查找目标元素
+				var $targetElement = $(targetId);
+				if ($targetElement.length) {
+					// 滚动到目标元素
+					$('html, body').animate({
+						scrollTop: $targetElement.offset().top - 80
+					}, 300);
 					
+					// 尝试查找并激活相关的标签
+					var $tabContainer = $targetElement.closest('h4').nextAll('.tab-container').first();
 					if ($tabContainer.length) {
-						console.log('找到标签容器');
-						
 						// 在标签容器中查找匹配term的标签
 						var $tabs = $tabContainer.find('.tab-menu .tab-item');
 						var $contents = $tabContainer.find('.tab-content');
 						var found = false;
+						
+						// 尝试从链接中提取term
+						if (!termName && targetId) {
+							var idParts = targetId.substring(1).split('-');
+							if (idParts.length > 1) {
+								termName = idParts[idParts.length - 1];
+							}
+						}
 						
 						// 遍历所有标签，查找匹配的
 						$tabs.each(function(index) {
@@ -204,11 +219,9 @@ function trigger_resizable()
 							var tabTerm = $tab.data('term');
 							var tabText = $tab.text().trim();
 							
-							console.log('检查标签:', index, tabTerm, tabText);
-							
 							// 如果找到匹配的标签
-							if (tabTerm === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-								console.log('找到匹配的标签:', tabText);
+							if ((termName && (tabTerm === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0)) ||
+								($tab.attr('id') === targetId.substring(1))) {
 								
 								// 1. 取消所有标签的激活状态
 								$tabs.removeClass('active');
@@ -234,49 +247,16 @@ function trigger_resizable()
 								return false; // 跳出循环
 							}
 						});
-						
-						// 如果没有找到匹配的标签，但有hash值指向特定ID
-						if (!found) {
-							// 尝试直接通过ID查找目标元素
-							var targetElement = $(targetId);
-							if (targetElement.length) {
-								console.log('找到目标元素:', targetId);
-								// 滚动到目标元素
-								$('html, body').animate({
-									scrollTop: targetElement.offset().top - 80
-								}, 300);
-							} else if ($tabs.length > 0) {
-								console.log('未找到匹配的标签，激活第一个');
-								// 激活第一个标签
-								$tabs.removeClass('active');
-								$tabs.first().addClass('active');
-								// 激活第一个内容区域
-								$contents.removeClass('active');
-								$contents.first().addClass('active');
-							}
-						}
-					} else {
-						// 如果没有标签容器，可能是直接跳转到ID
-						var targetElement = $(targetId);
-						if (targetElement.length) {
-							console.log('找到目标元素:', targetId);
-							// 滚动到目标元素
-							$('html, body').animate({
-								scrollTop: targetElement.offset().top - 80
-							}, 300);
-						}
 					}
-				});
-			} else {
-				// 如果没有找到分类区域，尝试直接通过ID查找
-				var targetElement = $(targetId);
-				if (targetElement.length) {
-					console.log('直接找到目标元素:', targetId);
-					// 滚动到目标元素
-					$('html, body').animate({
-						scrollTop: targetElement.offset().top - 80
-					}, 300);
+				} else {
+					// 如果在当前页面找不到目标元素，可能需要跳转到首页
+					if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+						window.location.href = '../' + targetId;
+					}
 				}
+			} else if (href) {
+				// 如果没有#，说明是普通链接，直接跳转
+				window.location.href = href;
 			}
 		});
 		
@@ -285,15 +265,43 @@ function trigger_resizable()
 			e.preventDefault();
 			
 			var $link = $(this);
-			var targetId = $link.attr('href');
+			var href = $link.attr('href');
 			
-			// 如果有目标ID，滚动到目标位置
-			if (targetId && targetId !== '#') {
+			// 如果有href属性，并且包含#，说明是页内跳转
+			if (href && href.indexOf('#') !== -1) {
+				var targetId = href.substring(href.indexOf('#'));
+				var isExternalPage = href.indexOf('../') === 0;
+				
+				// 如果是外部页面链接（如 ../index.html#xxx），则直接跳转
+				if (isExternalPage) {
+					window.location.href = href;
+					return;
+				}
+				
+				// 尝试查找目标元素
 				var $target = $(targetId);
 				if ($target.length) {
 					$('html, body').animate({
 						scrollTop: $target.offset().top - 80
 					}, 300);
+				} else {
+					// 如果在当前页面找不到目标元素，可能需要跳转到首页
+					if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+						window.location.href = '../' + targetId;
+					}
+				}
+			} else if (href) {
+				// 如果没有#，说明是普通链接，直接跳转
+				window.location.href = href;
+			} else {
+				// 如果没有href属性，可能是带有子菜单的项，展开/收起子菜单
+				var $li = $link.parent();
+				if ($li.hasClass('has-sub')) {
+					if ($li.hasClass('expanded')) {
+						$li.removeClass('expanded');
+					} else {
+						$li.addClass('expanded');
+					}
 				}
 			}
 		});
@@ -301,18 +309,86 @@ function trigger_resizable()
 		// 选中当前活动的菜单项
 		var currentPath = window.location.pathname;
 		$('.main-menu a').each(function() {
-			var $link = $(this);
-			var href = $link.attr('href');
-			
-			// 如果是当前页面的链接
-			if(href === currentPath) {
-				$link.parent('li').addClass('active');
-				// 如果在子菜单中，展开父菜单
-				var $parentMenu = $link.closest('.has-sub');
-				if($parentMenu.length > 0) {
-					$parentMenu.addClass('expanded');
-				}
+			var href = $(this).attr('href');
+			if (href && href.indexOf(currentPath) !== -1) {
+				$(this).parent('li').addClass('active');
 			}
+		});
+		
+		// 处理URL哈希值
+		function handleUrlHash() {
+			var hash = window.location.hash;
+			if (!hash) return;
+			
+			console.log('处理URL哈希值:', hash);
+			
+			// 延迟一段时间，确保页面完全加载
+			setTimeout(function() {
+				// 尝试查找匹配的菜单项
+				var found = false;
+				$('.main-menu a').each(function() {
+					var href = $(this).attr('href');
+					if (href && href.indexOf(hash) !== -1) {
+						$(this).trigger('click');
+						found = true;
+						return false; // 跳出循环
+					}
+				});
+				
+				// 如果没有找到匹配的菜单项，尝试直接查找目标元素
+				if (!found) {
+					var $target = $(hash);
+					if ($target.length) {
+						$('html, body').animate({
+							scrollTop: $target.offset().top - 80
+						}, 300);
+						
+						// 如果目标元素在标签容器中，尝试激活对应的标签
+						var $tabContainer = $target.closest('.tab-container');
+						if (!$tabContainer.length) {
+							// 如果元素不在标签容器内，查找它前面最近的h4元素，然后查找该h4后面的第一个标签容器
+							var $h4 = $target.prevAll('h4').first();
+							if ($h4.length) {
+								$tabContainer = $h4.nextAll('.tab-container').first();
+							}
+						}
+						
+						if ($tabContainer.length) {
+							// 查找标签和内容
+							var $tabs = $tabContainer.find('.tab-menu .tab-item');
+							var $contents = $tabContainer.find('.tab-content');
+							
+							// 尝试查找包含元素的内容区域
+							$contents.each(function(index) {
+								if ($.contains(this, $target[0]) || this === $target[0]) {
+									// 激活对应的标签
+									$tabs.removeClass('active');
+									var $tab = $tabs.filter('[data-tab="' + index + '"]');
+									if (!$tab.length) {
+										$tab = $tabs.eq(index);
+									}
+									
+									if ($tab.length) {
+										$tab.addClass('active');
+										$contents.removeClass('active');
+										$(this).addClass('active');
+									}
+									
+									return false; // 跳出循环
+								}
+							});
+						}
+					}
+				}
+			}, 500);
+		}
+		
+		// 页面加载完成后处理URL哈希值
+		handleUrlHash();
+		
+		// 监听哈希值变化
+		$(window).on('hashchange', function() {
+			handleUrlHash();
 		});
 		
 		// 点击菜单项后收起移动端菜单

@@ -208,17 +208,7 @@ var TabManager = {
       }, 300);
       
       // 尝试查找并激活相关的标签
-      var $tabContainer = $targetElement.closest('.tab-container');
-      if ($tabContainer.length) {
-        var $tabs = $tabContainer.find('.tab-menu .tab-item');
-        var $activeTab = $tabs.filter(function() {
-          return $(this).attr('id') === hash || $(this).data('tab-id') === hash;
-        });
-        
-        if ($activeTab.length) {
-          this.activateTab($activeTab);
-        }
-      }
+      this.activateTabForElement($targetElement);
       return;
     }
     
@@ -231,16 +221,19 @@ var TabManager = {
         $('html, body').animate({
           scrollTop: $directElement.offset().top - 80
         }, 300);
+        
+        // 尝试查找并激活相关的标签
+        this.activateTabForElement($directElement);
         return;
       }
       
       // 2. 尝试从侧边栏菜单中查找匹配的项
       var found = false;
-      $('.main-menu .sub-menu li a').each(function() {
+      $('.main-menu .sub-menu li a, .main-menu ul li a').each(function() {
         var $link = $(this);
         var href = $link.attr('href');
         
-        if (href === '#' + hash) {
+        if (href && href.indexOf('#' + hash) !== -1) {
           // 找到匹配的菜单项，触发点击
           found = true;
           $link.trigger('click');
@@ -268,6 +261,55 @@ var TabManager = {
         }
       });
     }
+  },
+  
+  // 为指定元素查找并激活相关的标签
+  activateTabForElement: function($element) {
+    if (!$element || !$element.length) return false;
+    
+    // 查找最近的标签容器
+    var $tabContainer = $element.closest('.tab-container');
+    if (!$tabContainer.length) {
+      // 如果元素不在标签容器内，查找它前面最近的h4元素，然后查找该h4后面的第一个标签容器
+      var $h4 = $element.prevAll('h4').first();
+      if ($h4.length) {
+        $tabContainer = $h4.nextAll('.tab-container').first();
+      }
+    }
+    
+    if (!$tabContainer.length) return false;
+    
+    // 查找标签和内容
+    var $tabs = $tabContainer.find('.tab-menu .tab-item');
+    var $contents = $tabContainer.find('.tab-content');
+    
+    // 尝试查找包含元素的内容区域
+    var $content = null;
+    var contentIndex = -1;
+    
+    $contents.each(function(index) {
+      if ($.contains(this, $element[0]) || this === $element[0]) {
+        $content = $(this);
+        contentIndex = index;
+        return false; // 跳出循环
+      }
+    });
+    
+    // 如果找到了内容区域，激活对应的标签
+    if ($content && contentIndex !== -1) {
+      // 查找对应的标签
+      var $tab = $tabs.filter('[data-tab="' + contentIndex + '"]');
+      if (!$tab.length) {
+        $tab = $tabs.eq(contentIndex);
+      }
+      
+      if ($tab.length) {
+        this.activateTab($tab);
+        return true;
+      }
+    }
+    
+    return false;
   },
   
   // 滚动到当前标签位置
