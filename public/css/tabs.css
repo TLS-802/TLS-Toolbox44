@@ -1,3 +1,182 @@
+/* 标签式菜单样式 */
+.tab-container {
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 标签菜单样式 */
+.tab-menu {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+    padding-bottom: 2px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    position: relative;
+    z-index: 10;
+}
+
+/* 隐藏滚动条 */
+.tab-menu::-webkit-scrollbar {
+    display: none;
+}
+
+/* 标签项样式 */
+.tab-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    margin-right: 6px;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.03);
+    position: relative;
+    font-weight: 500;
+}
+
+/* 标签项图标 */
+.tab-item i {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+/* 标签项徽章 */
+.tab-item .badge {
+    margin-left: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: inherit;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+/* 活动标签样式 */
+.tab-item.active {
+    background-color: #0d6dfc;
+    color: white;
+    position: relative;
+}
+
+.tab-item.active .badge {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 标签项悬停效果 */
+.tab-item:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+/* 标签内容区域 */
+.tab-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 活动内容区域 */
+.tab-content.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 滚动指示器 */
+.scroll-indicator {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-indicator.left {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+}
+
+.scroll-indicator.right {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+}
+
+.scroll-indicator i {
+    font-size: 24px;
+    color: #555;
+}
+
+.scroll-indicator:hover i {
+    color: #0d6dfc;
+}
+
+/* 暗色模式样式 */
+body.black .tab-item {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.black .tab-item:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.black .tab-item.active {
+    background-color: #0d6dfc;
+    color: white;
+}
+
+body.black .tab-menu {
+    border-bottom-color: #444;
+}
+
+body.black .scroll-indicator {
+    background: rgba(30, 30, 30, 0.8);
+}
+
+body.black .scroll-indicator.left {
+    background: linear-gradient(to right, rgba(30, 30, 30, 0.95), rgba(30, 30, 30, 0.5));
+}
+
+body.black .scroll-indicator.right {
+    background: linear-gradient(to left, rgba(30, 30, 30, 0.95), rgba(30, 30, 30, 0.5));
+}
+
+body.black .scroll-indicator i {
+    color: #aaa;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .tab-item {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .tab-item i {
+        font-size: 12px;
+    }
+    
+    .tab-menu {
+        margin-bottom: 15px;
+    }
+}
+
+/* 标签间距调整 */
+.nav-tab-spacing {
+    margin-top: -10px;
+    margin-bottom: 30px;
+}
+
 /* 标签式二级菜单样式 */
 .tab-menu {
   margin: 0 0 30px 0;
@@ -119,86 +298,41 @@
   font-weight: 500;
 }
 
-/* 滚动指示器 */
-.scroll-indicator {
+/* 添加标签图标支持 */
+.tab-menu .tab-item i {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* 添加标签数量徽章 */
+.tab-menu .tab-item .badge {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+  text-align: center;
+}
+
+/* 添加标签分割线 */
+.tab-menu .tab-item:not(:last-child):after {
+  content: '';
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background-color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  z-index: 10;
-  opacity: 0.9;
-  transition: all 0.3s ease;
-  border: 1px solid #e4ecf3;
+  right: 0;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background: rgba(0,0,0,0.1);
 }
 
-.scroll-indicator:hover {
-  opacity: 1;
-  background-color: #4f5b93;
-  color: #fff;
-  transform: translateY(-50%) scale(1.1);
-}
-
-.scroll-indicator.left {
-  left: -5px;
-}
-
-.scroll-indicator.right {
-  right: -5px;
-}
-
-.scroll-indicator i {
-  font-size: 18px;
-}
-
-/* 暗色模式下的样式 */
-.black .tab-menu {
-  background: #2c2e2f;
-  border-color: #3d4044;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.black .tab-menu .tab-item {
-  color: #bbb;
-}
-
-.black .tab-menu .tab-item:hover {
-  color: #fff;
-  background-color: rgba(79, 91, 147, 0.2);
-}
-
-.black .tab-menu .tab-item.active {
-  color: #fff;
-  background: #4f5b93;
-  box-shadow: 0 5px 15px rgba(79, 91, 147, 0.4);
-}
-
-.black .tab-content {
-  background: #2c2e2f;
-  border-color: #3d4044;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.black .tab-container:before {
-  color: #888;
-}
-
-.black .scroll-indicator {
-  background-color: #2c2e2f;
-  border-color: #3d4044;
-  color: #bbb;
-}
-
-.black .scroll-indicator:hover {
-  background-color: #4f5b93;
-  color: #fff;
+.black .tab-menu .tab-item:not(:last-child):after {
+  background: rgba(255,255,255,0.1);
 }
 
 /* 响应式样式 */
@@ -247,41 +381,4 @@
   .tab-container {
     margin-top: 40px; /* 桌面设备保持较大间距 */
   }
-}
-
-/* 添加标签图标支持 */
-.tab-menu .tab-item i {
-  margin-right: 8px;
-  font-size: 16px;
-}
-
-/* 添加标签数量徽章 */
-.tab-menu .tab-item .badge {
-  display: inline-block;
-  min-width: 20px;
-  height: 20px;
-  line-height: 20px;
-  padding: 0 6px;
-  border-radius: 10px;
-  background-color: #f44336;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  margin-left: 8px;
-  text-align: center;
-}
-
-/* 添加标签分割线 */
-.tab-menu .tab-item:not(:last-child):after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 25%;
-  height: 50%;
-  width: 1px;
-  background: rgba(0,0,0,0.1);
-}
-
-.black .tab-menu .tab-item:not(:last-child):after {
-  background: rgba(255,255,255,0.1);
 } 

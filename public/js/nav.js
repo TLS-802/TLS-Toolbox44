@@ -553,95 +553,86 @@ function trigger_resizable()
 			$('.main-menu > li.has-sub > ul.sub-menu > li').removeClass('active');
 			$link.parent('li').addClass('active');
 			
-			// 首先滚动到目标分类区域
-			if($(targetId).length > 0) {
-				$('html, body').animate({
-					scrollTop: $(targetId).offset().top - 80
-				}, 500, function() {
-					// 滚动完成后，直接尝试匹配标签并激活
-					setTimeout(function() {
-						// 尝试直接匹配标签 - 优先使用数据属性
-						var found = false;
-						
-						// 查找所有标签
-						var $allTabs = $('.tab-menu .tab-item');
-						
-						// 首先通过数据属性匹配
-						$allTabs.each(function() {
-							var $tab = $(this);
-							// 检查标签是否有对应的数据属性
-							if (($tab.data('taxonomy') === taxonomyName && $tab.data('term') === termName) || 
-								$tab.data('term') === termName) {
-								
-								console.log('通过数据属性找到匹配标签');
-								// 激活标签
-								var $container = $tab.closest('.tab-container');
-								var $tabs = $container.find('.tab-menu .tab-item');
-								$tabs.removeClass('active');
-								$tab.addClass('active');
-								
-								// 激活对应内容
-								var tabIndex = $tab.index();
-								var $contents = $container.find('.tab-content .tab-pane');
-								$contents.removeClass('active');
-								$contents.eq(tabIndex).addClass('active');
-								
-								found = true;
-								return false;
-							}
-						});
-						
-						// 如果没有通过数据属性找到，尝试通过文本内容匹配
-						if (!found) {
-							console.log('尝试通过文本内容匹配标签');
-							$allTabs.each(function() {
-								var $tab = $(this);
-								var tabText = $tab.clone().children().remove().end().text().trim();
-								
-								if(tabText === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-									console.log('通过文本找到匹配标签:', tabText);
-									var $container = $tab.closest('.tab-container');
-									var $tabs = $container.find('.tab-menu .tab-item');
-									$tabs.removeClass('active');
-									$tab.addClass('active');
-									
-									// 激活对应内容
-									var tabIndex = $tab.index();
-									var $contents = $container.find('.tab-content .tab-pane');
-									$contents.removeClass('active');
-									$contents.eq(tabIndex).addClass('active');
-									
-									found = true;
-									return false;
-								}
-							});
-						}
-						
-						if (!found) {
-							console.log('未找到匹配标签，尝试查找与分类关联的标签容器');
-							
-							// 尝试查找与分类关联的标签容器
-							var $taxonomyElement = $(targetId);
-							var $nearestTabContainer = $taxonomyElement.nextAll('.tab-container').first();
-							
-							if ($nearestTabContainer.length > 0) {
-								console.log('找到最近的标签容器，激活第一个标签');
-								var $firstTab = $nearestTabContainer.find('.tab-menu .tab-item').first();
-								
-								if ($firstTab.length > 0) {
-									$firstTab.trigger('click');
-									found = true;
-								}
-							}
-						}
-						
-						if (!found) {
-							console.log('所有方法都未找到匹配的标签');
-						}
-					}, 300);
-				});
+			// 如果存在全局标签管理器，则使用它来处理标签激活
+			if (window.TabManager && typeof window.TabManager.findAndActivateTab === 'function') {
+				console.log('使用TabManager处理标签激活');
+				window.TabManager.findAndActivateTab(taxonomyName, termName);
 			} else {
-				console.error('目标元素不存在:', targetId);
+				console.log('TabManager不可用，使用传统方式处理');
+				// 首先滚动到目标分类区域
+				if($(targetId).length > 0) {
+					$('html, body').animate({
+						scrollTop: $(targetId).offset().top - 80
+					}, 300, function() {
+						// 滚动完成后，直接尝试匹配标签并激活
+						setTimeout(function() {
+							// 查找最近的标签容器
+							var $taxonomyElement = $(targetId);
+							var $tabContainer = $taxonomyElement.closest('h4').nextAll('.tab-container').first();
+							
+							if ($tabContainer.length > 0) {
+								console.log('找到标签容器');
+								
+								// 在标签容器中查找所有标签
+								var $tabs = $tabContainer.find('.tab-menu .tab-item');
+								var $contents = $tabContainer.find('.tab-content');
+								var found = false;
+								
+								// 遍历所有标签，查找匹配的
+								$tabs.each(function(index) {
+									var $tab = $(this);
+									var tabTerm = $tab.data('term');
+									var tabText = $tab.text().trim();
+									
+									// 如果找到匹配的标签
+									if (tabTerm === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
+										console.log('找到匹配的标签:', tabText);
+										
+										// 1. 取消所有标签的激活状态
+										$tabs.removeClass('active');
+										
+										// 2. 激活当前标签
+										$tab.addClass('active');
+										
+										// 3. 取消所有内容区域的激活状态
+										$contents.removeClass('active');
+										
+										// 4. 激活对应的内容区域
+										var tabIndex = $tab.data('tab');
+										var $content = $contents.filter('[data-tab="' + tabIndex + '"]');
+										if (!$content.length) {
+											$content = $contents.eq(index);
+										}
+										
+										if ($content.length) {
+											$content.addClass('active');
+										}
+										
+										found = true;
+										return false; // 跳出循环
+									}
+								});
+								
+								// 如果没有找到匹配的标签，激活第一个
+								if (!found && $tabs.length > 0) {
+									console.log('未找到匹配的标签，激活第一个');
+									
+									// 激活第一个标签
+									$tabs.removeClass('active');
+									$tabs.first().addClass('active');
+									
+									// 激活第一个内容区域
+									$contents.removeClass('active');
+									$contents.first().addClass('active');
+								}
+							} else {
+								console.error('未找到标签容器');
+							}
+						}, 100);
+					});
+				} else {
+					console.error('目标元素不存在:', targetId);
+				}
 			}
 		});
 		
@@ -1183,12 +1174,19 @@ window.activateMenuByTaxonomyAndTerm = function(taxonomy, term) {
 			// 激活当前子菜单项
 			$submenuItem.parent('li').addClass('active');
 			
-			// 触发点击事件
-			setTimeout(function() {
-				$submenuItem.trigger('click');
-			}, 200);
-			
-			return true;
+			// 如果存在全局标签管理器，则使用它来处理标签激活
+			if (window.TabManager && typeof window.TabManager.findAndActivateTab === 'function') {
+				var taxonomyName = $submenuItem.data('taxonomy');
+				var termName = $submenuItem.data('term');
+				window.TabManager.findAndActivateTab(taxonomyName, termName);
+				return true;
+			} else {
+				// 触发点击事件
+				setTimeout(function() {
+					$submenuItem.trigger('click');
+				}, 200);
+				return true;
+			}
 		}
 	}
 	
