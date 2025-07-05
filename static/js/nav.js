@@ -12,24 +12,20 @@ jQuery.extend(public_vars, {
 	lastBreakpoint: null
 });
 
-// 简单的字符串hash函数 (替代md5)
-jQuery.extend({
-    simpleHash: function(str) {
-        var hash = 0;
-        if (!str || str.length == 0) return hash;
-        for (var i = 0; i < str.length; i++) {
-            var char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return Math.abs(hash).toString(16);
+// 统一的哈希函数实现
+function simpleHash(str) {
+    if (!str) return '';
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+        var char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
     }
-});
+    return Math.abs(hash).toString(16);
+}
 
-// 全局可访问的hash函数
-window.simpleHash = function(str) {
-    return jQuery.simpleHash(str);
-};
+// 确保jQuery也使用相同的哈希函数
+jQuery.simpleHash = simpleHash;
 
 /* Main Function that will be called each time when the screen breakpoint changes */
 function resizable(breakpoint)
@@ -167,96 +163,25 @@ function trigger_resizable()
 		});
 
 		// 为侧边栏二级菜单项添加点击事件
-		$('.main-menu .sub-menu li a, .main-menu ul li a').on('click', function(e) {
+		$('.main-menu .sub-menu li a').on('click', function(e) {
 			e.preventDefault();
 			
-			// 获取菜单项数据
 			var $link = $(this);
-			var href = $link.attr('href');
 			var taxonomyName = $link.data('taxonomy');
 			var termName = $link.data('term');
 			
-			console.log('点击侧边栏菜单项:', taxonomyName, termName, href);
+			// 使用统一的哈希函数生成目标ID
+			var targetId = '#' + $.simpleHash(taxonomyName + '-' + termName);
 			
-			// 如果链接包含#，说明是页内跳转
-			if (href && href.indexOf('#') !== -1) {
-				var targetId = href.substring(href.indexOf('#'));
-				var isExternalPage = href.indexOf('../') === 0;
+			// 处理页面跳转
+			var $target = $(targetId);
+			if ($target.length) {
+				$('html, body').animate({
+					scrollTop: $target.offset().top - 80
+				}, 300);
 				
-				// 如果是外部页面链接（如 ../index.html#xxx），则直接跳转
-				if (isExternalPage) {
-					window.location.href = href;
-					return;
-				}
-				
-				// 尝试查找目标元素
-				var $targetElement = $(targetId);
-				if ($targetElement.length) {
-					// 滚动到目标元素
-					$('html, body').animate({
-						scrollTop: $targetElement.offset().top - 80
-					}, 300);
-					
-					// 尝试查找并激活相关的标签
-					var $tabContainer = $targetElement.closest('h4').nextAll('.tab-container').first();
-					if ($tabContainer.length) {
-						// 在标签容器中查找匹配term的标签
-						var $tabs = $tabContainer.find('.tab-menu .tab-item');
-						var $contents = $tabContainer.find('.tab-content');
-						var found = false;
-						
-						// 尝试从链接中提取term
-						if (!termName && targetId) {
-							var idParts = targetId.substring(1).split('-');
-							if (idParts.length > 1) {
-								termName = idParts[idParts.length - 1];
-							}
-						}
-						
-						// 遍历所有标签，查找匹配的
-						$tabs.each(function(index) {
-							var $tab = $(this);
-							var tabTerm = $tab.data('term');
-							var tabText = $tab.text().trim();
-							
-							// 如果找到匹配的标签
-							if ((termName && (tabTerm === termName || tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0)) ||
-								($tab.attr('id') === targetId.substring(1))) {
-								
-								// 1. 取消所有标签的激活状态
-								$tabs.removeClass('active');
-								
-								// 2. 激活当前标签
-								$tab.addClass('active');
-								
-								// 3. 取消所有内容区域的激活状态
-								$contents.removeClass('active');
-								
-								// 4. 激活对应的内容区域
-								var tabIndex = $tab.data('tab');
-								var $content = $contents.filter('[data-tab="' + tabIndex + '"]');
-								if (!$content.length) {
-									$content = $contents.eq(index);
-								}
-								
-								if ($content.length) {
-									$content.addClass('active');
-								}
-								
-								found = true;
-								return false; // 跳出循环
-							}
-						});
-					}
-				} else {
-					// 如果在当前页面找不到目标元素，可能需要跳转到首页
-					if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
-						window.location.href = '../' + targetId;
-					}
-				}
-			} else if (href) {
-				// 如果没有#，说明是普通链接，直接跳转
-				window.location.href = href;
+				// 尝试激活对应的标签
+				TabManager.activateTabByName(taxonomyName, termName);
 			}
 		});
 		

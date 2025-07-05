@@ -55,8 +55,10 @@ var TabManager = {
     // 初始化侧边栏菜单
     this.initSidebarMenu();
     
-    // 处理URL哈希值
-    this.handleUrlHash();
+    // 等待页面完全加载后处理URL哈希值
+    $(window).on('load', function() {
+      TabManager.handleUrlHash();
+    });
     
     // 监听哈希值变化
     $(window).on('hashchange', function() {
@@ -132,135 +134,131 @@ var TabManager = {
   
   // 查找并激活对应的标签
   findAndActivateTab: function(taxonomyName, termName) {
-    // 1. 找到对应的一级分类区域
+    if (!taxonomyName || !termName) {
+        console.error('taxonomyName 或 termName 为空');
+        return false;
+    }
+
+    console.log('查找标签:', taxonomyName, termName);
+
+    // 1. 找到对应的分类区域
     var taxonomyHash = $.simpleHash(taxonomyName);
     var $taxonomySection = $('#' + taxonomyHash);
     
     if (!$taxonomySection.length) {
-      console.error('未找到分类区域:', taxonomyName, taxonomyHash);
-      return false;
+        console.error('未找到分类区域:', taxonomyName, taxonomyHash);
+        return false;
     }
-    
+
     // 2. 查找标签容器
     var $tabContainer = $taxonomySection.closest('h4').nextAll('.tab-container').first();
     
     if (!$tabContainer.length) {
-      console.error('未找到标签容器');
-      return false;
+        console.error('未找到标签容器');
+        return false;
     }
-    
+
     console.log('找到标签容器');
     
     // 3. 在标签容器中查找匹配term的标签
     var $matchingTab = null;
+    var $tabs = $tabContainer.find('.tab-item');
     
     // 方法1：通过data-term属性精确匹配
-    $matchingTab = $tabContainer.find('.tab-item').filter(function() {
-      var tabTerm = $(this).data('term');
-      return tabTerm === termName;
+    $matchingTab = $tabs.filter(function() {
+        return $(this).data('term') === termName;
     });
     
-    // 方法2：通过文本内容匹配
+    // 方法2：通过文本内容精确匹配
     if (!$matchingTab.length) {
-      $matchingTab = $tabContainer.find('.tab-item').filter(function() {
-        var tabText = $(this).clone().children().remove().end().text().trim();
-        return tabText === termName;
-      });
+        $matchingTab = $tabs.filter(function() {
+            return $(this).text().trim() === termName;
+        });
     }
     
-    // 方法3：部分匹配
+    // 方法3：通过文本内容包含匹配
     if (!$matchingTab.length) {
-      $tabContainer.find('.tab-item').each(function() {
-        var $tab = $(this);
-        var tabText = $tab.clone().children().remove().end().text().trim();
-        
-        if (tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0) {
-          $matchingTab = $tab;
-          return false; // 跳出循环
-        }
-      });
+        $matchingTab = $tabs.filter(function() {
+            var tabText = $(this).text().trim();
+            return tabText.indexOf(termName) >= 0 || termName.indexOf(tabText) >= 0;
+        }).first(); // 只取第一个匹配的
     }
     
     // 4. 如果找到匹配的标签，激活它
     if ($matchingTab && $matchingTab.length) {
-      console.log('找到匹配的标签:', $matchingTab.text().trim());
-      this.activateTab($matchingTab);
-      return true;
-    } else {
-      console.error('未找到匹配的标签:', termName);
-      return false;
+        console.log('找到匹配的标签:', $matchingTab.text().trim());
+        
+        // 获取标签索引
+        var tabIndex = $matchingTab.data('tab');
+        var $contents = $tabContainer.find('.tab-content');
+        
+        // 移除其他标签的激活状态
+        $tabs.removeClass('active');
+        $matchingTab.addClass('active');
+        
+        // 移除所有内容区域的激活状态
+        $contents.removeClass('active');
+        
+        // 查找并激活对应的内容区域
+        var $content = $contents.filter('[data-tab="' + tabIndex + '"]');
+        if (!$content.length) {
+            $content = $contents.eq(tabIndex);
+        }
+        
+        if ($content.length) {
+            $content.addClass('active').show();
+            
+            // 将当前激活的标签滚动到可视区域
+            this.scrollToTab($matchingTab);
+            return true;
+        }
     }
+    
+    console.error('未找到匹配的标签:', termName);
+    return false;
   },
   
   // 处理URL哈希值
   handleUrlHash: function() {
-    var hash = window.location.hash.substring(1);
+    var hash = window.location.hash;
     if (!hash) return;
     
+    hash = hash.substring(1); // 移除开头的#
     console.log('处理URL哈希值:', hash);
     
-    // 直接查找元素
-    var $targetElement = $('#' + hash);
-    if ($targetElement.length) {
-      // 如果找到了目标元素，滚动到它
-      $('html, body').animate({
-        scrollTop: $targetElement.offset().top - 80
-      }, 300);
-      
-      // 尝试查找并激活相关的标签
-      this.activateTabForElement($targetElement);
-      return;
-    }
+    // 尝试从哈希值中提取taxonomy和term
+    var parts = hash.split('-');
+    if (parts.length < 2) return;
     
-    // 如果哈希值包含分隔符，可能是"taxonomy-term"格式
-    if (hash.indexOf('-') !== -1) {
-      // 尝试解析哈希值
-      // 1. 可能是md5(taxonomy-term)格式
-      var $directElement = $('#' + hash);
-      if ($directElement.length) {
-        $('html, body').animate({
-          scrollTop: $directElement.offset().top - 80
-        }, 300);
-        
-        // 尝试查找并激活相关的标签
-        this.activateTabForElement($directElement);
-        return;
-      }
-      
-      // 2. 尝试从侧边栏菜单中查找匹配的项
-      var found = false;
-      $('.main-menu .sub-menu li a, .main-menu ul li a').each(function() {
+    // 反向查找taxonomy和term
+    $('.main-menu .sub-menu li a').each(function() {
         var $link = $(this);
-        var href = $link.attr('href');
+        var taxonomyName = $link.data('taxonomy');
+        var termName = $link.data('term');
         
-        if (href && href.indexOf('#' + hash) !== -1) {
-          // 找到匹配的菜单项，触发点击
-          found = true;
-          $link.trigger('click');
-          return false; // 跳出循环
+        if (taxonomyName && termName) {
+            var expectedHash = $.simpleHash(taxonomyName + '-' + termName);
+            if (expectedHash === hash) {
+                console.log('找到匹配的菜单项:', taxonomyName, termName);
+                
+                // 延迟执行以确保DOM已完全加载
+                setTimeout(function() {
+                    // 滚动到目标位置
+                    var $target = $('#' + hash);
+                    if ($target.length) {
+                        $('html, body').animate({
+                            scrollTop: $target.offset().top - 80
+                        }, 300);
+                    }
+                    
+                    // 激活对应的标签
+                    TabManager.activateTabByName(taxonomyName, termName);
+                }, 100);
+                
+                return false; // 跳出循环
+            }
         }
-      });
-      
-      if (found) return;
-      
-      // 3. 尝试从所有标签中查找匹配的
-      $('.tab-container .tab-menu .tab-item').each(function() {
-        var $tab = $(this);
-        var tabId = $tab.attr('id');
-        
-        if (tabId === hash) {
-          TabManager.activateTab($tab);
-          
-          // 滚动到标签所在的位置
-          $('html, body').animate({
-            scrollTop: $tab.closest('.tab-container').offset().top - 80
-          }, 300);
-          
-          found = true;
-          return false; // 跳出循环
-        }
-      });
-    }
+    });
   },
   
   // 为指定元素查找并激活相关的标签
