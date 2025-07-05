@@ -175,17 +175,63 @@ $(document).ready(function() {
     }
     
     // 在指定容器中查找匹配名称的标签
-    var $tabItem = $container.find('.tab-item').filter(function() {
-      // 获取标签纯文本，排除图标和徽章
-      var tabText = $(this).clone()
-        .children('i, span.badge')
-        .remove()
-        .end()
-        .text().trim();
-      return tabText === tabName;
+    var found = false;
+    $container.each(function() {
+      var $currentContainer = $(this);
+      var $tabItem = $currentContainer.find('.tab-item').filter(function() {
+        // 获取标签纯文本，排除图标和徽章
+        var tabText = $(this).clone()
+          .children('i, span.badge')
+          .remove()
+          .end()
+          .text().trim();
+        return tabText === tabName;
+      });
+      
+      // 如果找到匹配的标签，激活它
+      if($tabItem.length) {
+        activateTab($tabItem);
+        found = true;
+        return false; // 跳出each循环
+      }
     });
     
-    // 如果找到匹配的标签，激活它
+    // 如果没有找到精确匹配，尝试部分匹配
+    if(!found) {
+      $container.each(function() {
+        var $currentContainer = $(this);
+        var $tabItems = $currentContainer.find('.tab-item');
+        
+        $tabItems.each(function() {
+          var $this = $(this);
+          var tabText = $this.clone()
+            .children('i, span.badge')
+            .remove()
+            .end()
+            .text().trim();
+          
+          if(tabText.indexOf(tabName) >= 0 || tabName.indexOf(tabText) >= 0) {
+            activateTab($this);
+            found = true;
+            return false; // 跳出each循环
+          }
+        });
+        
+        if(found) return false; // 如果找到了，跳出外层each循环
+      });
+    }
+    
+    return found;
+  };
+
+  // 根据索引激活标签
+  window.activateTabByIndex = function(tabContainerSelector, tabIndex) {
+    var $container = $(tabContainerSelector);
+    if(!$container.length) {
+      return false;
+    }
+    
+    var $tabItem = $container.find('.tab-item').eq(tabIndex);
     if($tabItem.length) {
       activateTab($tabItem);
       return true;

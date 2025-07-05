@@ -483,18 +483,53 @@ function trigger_resizable()
 			}
 		});
 		
-		// 子菜单项的点击事件，防止冒泡到父菜单
+		// 子菜单项的点击事件处理
 		$('.main-menu > li.has-sub > ul.sub-menu > li > a').on('click', function(e) {
-			// 不要阻止冒泡，这会导致smooth滚动失效
-			// e.stopPropagation(); 
+			e.preventDefault(); // 阻止默认的锚点跳转，我们将使用自定义滚动和标签切换逻辑
 			
 			var $link = $(this);
 			var taxonomyName = $link.data('taxonomy');
 			var termName = $link.data('term');
+			var targetId = $link.attr('href');
 			
-			// 记录点击事件以便调试
-			if(taxonomyName && termName) {
-				console.log('子菜单点击:', taxonomyName, termName);
+			console.log('子菜单点击:', taxonomyName, termName, targetId);
+			
+			// 首先滚动到目标分类区域
+			if($(targetId).length > 0) {
+				$('html, body').animate({
+					scrollTop: $(targetId).offset().top - 80
+				}, 300, function() {
+					// 滚动完成后，等待一小段时间确保DOM已经就绪
+					setTimeout(function() {
+						// 尝试使用全局函数激活标签
+						if(window.activateTabByName && typeof window.activateTabByName === 'function') {
+							// 先尝试在当前分类下查找标签
+							var $tabContainer = $(targetId).closest('h4').next('.tab-container');
+							if($tabContainer.length === 0) {
+								$tabContainer = $(targetId).closest('h4').nextAll('.tab-container').first();
+							}
+							
+							var success = false;
+							if($tabContainer.length > 0) {
+								// 如果找到了标签容器，尝试在其中激活标签
+								success = window.activateTabByName($tabContainer, termName);
+							}
+							
+							// 如果特定容器中没找到，尝试在所有标签容器中查找
+							if(!success) {
+								success = window.activateTabByName(null, termName);
+							}
+							
+							if(!success) {
+								console.log('无法找到匹配的标签:', termName);
+							}
+						} else {
+							console.log('activateTabByName函数不可用');
+						}
+					}, 200);
+				});
+			} else {
+				console.log('目标元素不存在:', targetId);
 			}
 		});
 	});
